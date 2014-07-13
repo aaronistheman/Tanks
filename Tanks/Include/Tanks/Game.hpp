@@ -1,5 +1,5 @@
-#ifndef GAME_HPP
-#define GAME_HPP
+#ifndef TANKS_GAME_HPP
+#define TANKS_GAME_HPP
 
 #include <SFML/Graphics.hpp>
 
@@ -37,4 +37,4 @@ class Game : private sf::NonCopyable
     bool            mIsMovingLeft;
 };
 
-#endif // GAME_HPP
+#endif // TANKS_GAME_HPP

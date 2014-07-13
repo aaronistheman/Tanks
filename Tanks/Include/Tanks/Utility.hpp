@@ -1,5 +1,5 @@
-#ifndef TANKS_STRINGHELPERS_HPP
-#define TANKS_STRINGHELPERS_HPP
+#ifndef TANKS_UTILITY_HPP
+#define TANKS_UTILITY_HPP
 
 #include <sstream>
 
@@ -8,5 +8,5 @@
 template <typename T>
 std::string toString(const T& value);
 
-#include <Tanks/StringHelpers.inl>
-#endif // TANKS_STRINGHELPERS_HPP
+#include <Tanks/Utility.inl>
+#endif // TANKS_UTILITY_HPP

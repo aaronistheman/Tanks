@@ -1,5 +1,5 @@
 #include <Tanks/Game.hpp>
-#include <Tanks/StringHelpers.hpp>
+#include <Tanks/Utility.hpp>
 
 const float Game::PlayerSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f/60.f);

@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Tanks\Game.hpp" />
+    <ClInclude Include="Include\Tanks\Utility.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6EB828CF-85EC-47EC-88A7-3EA5834C3C57}</ProjectGuid>
