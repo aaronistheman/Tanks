@@ -11,15 +11,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\SceneNode.cpp" />
+    <ClCompile Include="Source\SpriteNode.cpp" />
+    <ClCompile Include="Source\Tank.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
+    <ClCompile Include="Source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Tanks\Entity.hpp" />
+    <ClInclude Include="Include\Tanks\Foreach.hpp" />
     <ClInclude Include="Include\Tanks\Game.hpp" />
     <ClInclude Include="Include\Tanks\ResourceHolder.hpp" />
     <ClInclude Include="Include\Tanks\ResourceIdentifiers.hpp" />
+    <ClInclude Include="Include\Tanks\SceneNode.hpp" />
+    <ClInclude Include="Include\Tanks\SpriteNode.hpp" />
+    <ClInclude Include="Include\Tanks\Tank.hpp" />
     <ClInclude Include="Include\Tanks\Utility.hpp" />
+    <ClInclude Include="Include\Tanks\World.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Include\Tanks\ResourceHolder.inl" />

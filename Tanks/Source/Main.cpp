@@ -9,8 +9,9 @@
 
 int main()
 {
-    // Game game;
-    // game.run();
+  Game game;
+  game.run();
+  /*
   sf::RenderWindow window(sf::VideoMode(640, 480), "Resources");
 	window.setFramerateLimit(20);
 
@@ -49,4 +50,5 @@ int main()
 		window.draw(tank);
 		window.display();
 	}
+  */
 }

@@ -12,8 +12,9 @@ namespace Textures
 {
 	enum ID
 	{
-		Landscape,
-    Tank,
+		Metal,
+    DefaultTank,
+    TypeCount,
 	};
 }
 
