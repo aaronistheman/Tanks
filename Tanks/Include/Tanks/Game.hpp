@@ -1,7 +1,13 @@
 #ifndef TANKS_GAME_HPP
 #define TANKS_GAME_HPP
 
-#include <SFML/Graphics.hpp>
+#include <Tanks/World.hpp>
+
+#include <SFML/System/Time.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 class Game : private sf::NonCopyable
 {
@@ -20,21 +26,15 @@ class Game : private sf::NonCopyable
 
 
   private:
-    static const float    PlayerSpeed;
     static const sf::Time TimePerFrame;
 
     sf::RenderWindow mWindow;
-    sf::Texture      mTexture;
-    sf::Sprite       mPlayer;
+    World mWorld;
+
     sf::Font         mFont;
     sf::Text         mStatisticsText;
     sf::Time         mStatisticsUpdateTime;
-
     std::size_t     mStatisticsNumFrames;
-    bool            mIsMovingUp;
-    bool            mIsMovingDown;
-    bool            mIsMovingRight;
-    bool            mIsMovingLeft;
 };
 
 #endif // TANKS_GAME_HPP

@@ -1,30 +1,18 @@
 #include <Tanks/Game.hpp>
 #include <Tanks/Utility.hpp>
 
-const float Game::PlayerSpeed = 100.f;
+#include <SFML/Window/Event.hpp>
+
 const sf::Time Game::TimePerFrame = sf::seconds(1.f/60.f);
 
 Game::Game()
   : mWindow(sf::VideoMode(640, 480), "Tanks", sf::Style::Close)
-  , mTexture()
-  , mPlayer()
+  , mWorld(mWindow)
   , mFont()
   , mStatisticsText()
   , mStatisticsUpdateTime()
   , mStatisticsNumFrames(0)
-  , mIsMovingUp(false)
-  , mIsMovingDown(false)
-  , mIsMovingRight(false)
-  , mIsMovingLeft(false)
 {
-  if (!mTexture.loadFromFile("Media/Textures/Tank.gif"))
-	{
-		// Handle loading error
-	}
-
-  mPlayer.setTexture(mTexture);
-	mPlayer.setPosition(100.f, 100.f);
-	
 	mFont.loadFromFile("Media/Sansation.ttf");
 	mStatisticsText.setFont(mFont);
 	mStatisticsText.setPosition(5.f, 5.f);
@@ -76,23 +64,15 @@ void Game::processEvents()
 
 void Game::update(sf::Time elapsedTime)
 {
-	sf::Vector2f movement(0.f, 0.f);
-	if (mIsMovingUp)
-		movement.y -= PlayerSpeed;
-	if (mIsMovingDown)
-		movement.y += PlayerSpeed;
-	if (mIsMovingLeft)
-		movement.x -= PlayerSpeed;
-	if (mIsMovingRight)
-		movement.x += PlayerSpeed;
-		
-	mPlayer.move(movement * elapsedTime.asSeconds());
+	mWorld.update(elapsedTime);
 }
 
 void Game::render()
 {
 	mWindow.clear();	
-	mWindow.draw(mPlayer);
+	mWorld.draw();
+
+	mWindow.setView(mWindow.getDefaultView());
 	mWindow.draw(mStatisticsText);
 	mWindow.display();
 }
@@ -115,12 +95,4 @@ void Game::updateStatistics(sf::Time elapsedTime)
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 {	
-	if (key == sf::Keyboard::W)
-		mIsMovingUp = isPressed;
-	else if (key == sf::Keyboard::S)
-		mIsMovingDown = isPressed;
-	else if (key == sf::Keyboard::A)
-		mIsMovingLeft = isPressed;
-	else if (key == sf::Keyboard::D)
-		mIsMovingRight = isPressed;
 }

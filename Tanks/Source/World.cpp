@@ -51,7 +51,7 @@ void World::draw()
 void World::loadTextures()
 {
 	mTextures.load(Textures::DefaultTank, "Media/Textures/Tank.gif");
-  mTextures.load(Textures::Metal, "Media/Textures/Metal.bmp");
+  mTextures.load(Textures::Metal, "Media/Textures/Metal.jpg");
 }
 
 void World::buildScene()
@@ -75,14 +75,14 @@ void World::buildScene()
 	backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
 	mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
 
-	// Add player's aircraft
+	// Add player's tank
 	std::unique_ptr<Tank> leader(new Tank(Tank::DefaultTank, mTextures));
 	mPlayerTank = leader.get();
 	mPlayerTank->setPosition(mSpawnPosition);
 	mPlayerTank->setVelocity(40.f, mScrollSpeed);
 	mSceneLayers[Air]->attachChild(std::move(leader));
 
-	// Add two escorting aircrafts, placed relatively to the main plane
+	// Add two escorting tanks, placed relatively to the main tank
 	std::unique_ptr<Tank> leftEscort(new Tank(Tank::DefaultTank, mTextures));
 	leftEscort->setPosition(-80.f, 50.f);
 	mPlayerTank->attachChild(std::move(leftEscort));

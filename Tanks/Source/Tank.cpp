@@ -1,5 +1,6 @@
 #include <Tanks/Tank.hpp>
 #include <Tanks/ResourceHolder.hpp>
+#include <Tanks/Utility.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -19,8 +20,8 @@ Tank::Tank(Type type, const TextureHolder& textures)
 : mType(type)
 , mSprite(textures.get(toTextureID(type)))
 {
-	sf::FloatRect bounds = mSprite.getLocalBounds();
-	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+	centerOrigin(mSprite);
+  setSize(mSprite, sf::Vector2f(80.0f, 37.0f));
 }
 
 void Tank::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
