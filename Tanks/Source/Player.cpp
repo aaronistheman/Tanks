@@ -23,6 +23,21 @@ struct TankMover
 	sf::Vector2f velocity;
 };
 
+struct TankRotator
+{
+  TankRotator(float angle)
+  : offset(angle)
+  {
+  }
+
+  void operator() (Tank& tank, sf::Time) const
+  {
+    tank.rotate(offset);
+  }
+
+  float offset;
+};
+
 Player::Player()
 {
 	// Set initial key bindings
@@ -30,6 +45,8 @@ Player::Player()
 	mKeyBinding[sf::Keyboard::Right] = MoveRight;
 	mKeyBinding[sf::Keyboard::Up] = MoveUp;
 	mKeyBinding[sf::Keyboard::Down] = MoveDown;
+  mKeyBinding[sf::Keyboard::S] = RotateLeft;
+  mKeyBinding[sf::Keyboard::D] = RotateRight;
 
 	// Set initial action bindings
 	initializeActions();	
@@ -90,11 +107,14 @@ sf::Keyboard::Key Player::getAssignedKey(Action action) const
 void Player::initializeActions()
 {
 	const float playerSpeed = 200.f;
+  const float playerRotationSpeed = 80.0f;
 
 	mActionBinding[MoveLeft].action	 = derivedAction<Tank>(TankMover(-playerSpeed, 0.f));
 	mActionBinding[MoveRight].action = derivedAction<Tank>(TankMover(+playerSpeed, 0.f));
 	mActionBinding[MoveUp].action    = derivedAction<Tank>(TankMover(0.f, -playerSpeed));
 	mActionBinding[MoveDown].action  = derivedAction<Tank>(TankMover(0.f, +playerSpeed));
+  mActionBinding[RotateLeft].action  = derivedAction<Tank>(TankRotator(-playerRotationSpeed));
+  mActionBinding[RotateRight].action = derivedAction<Tank>(TankRotator(playerRotationSpeed));
 }
 
 bool Player::isRealtimeAction(Action action)
@@ -105,6 +125,8 @@ bool Player::isRealtimeAction(Action action)
 		case MoveRight:
 		case MoveDown:
 		case MoveUp:
+    case RotateLeft:
+    case RotateRight:
 			return true;
 
 		default:

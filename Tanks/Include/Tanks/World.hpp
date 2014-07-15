@@ -38,6 +38,7 @@ class World : private sf::NonCopyable
 		void								buildScene();
 		void								adaptPlayerPosition();
 		void								adaptPlayerVelocity();
+    // void                adaptPlayerRotation();
 
 
 	private:

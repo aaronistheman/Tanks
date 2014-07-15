@@ -13,6 +13,10 @@ class Entity : public SceneNode
 		void				accelerate(float vx, float vy);
 		sf::Vector2f		getVelocity() const;
 
+    void        setRotationOffset(float angle);
+    void        rotate(float offset);
+    float       getRotationOffset() const;
+
 
 	private:
 		virtual void		updateCurrent(sf::Time dt);
@@ -20,6 +24,7 @@ class Entity : public SceneNode
 
 	private:
 		sf::Vector2f		mVelocity;
+    float           mRotationOffset;
 };
 
 #endif // TANKS_ENTITY_HPP

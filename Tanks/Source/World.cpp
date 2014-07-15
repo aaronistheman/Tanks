@@ -14,7 +14,7 @@ World::World(sf::RenderWindow& window)
 , mSceneLayers()
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 2000.f)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
-, mScrollSpeed(-50.f)
+, mScrollSpeed(0.0f)
 , mPlayerTank(nullptr)
 {
 	loadTextures();
@@ -26,9 +26,10 @@ World::World(sf::RenderWindow& window)
 
 void World::update(sf::Time dt)
 {
-	// Scroll the world, reset player velocity
+	// Scroll the world, reset player velocity and rotation offset
 	mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());	
 	mPlayerTank->setVelocity(0.f, 0.f);
+  mPlayerTank->setRotationOffset(0.0f);
 
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
 	while (!mCommandQueue.isEmpty())
@@ -83,19 +84,7 @@ void World::buildScene()
 	std::unique_ptr<Tank> leader(new Tank(Tank::DefaultTank, mTextures));
 	mPlayerTank = leader.get();
 	mPlayerTank->setPosition(mSpawnPosition);
-	mPlayerTank->setVelocity(40.f, mScrollSpeed);
 	mSceneLayers[Air]->attachChild(std::move(leader));
-
-  /*
-	// Add two escorting tanks, placed relatively to the main tank
-	std::unique_ptr<Tank> leftEscort(new Tank(Tank::DefaultTank, mTextures));
-	leftEscort->setPosition(-80.f, 50.f);
-	mPlayerTank->attachChild(std::move(leftEscort));
-
-	std::unique_ptr<Tank> rightEscort(new Tank(Tank::DefaultTank, mTextures));
-	rightEscort->setPosition(80.f, 50.f); 
-	mPlayerTank->attachChild(std::move(rightEscort));
-  */
 }
 
 void World::adaptPlayerPosition()
