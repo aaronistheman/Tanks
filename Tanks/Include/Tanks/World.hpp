@@ -6,12 +6,15 @@
 #include <Tanks/SceneNode.hpp>
 #include <Tanks/SpriteNode.hpp>
 #include <Tanks/Tank.hpp>
+#include <Tanks/CommandQueue.hpp>
+#include <Tanks/Command.hpp>
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
 #include <array>
+#include <queue>
 
 
 // Forward declaration
@@ -26,11 +29,15 @@ class World : private sf::NonCopyable
 		explicit							World(sf::RenderWindow& window);
 		void								update(sf::Time dt);
 		void								draw();
+		
+		CommandQueue&						getCommandQueue();
 
 
 	private:
 		void								loadTextures();
 		void								buildScene();
+		void								adaptPlayerPosition();
+		void								adaptPlayerVelocity();
 
 
 	private:
@@ -49,6 +56,7 @@ class World : private sf::NonCopyable
 
 		SceneNode							mSceneGraph;
 		std::array<SceneNode*, LayerCount>	mSceneLayers;
+		CommandQueue						mCommandQueue;
 
 		sf::FloatRect						mWorldBounds;
 		sf::Vector2f						mSpawnPosition;

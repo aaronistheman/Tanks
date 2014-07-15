@@ -2,6 +2,9 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include <algorithm>
+#include <cmath>
+
 
 World::World(sf::RenderWindow& window)
 : mWindow(window)
@@ -23,23 +26,18 @@ World::World(sf::RenderWindow& window)
 
 void World::update(sf::Time dt)
 {
-	// Scroll the world
+	// Scroll the world, reset player velocity
 	mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());	
+	mPlayerTank->setVelocity(0.f, 0.f);
 
-	// Move the player sidewards (plane scouts follow the main aircraft)
-	sf::Vector2f position = mPlayerTank->getPosition();
-	sf::Vector2f velocity = mPlayerTank->getVelocity();
+	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
+	while (!mCommandQueue.isEmpty())
+		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
+	adaptPlayerVelocity();
 
-	// If player touches borders, flip its X velocity
-	if (position.x <= mWorldBounds.left + 150.f
-	 || position.x >= mWorldBounds.left + mWorldBounds.width - 150.f)
-	{
-		velocity.x = -velocity.x;
-		mPlayerTank->setVelocity(velocity);
-	}
-
-	// Apply movements
+	// Regular update step, adapt position (correct if outside view)
 	mSceneGraph.update(dt);
+	adaptPlayerPosition();
 }
 
 void World::draw()
@@ -47,6 +45,12 @@ void World::draw()
 	mWindow.setView(mWorldView);
 	mWindow.draw(mSceneGraph);
 }
+
+CommandQueue& World::getCommandQueue()
+{
+	return mCommandQueue;
+}
+
 
 void World::loadTextures()
 {
@@ -82,6 +86,7 @@ void World::buildScene()
 	mPlayerTank->setVelocity(40.f, mScrollSpeed);
 	mSceneLayers[Air]->attachChild(std::move(leader));
 
+  /*
 	// Add two escorting tanks, placed relatively to the main tank
 	std::unique_ptr<Tank> leftEscort(new Tank(Tank::DefaultTank, mTextures));
 	leftEscort->setPosition(-80.f, 50.f);
@@ -90,4 +95,32 @@ void World::buildScene()
 	std::unique_ptr<Tank> rightEscort(new Tank(Tank::DefaultTank, mTextures));
 	rightEscort->setPosition(80.f, 50.f); 
 	mPlayerTank->attachChild(std::move(rightEscort));
+  */
+}
+
+void World::adaptPlayerPosition()
+{
+	// Keep player's position inside the screen bounds, at least borderDistance units from the border
+	sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
+	// const float borderDistance = 40.f;
+  const float borderDistance = 80.f;
+
+	sf::Vector2f position = mPlayerTank->getPosition();
+	position.x = std::max(position.x, viewBounds.left + borderDistance);
+	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
+	position.y = std::max(position.y, viewBounds.top + borderDistance);
+	position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
+	mPlayerTank->setPosition(position);
+}
+
+void World::adaptPlayerVelocity()
+{
+	sf::Vector2f velocity = mPlayerTank->getVelocity();
+
+	// If moving diagonally, reduce velocity (to have always same velocity)
+	if (velocity.x != 0.f && velocity.y != 0.f)
+		mPlayerTank->setVelocity(velocity / std::sqrt(2.f));
+
+	// Add scrolling velocity
+	mPlayerTank->accelerate(0.f, mScrollSpeed);
 }

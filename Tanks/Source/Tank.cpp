@@ -1,6 +1,7 @@
 #include <Tanks/Tank.hpp>
 #include <Tanks/ResourceHolder.hpp>
 #include <Tanks/Utility.hpp>
+#include <Tanks/Category.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -27,4 +28,16 @@ Tank::Tank(Type type, const TextureHolder& textures)
 void Tank::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mSprite, states);
+}
+
+unsigned int Tank::getCategory() const
+{
+	switch (mType)
+	{
+		case DefaultTank:
+			return Category::PlayerAircraft;
+
+		default:
+			return Category::EnemyAircraft;
+	}
 }

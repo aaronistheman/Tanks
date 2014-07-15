@@ -2,39 +2,39 @@
 #define TANKS_GAME_HPP
 
 #include <Tanks/World.hpp>
+#include <Tanks/Player.hpp>
 
 #include <SFML/System/Time.hpp>
-#include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
+
 class Game : private sf::NonCopyable
 {
-  public:
-    Game();
-    void run();
+	public:
+								Game();
+		void					run();
+		
+
+	private:
+		void					processInput();
+		void					update(sf::Time elapsedTime);
+		void					render();
+		void					updateStatistics(sf::Time elapsedTime);
 
 
-  private:
-    void processEvents();
-    void update(sf::Time elapsedTime);
-    void render();
+	private:
+		static const sf::Time	TimePerFrame;
 
-    void updateStatistics(sf::Time elapsedTime);	
-    void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+		sf::RenderWindow		mWindow;
+		World					mWorld;
+		Player					mPlayer;
 
-
-  private:
-    static const sf::Time TimePerFrame;
-
-    sf::RenderWindow mWindow;
-    World mWorld;
-
-    sf::Font         mFont;
-    sf::Text         mStatisticsText;
-    sf::Time         mStatisticsUpdateTime;
-    std::size_t     mStatisticsNumFrames;
+	  	sf::Font				mFont;
+		sf::Text				mStatisticsText;
+		sf::Time				mStatisticsUpdateTime;
+		std::size_t				mStatisticsNumFrames;
 };
 
 #endif // TANKS_GAME_HPP

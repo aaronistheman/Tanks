@@ -1,18 +1,20 @@
 #include <Tanks/Game.hpp>
 #include <Tanks/Utility.hpp>
 
-#include <SFML/Window/Event.hpp>
 
 const sf::Time Game::TimePerFrame = sf::seconds(1.f/60.f);
 
 Game::Game()
-  : mWindow(sf::VideoMode(640, 480), "Tanks", sf::Style::Close)
-  , mWorld(mWindow)
-  , mFont()
-  , mStatisticsText()
-  , mStatisticsUpdateTime()
-  , mStatisticsNumFrames(0)
+: mWindow(sf::VideoMode(640, 480), "Input", sf::Style::Close)
+, mWorld(mWindow)
+, mPlayer()
+, mFont()
+, mStatisticsText()
+, mStatisticsUpdateTime()
+, mStatisticsNumFrames(0)
 {
+	mWindow.setKeyRepeatEnabled(false);
+
 	mFont.loadFromFile("Media/Sansation.ttf");
 	mStatisticsText.setFont(mFont);
 	mStatisticsText.setPosition(5.f, 5.f);
@@ -21,7 +23,7 @@ Game::Game()
 
 void Game::run()
 {
-  sf::Clock clock;
+	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	while (mWindow.isOpen())
 	{
@@ -31,7 +33,7 @@ void Game::run()
 		{
 			timeSinceLastUpdate -= TimePerFrame;
 
-			processEvents();
+			processInput();
 			update(TimePerFrame);
 		}
 
@@ -40,26 +42,20 @@ void Game::run()
 	}
 }
 
-void Game::processEvents()
+void Game::processInput()
 {
+	CommandQueue& commands = mWorld.getCommandQueue();
+
 	sf::Event event;
 	while (mWindow.pollEvent(event))
 	{
-		switch (event.type)
-		{
-			case sf::Event::KeyPressed:
-				handlePlayerInput(event.key.code, true);
-				break;
+		mPlayer.handleEvent(event, commands);
 
-			case sf::Event::KeyReleased:
-				handlePlayerInput(event.key.code, false);
-				break;
-
-			case sf::Event::Closed:
-				mWindow.close();
-				break;
-		}
+		if (event.type == sf::Event::Closed)
+			mWindow.close();
 	}
+
+	mPlayer.handleRealtimeInput(commands);
 }
 
 void Game::update(sf::Time elapsedTime)
@@ -91,8 +87,4 @@ void Game::updateStatistics(sf::Time elapsedTime)
 		mStatisticsUpdateTime -= sf::seconds(1.0f);
 		mStatisticsNumFrames = 0;
 	}
-}
-
-void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
-{	
 }
