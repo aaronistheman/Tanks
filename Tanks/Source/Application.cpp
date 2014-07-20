@@ -1,10 +1,10 @@
-#include <Tanks/Game.hpp>
+#include <Tanks/Application.hpp>
 #include <Tanks/Utility.hpp>
 
 
-const sf::Time Game::TimePerFrame = sf::seconds(1.f/60.f);
+const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
 
-Game::Game()
+Application::Application()
 : mWindow(sf::VideoMode(640, 480), "Input", sf::Style::Close)
 , mWorld(mWindow)
 , mPlayer()
@@ -21,7 +21,7 @@ Game::Game()
 	mStatisticsText.setCharacterSize(10);
 }
 
-void Game::run()
+void Application::run()
 {
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -42,7 +42,7 @@ void Game::run()
 	}
 }
 
-void Game::processInput()
+void Application::processInput()
 {
 	CommandQueue& commands = mWorld.getCommandQueue();
 
@@ -58,12 +58,12 @@ void Game::processInput()
 	mPlayer.handleRealtimeInput(commands);
 }
 
-void Game::update(sf::Time elapsedTime)
+void Application::update(sf::Time elapsedTime)
 {
 	mWorld.update(elapsedTime);
 }
 
-void Game::render()
+void Application::render()
 {
 	mWindow.clear();	
 	mWorld.draw();
@@ -73,7 +73,7 @@ void Game::render()
 	mWindow.display();
 }
 
-void Game::updateStatistics(sf::Time elapsedTime)
+void Application::updateStatistics(sf::Time elapsedTime)
 {
 	mStatisticsUpdateTime += elapsedTime;
 	mStatisticsNumFrames += 1;

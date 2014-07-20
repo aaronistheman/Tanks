@@ -1,5 +1,5 @@
-#ifndef TANKS_GAME_HPP
-#define TANKS_GAME_HPP
+#ifndef TANKS_APPLICATION_HPP
+#define TANKS_APPLICATION_HPP
 
 #include <Tanks/World.hpp>
 #include <Tanks/Player.hpp>
@@ -10,10 +10,10 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 
-class Game : private sf::NonCopyable
+class Application : private sf::NonCopyable
 {
 	public:
-								Game();
+								Application();
 		void					run();
 		
 
@@ -37,4 +37,4 @@ class Game : private sf::NonCopyable
 		std::size_t				mStatisticsNumFrames;
 };
 
-#endif // TANKS_GAME_HPP
+#endif // TANKS_APPLICATION_HPP
