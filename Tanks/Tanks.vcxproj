@@ -19,6 +19,8 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\SceneNode.cpp" />
     <ClCompile Include="Source\SpriteNode.cpp" />
+    <ClCompile Include="Source\State.cpp" />
+    <ClCompile Include="Source\StateStack.cpp" />
     <ClCompile Include="Source\Tank.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\World.cpp" />
@@ -35,6 +37,9 @@
     <ClInclude Include="Include\Tanks\ResourceIdentifiers.hpp" />
     <ClInclude Include="Include\Tanks\SceneNode.hpp" />
     <ClInclude Include="Include\Tanks\SpriteNode.hpp" />
+    <ClInclude Include="Include\Tanks\State.hpp" />
+    <ClInclude Include="Include\Tanks\StateIdentifiers.hpp" />
+    <ClInclude Include="Include\Tanks\StateStack.hpp" />
     <ClInclude Include="Include\Tanks\Tank.hpp" />
     <ClInclude Include="Include\Tanks\Utility.hpp" />
     <ClInclude Include="Include\Tanks\World.hpp" />
