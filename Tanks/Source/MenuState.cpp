@@ -16,6 +16,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	sf::Font& font = context.fonts->get(Fonts::Main);
 
 	mBackgroundSprite.setTexture(texture);
+  setSize(mBackgroundSprite, sf::Vector2f(context.window->getSize()));
 	
 	// A simple menu demonstration
 	sf::Text playOption;
