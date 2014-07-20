@@ -1,90 +1,110 @@
 #include <Tanks/Application.hpp>
 #include <Tanks/Utility.hpp>
+#include <Tanks/State.hpp>
+#include <Tanks/StateIdentifiers.hpp>
+#include <Tanks/TitleState.hpp>
+#include <Tanks/GameState.hpp>
+#include <Tanks/MenuState.hpp>
+#include <Tanks/PauseState.hpp>
 
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
 
 Application::Application()
-: mWindow(sf::VideoMode(640, 480), "Input", sf::Style::Close)
-, mWorld(mWindow)
+: mWindow(sf::VideoMode(640, 480), "States", sf::Style::Close)
+, mTextures()
+, mFonts()
 , mPlayer()
-, mFont()
+, mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
 , mStatisticsText()
 , mStatisticsUpdateTime()
 , mStatisticsNumFrames(0)
 {
 	mWindow.setKeyRepeatEnabled(false);
 
-	mFont.loadFromFile("Media/Sansation.ttf");
-	mStatisticsText.setFont(mFont);
+	mFonts.load(Fonts::Main, "Media/Sansation.ttf");
+	mTextures.load(Textures::TitleScreen, "Media/Textures/TitleScreen.png");
+
+	mStatisticsText.setFont(mFonts.get(Fonts::Main));
 	mStatisticsText.setPosition(5.f, 5.f);
-	mStatisticsText.setCharacterSize(10);
+	mStatisticsText.setCharacterSize(10u);
+
+	registerStates();
+	mStateStack.pushState(States::Title);
 }
 
 void Application::run()
 {
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
 	while (mWindow.isOpen())
 	{
-		sf::Time elapsedTime = clock.restart();
-		timeSinceLastUpdate += elapsedTime;
+		sf::Time dt = clock.restart();
+		timeSinceLastUpdate += dt;
 		while (timeSinceLastUpdate > TimePerFrame)
 		{
 			timeSinceLastUpdate -= TimePerFrame;
 
 			processInput();
 			update(TimePerFrame);
+
+			// Check inside this loop, because stack might be empty before update() call
+			if (mStateStack.isEmpty())
+				mWindow.close();
 		}
 
-		updateStatistics(elapsedTime);
+		updateStatistics(dt);
 		render();
 	}
 }
 
 void Application::processInput()
 {
-	CommandQueue& commands = mWorld.getCommandQueue();
-
 	sf::Event event;
 	while (mWindow.pollEvent(event))
 	{
-		mPlayer.handleEvent(event, commands);
+		mStateStack.handleEvent(event);
 
 		if (event.type == sf::Event::Closed)
 			mWindow.close();
 	}
-
-	mPlayer.handleRealtimeInput(commands);
 }
 
-void Application::update(sf::Time elapsedTime)
+void Application::update(sf::Time dt)
 {
-	mWorld.update(elapsedTime);
+	mStateStack.update(dt);
 }
 
 void Application::render()
 {
-	mWindow.clear();	
-	mWorld.draw();
+	mWindow.clear();
+
+	mStateStack.draw();
 
 	mWindow.setView(mWindow.getDefaultView());
 	mWindow.draw(mStatisticsText);
+
 	mWindow.display();
 }
 
-void Application::updateStatistics(sf::Time elapsedTime)
+void Application::updateStatistics(sf::Time dt)
 {
-	mStatisticsUpdateTime += elapsedTime;
+	mStatisticsUpdateTime += dt;
 	mStatisticsNumFrames += 1;
-
 	if (mStatisticsUpdateTime >= sf::seconds(1.0f))
 	{
-		mStatisticsText.setString(
-			"Frames / Second = " + toString(mStatisticsNumFrames) + "\n" +
-			"Time / Update = " + toString(mStatisticsUpdateTime.asMicroseconds() / mStatisticsNumFrames) + "us");
-							 
+		mStatisticsText.setString("FPS: " + toString(mStatisticsNumFrames));
+
 		mStatisticsUpdateTime -= sf::seconds(1.0f);
 		mStatisticsNumFrames = 0;
 	}
+}
+
+void Application::registerStates()
+{
+	mStateStack.registerState<TitleState>(States::Title);
+	mStateStack.registerState<MenuState>(States::Menu);
+	mStateStack.registerState<GameState>(States::Game);
+	mStateStack.registerState<PauseState>(States::Pause);
 }

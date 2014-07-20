@@ -1,13 +1,14 @@
 #ifndef TANKS_APPLICATION_HPP
 #define TANKS_APPLICATION_HPP
 
-#include <Tanks/World.hpp>
+#include <Tanks/ResourceHolder.hpp>
+#include <Tanks/ResourceIdentifiers.hpp>
 #include <Tanks/Player.hpp>
+#include <Tanks/StateStack.hpp>
 
 #include <SFML/System/Time.hpp>
-#include <SFML/Graphics/Text.hpp>
-#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 
 class Application : private sf::NonCopyable
@@ -19,19 +20,23 @@ class Application : private sf::NonCopyable
 
 	private:
 		void					processInput();
-		void					update(sf::Time elapsedTime);
+		void					update(sf::Time dt);
 		void					render();
-		void					updateStatistics(sf::Time elapsedTime);
+
+		void					updateStatistics(sf::Time dt);
+    void          registerStates();
 
 
 	private:
 		static const sf::Time	TimePerFrame;
 
 		sf::RenderWindow		mWindow;
-		World					mWorld;
+		TextureHolder			mTextures;
+	  	FontHolder				mFonts;
 		Player					mPlayer;
 
-	  	sf::Font				mFont;
+		StateStack				mStateStack;
+
 		sf::Text				mStatisticsText;
 		sf::Time				mStatisticsUpdateTime;
 		std::size_t				mStatisticsNumFrames;
