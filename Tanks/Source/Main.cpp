@@ -7,7 +7,6 @@ int main()
 {
   try
 	{
-    throw std::exception("hi");
 		Application app;
 		app.run();
 	}

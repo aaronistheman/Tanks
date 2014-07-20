@@ -15,13 +15,17 @@
     <ClCompile Include="Source\CommandQueue.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\GameState.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\MenuState.cpp" />
+    <ClCompile Include="Source\PauseState.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\SceneNode.cpp" />
     <ClCompile Include="Source\SpriteNode.cpp" />
     <ClCompile Include="Source\State.cpp" />
     <ClCompile Include="Source\StateStack.cpp" />
     <ClCompile Include="Source\Tank.cpp" />
+    <ClCompile Include="Source\TitleState.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\World.cpp" />
   </ItemGroup>
@@ -32,6 +36,9 @@
     <ClInclude Include="Include\Tanks\Entity.hpp" />
     <ClInclude Include="Include\Tanks\Foreach.hpp" />
     <ClInclude Include="Include\Tanks\Application.hpp" />
+    <ClInclude Include="Include\Tanks\GameState.hpp" />
+    <ClInclude Include="Include\Tanks\MenuState.hpp" />
+    <ClInclude Include="Include\Tanks\PauseState.hpp" />
     <ClInclude Include="Include\Tanks\Player.hpp" />
     <ClInclude Include="Include\Tanks\ResourceHolder.hpp" />
     <ClInclude Include="Include\Tanks\ResourceIdentifiers.hpp" />
@@ -41,6 +48,7 @@
     <ClInclude Include="Include\Tanks\StateIdentifiers.hpp" />
     <ClInclude Include="Include\Tanks\StateStack.hpp" />
     <ClInclude Include="Include\Tanks\Tank.hpp" />
+    <ClInclude Include="Include\Tanks\TitleState.hpp" />
     <ClInclude Include="Include\Tanks\Utility.hpp" />
     <ClInclude Include="Include\Tanks\World.hpp" />
   </ItemGroup>

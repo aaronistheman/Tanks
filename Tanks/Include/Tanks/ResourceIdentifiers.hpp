@@ -13,8 +13,9 @@ namespace Textures
 {
 	enum ID
 	{
-		Metal,
-    DefaultTank,
+		DefaultTank,
+    Metal,
+    TitleScreen,
 	};
 }
 
