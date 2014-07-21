@@ -16,6 +16,9 @@ namespace Textures
 		DefaultTank,
     Metal,
     TitleScreen,
+    ButtonNormal,
+    ButtonSelected,
+    ButtonPressed
 	};
 }
 

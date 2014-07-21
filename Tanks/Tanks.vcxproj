@@ -11,11 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Button.cpp" />
     <ClCompile Include="Source\Command.cpp" />
     <ClCompile Include="Source\CommandQueue.cpp" />
+    <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\Container.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\GameState.cpp" />
+    <ClCompile Include="Source\Label.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MenuState.cpp" />
     <ClCompile Include="Source\PauseState.cpp" />
@@ -30,13 +34,17 @@
     <ClCompile Include="Source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Tanks\Button.hpp" />
     <ClInclude Include="Include\Tanks\Category.hpp" />
     <ClInclude Include="Include\Tanks\Command.hpp" />
     <ClInclude Include="Include\Tanks\CommandQueue.hpp" />
+    <ClInclude Include="Include\Tanks\Component.hpp" />
+    <ClInclude Include="Include\Tanks\Container.hpp" />
     <ClInclude Include="Include\Tanks\Entity.hpp" />
     <ClInclude Include="Include\Tanks\Foreach.hpp" />
     <ClInclude Include="Include\Tanks\Application.hpp" />
     <ClInclude Include="Include\Tanks\GameState.hpp" />
+    <ClInclude Include="Include\Tanks\Label.hpp" />
     <ClInclude Include="Include\Tanks\MenuState.hpp" />
     <ClInclude Include="Include\Tanks\PauseState.hpp" />
     <ClInclude Include="Include\Tanks\Player.hpp" />
