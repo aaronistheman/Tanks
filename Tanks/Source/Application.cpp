@@ -12,7 +12,7 @@
 const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
 
 Application::Application()
-: mWindow(sf::VideoMode(640, 480), "States", sf::Style::Close)
+: mWindow(sf::VideoMode(1280, 660), "States", sf::Style::Close)
 , mTextures()
 , mFonts()
 , mPlayer()
@@ -22,6 +22,7 @@ Application::Application()
 , mStatisticsNumFrames(0)
 {
 	mWindow.setKeyRepeatEnabled(false);
+  mWindow.setPosition(sf::Vector2i(50, 25));
 
 	mFonts.load(Fonts::Main, 	"Media/Sansation.ttf");
 

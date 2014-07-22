@@ -52,11 +52,10 @@ CommandQueue& World::getCommandQueue()
 	return mCommandQueue;
 }
 
-
 void World::loadTextures()
 {
-	mTextures.load(Textures::DefaultTank, "Media/Textures/Tank.gif");
-  mTextures.load(Textures::Metal, "Media/Textures/Metal.jpg");
+	mTextures.load(Textures::DefaultTank, "Media/Textures/Tank.png");
+  mTextures.load(Textures::Metal, "Media/Textures/Metal.png");
 }
 
 void World::buildScene()
