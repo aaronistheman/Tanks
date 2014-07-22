@@ -40,6 +40,9 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 		virtual void			draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual void			drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 		void					drawChildren(sf::RenderTarget& target, sf::RenderStates states) const;
+		void					drawBoundingRect(sf::RenderTarget& target, sf::RenderStates states) const;
+
+    virtual sf::FloatRect getBoundingRect() const;
 
 
 	private:

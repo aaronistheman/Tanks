@@ -48,3 +48,8 @@ unsigned int Tank::getCategory() const
 			return Category::EnemyAircraft;
 	}
 }
+
+sf::FloatRect Tank::getBoundingRect() const
+{
+	return getWorldTransform().transformRect(mSprite.getGlobalBounds());
+}

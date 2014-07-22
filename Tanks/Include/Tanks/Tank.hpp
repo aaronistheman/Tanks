@@ -16,7 +16,9 @@ class Tank : public Entity
 
   public:
     Tank(Type type, const TextureHolder& textures);
+    
     virtual unsigned int	getCategory() const;
+		virtual sf::FloatRect	getBoundingRect() const;
 
   private:
 	  virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
