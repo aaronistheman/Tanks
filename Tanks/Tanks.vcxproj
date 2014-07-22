@@ -25,6 +25,7 @@
     <ClCompile Include="Source\PauseState.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\SceneNode.cpp" />
+    <ClCompile Include="Source\SettingsState.cpp" />
     <ClCompile Include="Source\SpriteNode.cpp" />
     <ClCompile Include="Source\State.cpp" />
     <ClCompile Include="Source\StateStack.cpp" />
@@ -51,6 +52,7 @@
     <ClInclude Include="Include\Tanks\ResourceHolder.hpp" />
     <ClInclude Include="Include\Tanks\ResourceIdentifiers.hpp" />
     <ClInclude Include="Include\Tanks\SceneNode.hpp" />
+    <ClInclude Include="Include\Tanks\SettingsState.hpp" />
     <ClInclude Include="Include\Tanks\SpriteNode.hpp" />
     <ClInclude Include="Include\Tanks\State.hpp" />
     <ClInclude Include="Include\Tanks\StateIdentifiers.hpp" />

@@ -2,6 +2,7 @@
 #define TANKS_UTILITY_HPP
 
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
 #include <sstream>
 
@@ -16,6 +17,9 @@ namespace sf
 // our own to support all platforms.
 template <typename T>
 std::string toString(const T& value);
+
+// Convert enumerators to strings
+std::string toString(sf::Keyboard::Key key);
 
 // Calls setOrigin() with the center of the object
 void  centerOrigin(sf::Sprite& sprite);

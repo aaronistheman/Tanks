@@ -2,6 +2,7 @@
 #define TANKS_PAUSESTATE_HPP
 
 #include <Tanks/State.hpp>
+#include <Tanks/Container.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -20,7 +21,7 @@ class PauseState : public State
 	private:
 		sf::Sprite			mBackgroundSprite;
 		sf::Text			mPausedText;
-		sf::Text			mInstructionText;
+		GUI::Container 		mGUIContainer;
 };
 
 #endif // TANKS_PAUSESTATE_HPP
