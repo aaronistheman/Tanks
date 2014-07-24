@@ -29,14 +29,6 @@ Tank::Tank(Type type, const TextureHolder& textures)
 , mSprite(textures.get(toTextureID(type)))
 {
 	centerOrigin(mSprite);
-  /*
-  // Adjust the size of the sprite depending on type
-  switch (type)
-  {
-    case Tank::DefaultTank:
-      setSize(mSprite, sf::Vector2f(80.0f, 37.0f));
-      break;
-  }*/
 }
 
 void Tank::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
