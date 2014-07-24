@@ -12,6 +12,7 @@ class Tank : public Entity
     enum Type
     {
       DefaultTank,
+      TypeCount
     };
 
   public:

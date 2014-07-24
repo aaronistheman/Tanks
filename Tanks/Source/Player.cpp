@@ -53,7 +53,7 @@ Player::Player()
 
 	// Assign all categories to player's tank
 	FOREACH(auto& pair, mActionBinding)
-		pair.second.category = Category::PlayerAircraft;
+		pair.second.category = Category::PlayerTank;
 }
 
 void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
