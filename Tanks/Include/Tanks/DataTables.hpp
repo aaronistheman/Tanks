@@ -3,6 +3,8 @@
 
 #include <Tanks/ResourceIdentifiers.hpp>
 
+#include <SFML/System/Time.hpp>
+
 #include <vector>
 
 
@@ -26,10 +28,19 @@ struct TankData
   float           movementSpeed;
   float           rotationSpeed;
   Textures::ID    texture;
+  sf::Time        fireInterval;
   std::vector<Direction>  directions;
+};
+
+struct ProjectileData
+{
+  int             damage;
+  float           speed;
+  Textures::ID    texture;
 };
 
 
 std::vector<TankData> initializeTankData();
+std::vector<ProjectileData> initializeProjectileData();
 
 #endif // TANKS_DATATABLES_HPP

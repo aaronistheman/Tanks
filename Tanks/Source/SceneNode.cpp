@@ -115,7 +115,7 @@ void SceneNode::onCommand(const Command& command, sf::Time dt)
 
 unsigned int SceneNode::getCategory() const
 {
-	return Category::Scene;
+	return Category::SceneAirLayer;
 }
 
 sf::FloatRect SceneNode::getBoundingRect() const

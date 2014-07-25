@@ -1,6 +1,8 @@
 #ifndef TANKS_SCENENODE_HPP
 #define TANKS_SCENENODE_HPP
 
+#include <Tanks/Category.hpp>
+
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/Transformable.hpp>

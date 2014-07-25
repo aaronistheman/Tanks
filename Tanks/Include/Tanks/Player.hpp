@@ -21,6 +21,8 @@ class Player
 			MoveDown,
       RotateLeft,
       RotateRight,
+      Fire,
+      LaunchMissile,
 			ActionCount
 		};
 

@@ -14,6 +14,8 @@ namespace Textures
 	enum ID
 	{
 		DefaultTank,
+    Bullet,
+    Missile,
     Metal,
     TitleScreen,
     ButtonNormal,
