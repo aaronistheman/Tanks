@@ -35,10 +35,16 @@ class World : private sf::NonCopyable
 
 	private:
 		void								loadTextures();
-		void								buildScene();
 		void								adaptPlayerPosition();
 		void								adaptPlayerVelocity();
     // void                adaptPlayerRotation();
+		
+    void								buildScene();
+    void                addEnemies();
+    void                addEnemy(Tank::Type type, float relX, float relY);
+    void                spawnEnemies();
+    sf::FloatRect       getViewBounds() const;
+    sf::FloatRect       getBattlefieldBounds() const;
 
 
 	private:
@@ -48,6 +54,20 @@ class World : private sf::NonCopyable
 			Air,
 			LayerCount
 		};
+
+    struct SpawnPoint
+    {
+      SpawnPoint(Tank::Type type, float x, float y)
+        : type(type)
+        , x(x)
+        , y(y)
+      {
+      }
+
+      Tank::Type type;
+      float x;
+      float y;
+    };
 
 
 	private:
@@ -64,6 +84,8 @@ class World : private sf::NonCopyable
 		sf::Vector2f						mSpawnPosition;
 		float								mScrollSpeed;
 		Tank*							mPlayerTank;
+
+    std::vector<SpawnPoint>     mEnemySpawnPoints;
 };
 
 #endif // TANKS_WORLD_HPP

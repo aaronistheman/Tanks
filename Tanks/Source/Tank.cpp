@@ -60,7 +60,7 @@ void Tank::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
   // Update enemy movement pattern; apply velocity
-	// updateMovementPattern(dt);
+	updateMovementPattern(dt);
 	Entity::updateCurrent(dt, commands);
 
   // Update texts
@@ -72,12 +72,10 @@ void Tank::updateMovementPattern(sf::Time dt)
   const std::vector<Direction> directions = Table[mType].directions;
   if (!directions.empty())
   {
-    float distanceToTravel = directions[mDirectionIndex].distance;
-    // Moved long enough in current direction: Change direction
-    if (mTravelledDistance > distanceToTravel)
+		// Moved long enough in current direction: Change direction
+		if (mTravelledDistance > directions[mDirectionIndex].distance)
     {
-      mDirectionIndex
-        = (mDirectionIndex + 1) % directions.size();
+      mDirectionIndex = (mDirectionIndex + 1) % directions.size();
       mTravelledDistance = 0.f;
     }
 

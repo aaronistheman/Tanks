@@ -4,6 +4,7 @@
 
 Entity::Entity(int hitpoints)
   : mVelocity()
+  , mRotationOffset()
   , mHitpoints(hitpoints)
 {
 }
