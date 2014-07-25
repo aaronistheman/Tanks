@@ -52,6 +52,7 @@
     <ClInclude Include="Include\Tanks\MenuState.hpp" />
     <ClInclude Include="Include\Tanks\PauseState.hpp" />
     <ClInclude Include="Include\Tanks\Player.hpp" />
+    <ClInclude Include="Include\Tanks\Projectile.hpp" />
     <ClInclude Include="Include\Tanks\ResourceHolder.hpp" />
     <ClInclude Include="Include\Tanks\ResourceIdentifiers.hpp" />
     <ClInclude Include="Include\Tanks\SceneNode.hpp" />
