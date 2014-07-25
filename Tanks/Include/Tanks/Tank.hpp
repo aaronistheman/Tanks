@@ -22,21 +22,28 @@ class Tank : public Entity
   public:
     Tank(Type type, const TextureHolder& textures, const FontHolder& fonts);
     
+    void                  setRotationOffset(float angle);
+    void                  rotate(float offset);
+    float                 getRotationOffset() const;
+
     virtual unsigned int	getCategory() const;
 		virtual sf::FloatRect	getBoundingRect() const;
     float                 getMaxMovementSpeed() const;
     float                 getMaxRotationSpeed() const;
 
-  private:
-	  virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
-    virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
-    void         updateMovementPattern(sf::Time dt);
 
-    void         updateTexts();
+  private:
+	  virtual void    drawCurrent(sf::RenderTarget& target, 
+                                sf::RenderStates states) const;
+    virtual void    updateCurrent(sf::Time dt, CommandQueue& commands);
+    void            updateMovementPattern(sf::Time dt);
+
+    void            updateTexts();
 
   private:
     Type            mType;
     sf::Sprite      mSprite;
+    float           mRotationOffset; // basically a rate of rotation
 
     float           mTravelledDistance;
     float           mAmountRotation;

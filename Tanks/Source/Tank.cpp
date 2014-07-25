@@ -17,6 +17,7 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 : Entity(Table[type].hitpoints)
 , mType(type)
 , mSprite(textures.get(Table[type].texture))
+, mRotationOffset(0.f)
 , mTravelledDistance(0.f)
 , mAmountRotation(0.f)
 , mDirectionIndex(0)
@@ -29,6 +30,21 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
   attachChild(std::move(healthDisplay));
 
   updateTexts();
+}
+
+void Tank::setRotationOffset(float angle)
+{
+  mRotationOffset = angle;
+}
+
+void Tank::rotate(float offset)
+{
+  mRotationOffset += offset;
+}
+
+float Tank::getRotationOffset() const
+{
+  return mRotationOffset;
 }
 
 unsigned int Tank::getCategory() const
@@ -68,6 +84,7 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
   // Update enemy movement pattern; apply velocity
 	updateMovementPattern(dt);
 	Entity::updateCurrent(dt, commands);
+  sf::Transformable::rotate(mRotationOffset * dt.asSeconds());
 
   // Update texts
   updateTexts();

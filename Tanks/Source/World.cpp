@@ -30,7 +30,7 @@ void World::update(sf::Time dt)
 	// Scroll the world, reset player velocity and rotation offset
 	mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());	
 	mPlayerTank->setVelocity(0.f, 0.f);
-  mPlayerTank->setRotationOffset(0.0f);
+  mPlayerTank->setRotationOffset(0.f);
 
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
 	while (!mCommandQueue.isEmpty())
