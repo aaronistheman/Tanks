@@ -18,6 +18,7 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mType(type)
 , mSprite(textures.get(Table[type].texture))
 , mTravelledDistance(0.f)
+, mAmountRotation(0.f)
 , mDirectionIndex(0)
 , mHealthDisplay(nullptr)
 {
@@ -47,9 +48,14 @@ sf::FloatRect Tank::getBoundingRect() const
 	return getWorldTransform().transformRect(mSprite.getGlobalBounds());
 }
 
-float Tank::getMaxSpeed() const
+float Tank::getMaxMovementSpeed() const
 {
   return Table[mType].movementSpeed;
+}
+
+float Tank::getMaxRotationSpeed() const
+{
+  return Table[mType].rotationSpeed;
 }
 
 void Tank::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
@@ -72,19 +78,26 @@ void Tank::updateMovementPattern(sf::Time dt)
   const std::vector<Direction> directions = Table[mType].directions;
   if (!directions.empty())
   {
-		// Moved long enough in current direction: Change direction
-		if (mTravelledDistance > directions[mDirectionIndex].distance)
+		// Moved and rotated enough in current direction:
+    // Change direction
+		if (mTravelledDistance > directions[mDirectionIndex].distance &&
+        mAmountRotation    > directions[mDirectionIndex].rotation)
     {
       mDirectionIndex = (mDirectionIndex + 1) % directions.size();
       mTravelledDistance = 0.f;
+      mAmountRotation    = 0.f;
     }
 
     // Compute velocity from direction
     float radians = toRadian(directions[mDirectionIndex].angle + 90.f);
-    float vx = getMaxSpeed() * std::cos(radians);
-    float vy = getMaxSpeed() * std::sin(radians);
+    float vx = getMaxMovementSpeed() * std::cos(radians);
+    float vy = getMaxMovementSpeed() * std::sin(radians);
     setVelocity(vx, vy);
-    mTravelledDistance += getMaxSpeed() * dt.asSeconds();
+    mTravelledDistance += getMaxMovementSpeed() * dt.asSeconds();
+
+    // Rotate (in degrees)
+    setRotationOffset(directions[mDirectionIndex].rotation);
+    mAmountRotation += getMaxRotationSpeed() * dt.asSeconds();
   }
 }
 

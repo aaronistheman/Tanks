@@ -24,7 +24,8 @@ class Tank : public Entity
     
     virtual unsigned int	getCategory() const;
 		virtual sf::FloatRect	getBoundingRect() const;
-    float                 getMaxSpeed() const;
+    float                 getMaxMovementSpeed() const;
+    float                 getMaxRotationSpeed() const;
 
   private:
 	  virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -38,6 +39,7 @@ class Tank : public Entity
     sf::Sprite      mSprite;
 
     float           mTravelledDistance;
+    float           mAmountRotation;
     std::size_t     mDirectionIndex;
     TextNode*       mHealthDisplay;
 };
