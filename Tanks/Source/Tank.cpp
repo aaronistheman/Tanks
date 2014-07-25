@@ -2,7 +2,6 @@
 #include <Tanks/DataTables.hpp>
 #include <Tanks/ResourceHolder.hpp>
 #include <Tanks/Utility.hpp>
-#include <Tanks/Category.hpp>
 #include <Tanks/CommandQueue.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -18,6 +17,9 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 : Entity(Table[type].hitpoints)
 , mType(type)
 , mSprite(textures.get(Table[type].texture))
+, mTravelledDistance(0.f)
+, mDirectionIndex(0)
+, mHealthDisplay(nullptr)
 {
 	centerOrigin(mSprite);
 
@@ -25,21 +27,6 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
   mHealthDisplay = healthDisplay.get();
   attachChild(std::move(healthDisplay));
 
-  updateTexts();
-}
-
-void Tank::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(mSprite, states);
-}
-
-void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
-{
-  // Update enemy movement pattern; apply velocity
-	// updateMovementPattern(dt);
-	Entity::updateCurrent(dt, commands);
-
-  // Update texts
   updateTexts();
 }
 
@@ -58,6 +45,49 @@ unsigned int Tank::getCategory() const
 sf::FloatRect Tank::getBoundingRect() const
 {
 	return getWorldTransform().transformRect(mSprite.getGlobalBounds());
+}
+
+float Tank::getMaxSpeed() const
+{
+  return Table[mType].movementSpeed;
+}
+
+void Tank::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(mSprite, states);
+}
+
+void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
+{
+  // Update enemy movement pattern; apply velocity
+	// updateMovementPattern(dt);
+	Entity::updateCurrent(dt, commands);
+
+  // Update texts
+  updateTexts();
+}
+
+void Tank::updateMovementPattern(sf::Time dt)
+{
+  const std::vector<Direction> directions = Table[mType].directions;
+  if (!directions.empty())
+  {
+    float distanceToTravel = directions[mDirectionIndex].distance;
+    // Moved long enough in current direction: Change direction
+    if (mTravelledDistance > distanceToTravel)
+    {
+      mDirectionIndex
+        = (mDirectionIndex + 1) % directions.size();
+      mTravelledDistance = 0.f;
+    }
+
+    // Compute velocity from direction
+    float radians = toRadian(directions[mDirectionIndex].angle + 90.f);
+    float vx = getMaxSpeed() * std::cos(radians);
+    float vy = getMaxSpeed() * std::sin(radians);
+    setVelocity(vx, vy);
+    mTravelledDistance += getMaxSpeed() * dt.asSeconds();
+  }
 }
 
 void Tank::updateTexts()

@@ -13,7 +13,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 , mTextures() 
 , mSceneGraph()
 , mSceneLayers()
-, mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 2000.f)
+, mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
 , mScrollSpeed(0.0f)
 , mPlayerTank(nullptr)
@@ -92,7 +92,7 @@ void World::adaptPlayerPosition()
 	// Keep player's position inside the screen bounds, at least borderDistance units from the border
 	sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
 	// const float borderDistance = 40.f;
-  const float borderDistance = 80.f;
+  const float borderDistance = 50.f;
 
 	sf::Vector2f position = mPlayerTank->getPosition();
 	position.x = std::max(position.x, viewBounds.left + borderDistance);

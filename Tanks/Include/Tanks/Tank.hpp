@@ -15,6 +15,7 @@ class Tank : public Entity
     enum Type
     {
       DefaultTank,
+      EnemyTank,
       TypeCount
     };
 
@@ -23,18 +24,22 @@ class Tank : public Entity
     
     virtual unsigned int	getCategory() const;
 		virtual sf::FloatRect	getBoundingRect() const;
+    float                 getMaxSpeed() const;
 
   private:
 	  virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
     virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
+    void         updateMovementPattern(sf::Time dt);
 
     void         updateTexts();
 
   private:
-    Type mType;
-    sf::Sprite mSprite;
+    Type            mType;
+    sf::Sprite      mSprite;
 
-    TextNode* mHealthDisplay;
+    float           mTravelledDistance;
+    std::size_t     mDirectionIndex;
+    TextNode*       mHealthDisplay;
 };
 
 #endif // TANKS_TANK_HPP
