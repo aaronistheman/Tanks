@@ -4,6 +4,7 @@
 
 Entity::Entity(int hitpoints)
   : mVelocity()
+  // , mRotationOffset()
   , mHitpoints(hitpoints)
 {
 }
@@ -34,7 +35,22 @@ void Entity::accelerate(float vx, float vy)
 	mVelocity.x += vx;
 	mVelocity.y += vy;
 }
+/*
+void Entity::setRotationOffset(float angle)
+{
+  mRotationOffset = angle;
+}
 
+void Entity::rotate(float offset)
+{
+  mRotationOffset += offset;
+}
+
+float Entity::getRotationOffset() const
+{
+  return mRotationOffset;
+}
+*/
 void Entity::repair(int points)
 {
   assert(points > 0);
@@ -67,4 +83,5 @@ bool Entity::isDestroyed() const
 void Entity::updateCurrent(sf::Time dt, CommandQueue&)
 {	
 	move(mVelocity * dt.asSeconds());
+  // sf::Transformable::rotate(mRotationOffset * dt.asSeconds());
 }

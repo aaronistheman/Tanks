@@ -7,8 +7,6 @@
 #include <string>
 #include <algorithm>
 
-using namespace std::placeholders;
-
 
 struct TankMover
 {
@@ -49,8 +47,6 @@ Player::Player()
 	mKeyBinding[sf::Keyboard::Down] = MoveDown;
   mKeyBinding[sf::Keyboard::S] = RotateLeft;
   mKeyBinding[sf::Keyboard::D] = RotateRight;
-  mKeyBinding[sf::Keyboard::Space] = Fire;
-  mKeyBinding[sf::Keyboard::M] = LaunchMissile;
 
 	// Set initial action bindings
 	initializeActions();	
@@ -119,8 +115,6 @@ void Player::initializeActions()
 	mActionBinding[MoveDown].action  = derivedAction<Tank>(TankMover(0.f, +playerSpeed));
   mActionBinding[RotateLeft].action  = derivedAction<Tank>(TankRotator(-playerRotationSpeed));
   mActionBinding[RotateRight].action = derivedAction<Tank>(TankRotator(playerRotationSpeed));
-	mActionBinding[Fire].action          = derivedAction<Tank>([] (Tank& a, sf::Time){ a.fire(); });
-	mActionBinding[LaunchMissile].action = derivedAction<Tank>([] (Tank& a, sf::Time){ a.launchMissile(); });
 }
 
 bool Player::isRealtimeAction(Action action)
@@ -133,7 +127,6 @@ bool Player::isRealtimeAction(Action action)
 		case MoveUp:
     case RotateLeft:
     case RotateRight:
-    case Fire:
 			return true;
 
 		default:
