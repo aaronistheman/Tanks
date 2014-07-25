@@ -26,8 +26,8 @@ class Entity : public SceneNode
     bool        isDestroyed() const;
 
 
-	private:
-		virtual void		updateCurrent(sf::Time dt);
+	protected:
+		virtual void		updateCurrent(sf::Time dt, CommandQueue& commands);
 
 
 	private:

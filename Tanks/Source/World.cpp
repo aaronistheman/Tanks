@@ -6,9 +6,10 @@
 #include <cmath>
 
 
-World::World(sf::RenderWindow& window)
+World::World(sf::RenderWindow& window, FontHolder& fonts)
 : mWindow(window)
 , mWorldView(window.getDefaultView())
+, mFonts(fonts)
 , mTextures() 
 , mSceneGraph()
 , mSceneLayers()
@@ -37,7 +38,7 @@ void World::update(sf::Time dt)
 	adaptPlayerVelocity();
 
 	// Regular update step, adapt position (correct if outside view)
-	mSceneGraph.update(dt);
+	mSceneGraph.update(dt, mCommandQueue);
 	adaptPlayerPosition();
 }
 
@@ -80,7 +81,7 @@ void World::buildScene()
 	mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
 
 	// Add player's tank
-	std::unique_ptr<Tank> leader(new Tank(Tank::DefaultTank, mTextures));
+	std::unique_ptr<Tank> leader(new Tank(Tank::DefaultTank, mTextures, mFonts));
 	mPlayerTank = leader.get();
 	mPlayerTank->setPosition(mSpawnPosition);
 	mSceneLayers[Air]->attachChild(std::move(leader));

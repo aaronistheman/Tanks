@@ -31,6 +31,7 @@
     <ClCompile Include="Source\State.cpp" />
     <ClCompile Include="Source\StateStack.cpp" />
     <ClCompile Include="Source\Tank.cpp" />
+    <ClCompile Include="Source\TextNode.cpp" />
     <ClCompile Include="Source\TitleState.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\World.cpp" />
@@ -60,6 +61,7 @@
     <ClInclude Include="Include\Tanks\StateIdentifiers.hpp" />
     <ClInclude Include="Include\Tanks\StateStack.hpp" />
     <ClInclude Include="Include\Tanks\Tank.hpp" />
+    <ClInclude Include="Include\Tanks\TextNode.hpp" />
     <ClInclude Include="Include\Tanks\TitleState.hpp" />
     <ClInclude Include="Include\Tanks\Utility.hpp" />
     <ClInclude Include="Include\Tanks\World.hpp" />

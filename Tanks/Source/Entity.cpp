@@ -79,7 +79,7 @@ bool Entity::isDestroyed() const
   return mHitpoints <= 0;
 }
 
-void Entity::updateCurrent(sf::Time dt)
+void Entity::updateCurrent(sf::Time dt, CommandQueue&)
 {	
 	move(mVelocity * dt.asSeconds());
   sf::Transformable::rotate(mRotationOffset * dt.asSeconds());
