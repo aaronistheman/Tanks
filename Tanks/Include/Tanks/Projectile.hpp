@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 
+
 class Projectile : public Entity
 {
   public:
@@ -23,15 +24,15 @@ class Projectile : public Entity
     // void guideTowards(sf::Vector2f position);
     // bool isGuided() const;
 
-    // virtual unsigned int getCategory() const;
-    // virtual sf::FloatRect getBoundingRect() const;
-    // float getMaxSpeed() const;
-    // int  getDamage() const;
+    virtual unsigned int getCategory() const;
+    virtual sf::FloatRect getBoundingRect() const;
+    float getMaxSpeed() const;
+    int  getDamage() const;
 
 
   private:
     // virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
-    // virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+    virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
   private:
     Type mType;
