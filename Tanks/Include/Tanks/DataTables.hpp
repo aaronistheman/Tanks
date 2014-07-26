@@ -29,7 +29,15 @@ struct TankData
   std::vector<Direction>  directions;
 };
 
+struct ProjectileData
+{
+  int             damage;
+  float           speed;
+  Textures::ID    texture;
+};
+
 
 std::vector<TankData> initializeTankData();
+std::vector<ProjectileData> initializeProjectileData();
 
 #endif // TANKS_DATATABLES_HPP

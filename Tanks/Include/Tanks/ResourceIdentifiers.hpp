@@ -15,6 +15,7 @@ namespace Textures
 	{
 		DefaultTank,
     EnemyTank,
+    Bullet,
     Metal,
     TitleScreen,
     ButtonNormal,

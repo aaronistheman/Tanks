@@ -60,6 +60,8 @@ void World::loadTextures()
 	mTextures.load(Textures::DefaultTank, "Media/Textures/Tank.png");
   mTextures.load(Textures::EnemyTank, "Media/Textures/EnemyTank.png");
   mTextures.load(Textures::Metal, "Media/Textures/Metal.png");
+
+  mTextures.load(Textures::Bullet, "Media/Textures/Bullet.png");
 }
 
 void World::adaptPlayerPosition()
