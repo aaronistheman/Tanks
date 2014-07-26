@@ -58,6 +58,7 @@ CommandQueue& World::getCommandQueue()
 void World::loadTextures()
 {
 	mTextures.load(Textures::DefaultTank, "Media/Textures/Tank.png");
+  mTextures.load(Textures::EnemyTank, "Media/Textures/EnemyTank.png");
   mTextures.load(Textures::Metal, "Media/Textures/Metal.png");
 }
 
