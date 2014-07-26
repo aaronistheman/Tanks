@@ -7,6 +7,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
+#include <iostream>
+
 
 namespace
 {
@@ -18,12 +20,22 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mType(type)
 , mSprite(textures.get(Table[type].texture))
 , mRotationOffset(0.f)
+, mFireCommand()
+, mFireCountdown(sf::Time::Zero)
+, mIsFiring(false)
+, mFireRateLevel(1)
 , mTravelledDistance(0.f)
 , mAmountRotation(0.f)
 , mDirectionIndex(0)
 , mHealthDisplay(nullptr)
 {
 	centerOrigin(mSprite);
+
+  mFireCommand.category = Category::SceneAirLayer;
+  mFireCommand.action   = [this, &textures] (SceneNode& node, sf::Time)
+  {
+    createBullets(node, textures);
+  };
 
   std::unique_ptr<TextNode> healthDisplay(new TextNode(fonts, ""));
   mHealthDisplay = healthDisplay.get();
@@ -74,6 +86,13 @@ float Tank::getMaxRotationSpeed() const
   return Table[mType].rotationSpeed;
 }
 
+void Tank::fire()
+{
+	// Only ships with fire interval != 0 are able to fire
+	if (Table[mType].fireInterval != sf::Time::Zero)
+		mIsFiring = true;
+}
+
 void Tank::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mSprite, states);
@@ -115,6 +134,21 @@ void Tank::updateMovementPattern(sf::Time dt)
     // Rotate (in degrees)
     setRotationOffset(directions[mDirectionIndex].rotation);
     mAmountRotation += getMaxRotationSpeed() * dt.asSeconds();
+  }
+}
+
+void Tank::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
+{
+  if (mIsFiring && mFireCountdown <= sf::Time::Zero)
+  {
+    commands.push(mFireCommand);
+    std::cout << "Fire\n";
+    mFireCountdown += sf::seconds(1.f / (mFireRateLevel + 1));
+    mIsFiring = false;
+  }
+  else if (mFireCountdown > sf::Time::Zero)
+  {
+    mFireCountdown -= dt;
   }
 }
 

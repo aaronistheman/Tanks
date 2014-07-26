@@ -21,6 +21,7 @@ class Player
 			MoveDown,
       RotateLeft,
       RotateRight,
+      Fire,
 			ActionCount
 		};
 

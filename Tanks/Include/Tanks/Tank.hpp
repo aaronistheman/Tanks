@@ -31,12 +31,17 @@ class Tank : public Entity
     float                 getMaxMovementSpeed() const;
     float                 getMaxRotationSpeed() const;
 
+    void                  fire();
+
 
   private:
 	  virtual void    drawCurrent(sf::RenderTarget& target, 
                                 sf::RenderStates states) const;
     virtual void    updateCurrent(sf::Time dt, CommandQueue& commands);
-    void            updateMovementPattern(sf::Time dt);
+    void         updateMovementPattern(sf::Time dt);
+    void         checkProjectileLaunch(sf::Time dt, CommandQueue& commands);
+
+    void         createBullets(SceneNode& node, const TextureHolder& textures) const;
 
     void            updateTexts();
 
@@ -44,6 +49,11 @@ class Tank : public Entity
     Type            mType;
     sf::Sprite      mSprite;
     float           mRotationOffset; // basically a rate of rotation
+    
+    Command         mFireCommand;
+    sf::Time        mFireCountdown;
+    bool            mIsFiring;
+    int             mFireRateLevel;
 
     float           mTravelledDistance;
     float           mAmountRotation;
