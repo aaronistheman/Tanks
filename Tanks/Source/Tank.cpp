@@ -147,6 +147,10 @@ void Tank::updateMovementPattern(sf::Time dt)
 
 void Tank::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 {
+  // Enemies try to fire all the time
+	if (!isAllied())
+		fire();
+
   if (mIsFiring && mFireCountdown <= sf::Time::Zero)
   {
     commands.push(mFireCommand);
