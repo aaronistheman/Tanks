@@ -9,6 +9,8 @@
 
 #include <cmath>
 
+#include <iostream>
+
 
 namespace
 {
@@ -148,8 +150,8 @@ void Tank::updateMovementPattern(sf::Time dt)
 void Tank::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 {
   // Enemies try to fire all the time
-	if (!isAllied())
-		fire();
+	// if (!isAllied())
+	//	 fire();
 
   if (mIsFiring && mFireCountdown <= sf::Time::Zero)
   {
@@ -183,6 +185,7 @@ void Tank::createProjectile(SceneNode& node,
   sf::Vector2f offset(xOffset * mSprite.getGlobalBounds().width,
                       yOffset * mSprite.getGlobalBounds().height);
   sf::Vector2f velocity(0, projectile->getMaxSpeed());
+  projectile->setRotation(getRotation());
 
   float sign = isAllied() ? -1.f : +1.f;
   projectile->setPosition(getWorldPosition() + offset * sign);
