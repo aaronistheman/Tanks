@@ -1,19 +1,20 @@
 #include <Tanks/SceneNode.hpp>
 #include <Tanks/Command.hpp>
 #include <Tanks/Foreach.hpp>
+#include <Tanks/Utility.hpp>
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include <algorithm>
 #include <cassert>
+#include <cmath>
 
-#include <iostream>
 
-
-SceneNode::SceneNode()
+SceneNode::SceneNode(Category::Type category)
 : mChildren()
 , mParent(nullptr)
+, mDefaultCategory(category)
 {
 }
 
@@ -117,7 +118,7 @@ void SceneNode::onCommand(const Command& command, sf::Time dt)
 
 unsigned int SceneNode::getCategory() const
 {
-	return Category::SceneAirLayer;
+	return mDefaultCategory;
 }
 
 sf::FloatRect SceneNode::getBoundingRect() const

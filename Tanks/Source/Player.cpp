@@ -7,8 +7,6 @@
 #include <string>
 #include <algorithm>
 
-#include <iostream>
-
 using namespace std::placeholders;
 
 
@@ -78,10 +76,9 @@ void Player::handleRealtimeInput(CommandQueue& commands)
 	FOREACH(auto pair, mKeyBinding)
 	{
 		// If key is pressed, lookup action and trigger corresponding command
-		if (sf::Keyboard::isKeyPressed(pair.first) && isRealtimeAction(pair.second))
+    if (sf::Keyboard::isKeyPressed(pair.first) && isRealtimeAction(pair.second))
     {
 			commands.push(mActionBinding[pair.second]);
-      std::cout << "pushed real time command\n";
     }
 	}
 }
@@ -124,7 +121,6 @@ void Player::initializeActions()
   mActionBinding[RotateLeft].action  = derivedAction<Tank>(TankRotator(-playerRotationSpeed));
   mActionBinding[RotateRight].action = derivedAction<Tank>(TankRotator(playerRotationSpeed));
 	mActionBinding[Fire].action        = derivedAction<Tank>([] (Tank& a, sf::Time){ a.fire(); });
-  // mActionBinding[Fire].action = derivedAction<Tank>(std::bind(&Tank::fire, _1));
 }
 
 bool Player::isRealtimeAction(Action action)

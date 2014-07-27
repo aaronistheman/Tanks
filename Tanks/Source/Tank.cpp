@@ -9,8 +9,6 @@
 
 #include <cmath>
 
-#include <iostream>
-
 
 namespace
 {
@@ -37,7 +35,6 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
   mFireCommand.action   = [this, &textures] (SceneNode& node, sf::Time)
   {
     createBullets(node, textures);
-    std::cout << "mFireCommand happening\n";
   };
 
   std::unique_ptr<TextNode> healthDisplay(new TextNode(fonts, ""));
@@ -153,8 +150,7 @@ void Tank::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
   if (mIsFiring && mFireCountdown <= sf::Time::Zero)
   {
     commands.push(mFireCommand);
-    std::cout << "pushed mFireCommand\n";
-    mFireCountdown += sf::seconds(1.f / (mFireRateLevel + 1));
+    mFireCountdown += Table[mType].fireInterval / (mFireRateLevel + 1.f);
     mIsFiring = false;
   }
   else if (mFireCountdown > sf::Time::Zero)
@@ -182,28 +178,12 @@ void Tank::createProjectile(SceneNode& node,
 
   sf::Vector2f offset(xOffset * mSprite.getGlobalBounds().width,
                       yOffset * mSprite.getGlobalBounds().height);
-  // std::cout << "getGlobalBounds(): X= " << mSprite.getGlobalBounds().width // 32
-  //          << " Y= " << mSprite.getGlobalBounds().height << '\n';          // 80
   sf::Vector2f velocity(0, projectile->getMaxSpeed());
 
   float sign = isAllied() ? -1.f : +1.f;
-  // std::cout << "sign: " << sign << '\n';
   projectile->setPosition(getWorldPosition() + offset * sign);
-  std::cout << "getWorldPosition(): X= " << getWorldPosition().x // cor
-            << " Y= " << getWorldPosition().y << '\n';           // cor
-  // projectile->setVelocity(velocity * sign);
-  projectile->setVelocity(0.f, 0.f);
-  // std::cout << "Node position X= " << node.getPosition().x // 0
-  //           << " Y= " << node.getPosition().y << '\n';     // 0, 50
+  projectile->setVelocity(velocity * sign);
   node.attachChild(std::move(projectile));
-
-  // tank at top left
-  // global bounds: 32 x 80
-  // sign: -1
-  // offset: 0, 0.5
-  // world position: 50 x 50
-    // correct missile: 50 x 10
-    // wrong missile: 100 x 110
 }
 
 void Tank::updateTexts()

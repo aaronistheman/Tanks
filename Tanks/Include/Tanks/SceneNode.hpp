@@ -22,7 +22,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 
 
 	public:
-								SceneNode();
+								SceneNode(Category::Type category = Category::None);
 
 		void					attachChild(Ptr child);
 		Ptr						detachChild(const SceneNode& node);
@@ -51,6 +51,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 	private:
 		std::vector<Ptr>		mChildren;
 		SceneNode*				mParent;
+		Category::Type			mDefaultCategory;
 };
 
 #endif // TANKS_SCENENODE_HPP
