@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <cassert>
 
+#include <iostream>
+
 
 SceneNode::SceneNode()
 : mChildren()

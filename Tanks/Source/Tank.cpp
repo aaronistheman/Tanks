@@ -7,6 +7,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
+#include <cmath>
+
 #include <iostream>
 
 
@@ -34,8 +36,8 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
   mFireCommand.category = Category::SceneAirLayer;
   mFireCommand.action   = [this, &textures] (SceneNode& node, sf::Time)
   {
-    std::cout << "mFireCommand happening\n";
     createBullets(node, textures);
+    std::cout << "mFireCommand happening\n";
   };
 
   std::unique_ptr<TextNode> healthDisplay(new TextNode(fonts, ""));
@@ -180,12 +182,28 @@ void Tank::createProjectile(SceneNode& node,
 
   sf::Vector2f offset(xOffset * mSprite.getGlobalBounds().width,
                       yOffset * mSprite.getGlobalBounds().height);
+  // std::cout << "getGlobalBounds(): X= " << mSprite.getGlobalBounds().width // 32
+  //          << " Y= " << mSprite.getGlobalBounds().height << '\n';          // 80
   sf::Vector2f velocity(0, projectile->getMaxSpeed());
 
   float sign = isAllied() ? -1.f : +1.f;
+  // std::cout << "sign: " << sign << '\n';
   projectile->setPosition(getWorldPosition() + offset * sign);
-  projectile->setVelocity(velocity * sign);
+  std::cout << "getWorldPosition(): X= " << getWorldPosition().x // cor
+            << " Y= " << getWorldPosition().y << '\n';           // cor
+  // projectile->setVelocity(velocity * sign);
+  projectile->setVelocity(0.f, 0.f);
+  // std::cout << "Node position X= " << node.getPosition().x // 0
+  //           << " Y= " << node.getPosition().y << '\n';     // 0, 50
   node.attachChild(std::move(projectile));
+
+  // tank at top left
+  // global bounds: 32 x 80
+  // sign: -1
+  // offset: 0, 0.5
+  // world position: 50 x 50
+    // correct missile: 50 x 10
+    // wrong missile: 100 x 110
 }
 
 void Tank::updateTexts()

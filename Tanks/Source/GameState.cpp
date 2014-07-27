@@ -1,5 +1,7 @@
 #include <Tanks/GameState.hpp>
 
+#include <iostream>
+
 
 GameState::GameState(StateStack& stack, Context context)
 : State(stack, context)
@@ -32,6 +34,12 @@ bool GameState::handleEvent(const sf::Event& event)
 	// Escape pressed, trigger the pause screen
 	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 		requestStackPush(States::Pause);
+
+  if (event.type == sf::Event::MouseButtonReleased)
+  {
+    std::cout << "Mouse X= " << event.mouseButton.x
+              << " Y= " << event.mouseButton.y << '\n';
+  }
 
 	return true;
 }
