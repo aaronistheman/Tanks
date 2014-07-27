@@ -34,6 +34,7 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
   mFireCommand.category = Category::SceneAirLayer;
   mFireCommand.action   = [this, &textures] (SceneNode& node, sf::Time)
   {
+    std::cout << "mFireCommand happening\n";
     createBullets(node, textures);
   };
 
@@ -76,6 +77,11 @@ sf::FloatRect Tank::getBoundingRect() const
 	return getWorldTransform().transformRect(mSprite.getGlobalBounds());
 }
 
+bool Tank::isAllied() const
+{
+  return mType == Type::DefaultTank;
+}
+
 float Tank::getMaxMovementSpeed() const
 {
   return Table[mType].movementSpeed;
@@ -100,6 +106,9 @@ void Tank::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
+  // Check if bullets are fired
+  checkProjectileLaunch(dt, commands);
+
   // Update enemy movement pattern; apply velocity
 	updateMovementPattern(dt);
 	Entity::updateCurrent(dt, commands);
@@ -142,14 +151,41 @@ void Tank::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
   if (mIsFiring && mFireCountdown <= sf::Time::Zero)
   {
     commands.push(mFireCommand);
-    std::cout << "Fire\n";
+    std::cout << "pushed mFireCommand\n";
     mFireCountdown += sf::seconds(1.f / (mFireRateLevel + 1));
     mIsFiring = false;
   }
   else if (mFireCountdown > sf::Time::Zero)
   {
     mFireCountdown -= dt;
+    mIsFiring = false;
   }
+}
+
+void Tank::createBullets(SceneNode& node, 
+                         const TextureHolder& textures) const
+{
+  Projectile::Type type = isAllied() 
+    ? Projectile::AlliedBullet : Projectile::EnemyBullet;
+  createProjectile(node, type, 0.0f, 0.5f, textures);
+}
+
+void Tank::createProjectile(SceneNode& node,
+                            Projectile::Type type,
+                            float xOffset,
+                            float yOffset,
+                            const TextureHolder& textures) const
+{
+  std::unique_ptr<Projectile> projectile(new Projectile(type, textures));
+
+  sf::Vector2f offset(xOffset * mSprite.getGlobalBounds().width,
+                      yOffset * mSprite.getGlobalBounds().height);
+  sf::Vector2f velocity(0, projectile->getMaxSpeed());
+
+  float sign = isAllied() ? -1.f : +1.f;
+  projectile->setPosition(getWorldPosition() + offset * sign);
+  projectile->setVelocity(velocity * sign);
+  node.attachChild(std::move(projectile));
 }
 
 void Tank::updateTexts()

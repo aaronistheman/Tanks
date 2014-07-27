@@ -118,7 +118,8 @@ void Player::initializeActions()
 	mActionBinding[MoveDown].action  = derivedAction<Tank>(TankMover(0.f, +playerSpeed));
   mActionBinding[RotateLeft].action  = derivedAction<Tank>(TankRotator(-playerRotationSpeed));
   mActionBinding[RotateRight].action = derivedAction<Tank>(TankRotator(playerRotationSpeed));
-  mActionBinding[Fire].action = derivedAction<Tank>(std::bind(&Tank::fire, _1));
+	mActionBinding[Fire].action        = derivedAction<Tank>([] (Tank& a, sf::Time){ a.fire(); });
+  // mActionBinding[Fire].action = derivedAction<Tank>(std::bind(&Tank::fire, _1));
 }
 
 bool Player::isRealtimeAction(Action action)

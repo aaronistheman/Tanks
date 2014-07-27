@@ -5,6 +5,8 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
+#include <iostream>
+
 
 namespace
 {
@@ -17,6 +19,7 @@ Projectile::Projectile(Type type, const TextureHolder& textures)
   , mSprite(textures.get(Table[type].texture))
 {
   centerOrigin(mSprite);
+  std::cout << "Projectile()\n";
 }
 
 void Projectile::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const

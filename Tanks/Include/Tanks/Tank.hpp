@@ -5,6 +5,7 @@
 #include <Tanks/Command.hpp>
 #include <Tanks/ResourceIdentifiers.hpp>
 #include <Tanks/TextNode.hpp>
+#include <Tanks/Projectile.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -28,6 +29,7 @@ class Tank : public Entity
 
     virtual unsigned int	getCategory() const;
 		virtual sf::FloatRect	getBoundingRect() const;
+    bool                  isAllied() const;
     float                 getMaxMovementSpeed() const;
     float                 getMaxRotationSpeed() const;
 
@@ -42,6 +44,11 @@ class Tank : public Entity
     void         checkProjectileLaunch(sf::Time dt, CommandQueue& commands);
 
     void         createBullets(SceneNode& node, const TextureHolder& textures) const;
+    void         createProjectile(SceneNode& node,
+                                  Projectile::Type type,
+                                  float xOffset,
+                                  float yOffset,
+                                  const TextureHolder& textures) const;
 
     void            updateTexts();
 

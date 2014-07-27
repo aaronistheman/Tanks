@@ -12,8 +12,8 @@ namespace Category
 		PlayerTank		= 1 << 1,
 		AlliedTank		= 1 << 2,
 		EnemyTank		= 1 << 3,
-    AlliedProjectile = 1 << 5,
-    EnemyProjectile  = 1 << 6,
+    AlliedProjectile = 1 << 4,
+    EnemyProjectile  = 1 << 5,
 
     Tank = PlayerTank | AlliedTank | EnemyTank,
 		Projectile = AlliedProjectile | EnemyProjectile,
