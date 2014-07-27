@@ -39,5 +39,10 @@ int				randomInt(int exclusiveMax);
 float			length(sf::Vector2f vector);
 sf::Vector2f	unitVector(sf::Vector2f vector);
 
+// Because SFML's angles used in rotation are different from
+// the nature of typical trigonometry angles, this function
+// is necessary for using trig functions from <cmath>.
+float     toTrigAngle(float degree);
+
 #include <Tanks/Utility.inl>
 #endif // TANKS_UTILITY_HPP

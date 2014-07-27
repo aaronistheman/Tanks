@@ -177,3 +177,11 @@ sf::Vector2f unitVector(sf::Vector2f vector)
 	assert(vector != sf::Vector2f(0.f, 0.f));
 	return vector / length(vector);
 }
+
+float toTrigAngle(float degree)
+{
+  if (degree <= 90)
+    return (90 - degree);
+  else /* (degree > 90) */
+    return (450 - degree);
+}
