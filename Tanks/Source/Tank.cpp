@@ -181,19 +181,30 @@ void Tank::createProjectile(SceneNode& node,
                             const TextureHolder& textures) const
 {
   std::unique_ptr<Projectile> projectile(new Projectile(type, textures));
-
-  sf::Vector2f offset(xOffset * mSprite.getGlobalBounds().width,
-                      yOffset * mSprite.getGlobalBounds().height);
-
+  
   float projectileAngle = toRadian(toTrigAngle(getRotation()));
+
+  // Adjust projectile's offset according to tank's rotation
+  // sf::Vector2f offset(xOffset * getBoundingRect().width,
+  //                     yOffset * getBoundingRect().height);
+  float x2 = std::cos(projectileAngle) * yOffset;
+  float y2 = std::sin(projectileAngle) * yOffset;
+  float newAngle = 2 * projectileAngle - 3.141592653589793238462643383f;
+  float y1 = std::cos(newAngle) * xOffset;
+  float x1 = std::sin(newAngle) * xOffset;
+  sf::Vector2f offset((x1 + x2) * getBoundingRect().width * -1,
+                      (y1 + y2) * getBoundingRect().height);
+
+  // Adjust projectlie's direction according to tank's rotation
   sf::Vector2f velocity(projectile->getMaxSpeed() * std::cos(projectileAngle), 
                         projectile->getMaxSpeed() * std::sin(projectileAngle) * -1);
   
+  // Adjust projectile's rotation according to tank's rotation
   projectile->setRotation(getRotation());
 
   float sign = isAllied() ? -1.f : +1.f;
   projectile->setPosition(getWorldPosition() + offset * sign);
-  projectile->setVelocity(velocity /** sign*/);
+  // projectile->setVelocity(velocity /** sign*/);
   node.attachChild(std::move(projectile));
 }
 
