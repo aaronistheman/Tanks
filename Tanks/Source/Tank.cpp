@@ -182,38 +182,18 @@ void Tank::createProjectile(SceneNode& node,
 {
   std::unique_ptr<Projectile> projectile(new Projectile(type, textures));
 
+  sf::Vector2f offset(xOffset * mSprite.getGlobalBounds().width,
+                      yOffset * mSprite.getGlobalBounds().height);
+
   float projectileAngle = toRadian(toTrigAngle(getRotation()));
-  std::cout << "angle: " << projectileAngle << '\n';
-
-  // Adjust projectile's rotation based on tank's
-  projectile->setRotation(getRotation());
-
-  float sign = 0;
-  // Adjust the offset based on the tank's rotation
-  if (xOffset < 0)
-    sign = -1;
-  else if (xOffset >= 0)
-    sign = 1;
-
-  float otherAngle = projectileAngle - sign * 3.141592653589793238462643383f/2;
-  float X = (std::sin(otherAngle) * xOffset) + (std::cos(projectileAngle) * yOffset);
-  float Y = (std::cos(otherAngle) * xOffset) + (std::sin(projectileAngle) * yOffset);
-  std::cout << "Offset X= " << X << " Y= " << Y << '\n';
-  sf::Vector2f offset(X * getBoundingRect().width,
-                      Y * getBoundingRect().height * -1);
-  // std::cout << "Global bounds X= " << mSprite.getGlobalBounds().width
-  //           << " Y= " << mSprite.getGlobalBounds().height << '\n';
-  std::cout << "Bounding rect X= " << getBoundingRect().width
-            << " Y= " << getBoundingRect().height << '\n';
-  // sf::Vector2f offset(xOffset * mSprite.getGlobalBounds().width, yOffset * mSprite.getGlobalBounds().height);
-
-  // Adjust the velocity based on the tank's rotation
   sf::Vector2f velocity(projectile->getMaxSpeed() * std::cos(projectileAngle), 
                         projectile->getMaxSpeed() * std::sin(projectileAngle) * -1);
+  
+  projectile->setRotation(getRotation());
 
-  // float sign = isAllied() ? -1.f : +1.f;
-  projectile->setPosition(getWorldPosition() + offset /** sign*/);
-  // projectile->setVelocity(velocity /** sign*/);
+  float sign = isAllied() ? -1.f : +1.f;
+  projectile->setPosition(getWorldPosition() + offset * sign);
+  projectile->setVelocity(velocity /** sign*/);
   node.attachChild(std::move(projectile));
 }
 
