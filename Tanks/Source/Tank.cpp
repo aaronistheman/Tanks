@@ -9,8 +9,6 @@
 
 #include <cmath>
 
-#include <iostream>
-
 
 namespace
 {
@@ -185,11 +183,13 @@ void Tank::createProjectile(SceneNode& node,
   float projectileAngle = toRadian(toTrigAngle(getRotation()));
 
   // Adjust projectile's offset according to tank's rotation
-  // sf::Vector2f offset(xOffset * getBoundingRect().width,
-  //                     yOffset * getBoundingRect().height);
+  // Each offset (x and y) has to be converted to an offset of the form
+  // (x, y) based on the tank's rotation.
+  // Use tank's angle to calculate angle-corrected yOffset:
   float x2 = std::cos(projectileAngle) * yOffset;
   float y2 = std::sin(projectileAngle) * yOffset;
-  float newAngle = 2 * projectileAngle - 3.141592653589793238462643383f;
+  // Use newAngle to calculate angle-corrected xOffset:
+  float newAngle = (2 * projectileAngle) - 3.141592653589793238462643383f;
   float y1 = std::cos(newAngle) * xOffset;
   float x1 = std::sin(newAngle) * xOffset;
   sf::Vector2f offset((x1 + x2) * getBoundingRect().width * -1,
@@ -203,8 +203,8 @@ void Tank::createProjectile(SceneNode& node,
   projectile->setRotation(getRotation());
 
   float sign = isAllied() ? -1.f : +1.f;
-  projectile->setPosition(getWorldPosition() + offset * sign);
-  // projectile->setVelocity(velocity /** sign*/);
+  projectile->setPosition(getWorldPosition() + offset * -1.f);
+  projectile->setVelocity(velocity /** sign*/);
   node.attachChild(std::move(projectile));
 }
 
