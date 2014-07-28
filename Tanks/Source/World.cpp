@@ -127,8 +127,8 @@ void World::buildScene()
 void World::addEnemies()
 {
   // Add enemies to the spawn point container
-  addEnemy(Tank::EnemyTank, 0.f, 0.f);
-  addEnemy(Tank::EnemyTank, 150.f, 80.f);
+  // addEnemy(Tank::EnemyTank, 0.f, 0.f);
+  // addEnemy(Tank::EnemyTank, 150.f, 80.f);
 
   // Sort all enemies according to their y value, such that lower enemies are checked first for spawning
 	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), [] (SpawnPoint lhs, SpawnPoint rhs)
