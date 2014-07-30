@@ -10,6 +10,8 @@
 
 #include <vector>
 #include <memory>
+#include <set>
+#include <utility>
 
 
 struct Command;
@@ -19,10 +21,11 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 {
 	public:
 		typedef std::unique_ptr<SceneNode> Ptr;
+    typedef std::pair<SceneNode*, SceneNode*> Pair;
 
 
 	public:
-								SceneNode(Category::Type category = Category::None);
+		explicit			SceneNode(Category::Type category = Category::None);
 
 		void					attachChild(Ptr child);
 		Ptr						detachChild(const SceneNode& node);
@@ -31,9 +34,17 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 
 		sf::Vector2f			getWorldPosition() const;
 		sf::Transform			getWorldTransform() const;
-    
+
+    void          checkNodeCollision(SceneNode& node, 
+                                     std::set<Pair>& collisionPairs);
+    void          checkSceneCollision(SceneNode& sceneGraph,
+                                      std::set<Pair>& collisionPairs);
+
 		void					onCommand(const Command& command, sf::Time dt);
 		virtual unsigned int	getCategory() const;
+
+    virtual sf::FloatRect getBoundingRect() const;
+		virtual bool			isDestroyed() const;
 
 
 	private:
@@ -45,13 +56,13 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 		void					drawChildren(sf::RenderTarget& target, sf::RenderStates states) const;
 		void					drawBoundingRect(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    virtual sf::FloatRect getBoundingRect() const;
-
 
 	private:
 		std::vector<Ptr>		mChildren;
 		SceneNode*				mParent;
 		Category::Type			mDefaultCategory;
 };
+
+bool collision(const SceneNode& lhs, const SceneNode& rhs);
 
 #endif // TANKS_SCENENODE_HPP

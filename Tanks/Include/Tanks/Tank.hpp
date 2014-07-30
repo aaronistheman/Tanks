@@ -65,6 +65,7 @@ class Tank : public Entity
     float           mTravelledDistance;
     float           mAmountRotation;
     std::size_t     mDirectionIndex;
+public:
     TextNode*       mHealthDisplay;
 };
 

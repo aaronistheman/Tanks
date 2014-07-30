@@ -37,7 +37,7 @@ class World : private sf::NonCopyable
 		void								loadTextures();
 		void								adaptPlayerPosition();
 		void								adaptPlayerVelocity();
-    // void                adaptPlayerRotation();
+    void                handleCollisions();
 		
     void								buildScene();
     void                addEnemies();

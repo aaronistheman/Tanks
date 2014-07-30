@@ -1,4 +1,6 @@
 #include <Tanks/World.hpp>
+#include <Tanks/Foreach.hpp>
+#include <Tanks/Category.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -36,6 +38,9 @@ void World::update(sf::Time dt)
 	while (!mCommandQueue.isEmpty())
 		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
 	adaptPlayerVelocity();
+
+  // Collision detection and response (may destroy entities)
+	handleCollisions();
 
   spawnEnemies();
 
@@ -89,6 +94,48 @@ void World::adaptPlayerVelocity()
 
 	// Add scrolling velocity
 	mPlayerTank->accelerate(0.f, mScrollSpeed);
+}
+
+bool matchesCategories(SceneNode::Pair& colliders,
+                       Category::Type type1,
+                       Category::Type type2)
+{
+  unsigned int category1 = colliders.first->getCategory();
+  unsigned int category2 = colliders.second->getCategory();
+
+  if (type1 & category1 && type2 & category2)
+  {
+    return true;
+  }
+  else if (type1 & category2 && type2 & category1)
+  {
+    std::swap(colliders.first, colliders.second);
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+void World::handleCollisions()
+{
+  std::set<SceneNode::Pair> collisionPairs;
+  mSceneGraph.checkSceneCollision(mSceneGraph, collisionPairs);
+
+  FOREACH(SceneNode::Pair pair, collisionPairs)
+  {
+    if (matchesCategories(pair,
+                          Category::PlayerTank,
+                          Category::EnemyTank))
+    {
+      auto& player = static_cast<Tank&>(*pair.first);
+      auto& enemy = static_cast<Tank&>(*pair.second);
+
+      player.damage(enemy.getHitpoints());
+      enemy.destroy();
+    }
+  }
 }
 
 void World::buildScene()
