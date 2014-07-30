@@ -39,12 +39,14 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
                                      std::set<Pair>& collisionPairs);
     void          checkSceneCollision(SceneNode& sceneGraph,
                                       std::set<Pair>& collisionPairs);
+    void          removeWrecks();
 
 		void					onCommand(const Command& command, sf::Time dt);
 		virtual unsigned int	getCategory() const;
 
     virtual sf::FloatRect getBoundingRect() const;
-		virtual bool			isDestroyed() const;
+		virtual bool      isMarkedForRemoval() const;
+    virtual bool			isDestroyed() const;
 
 
 	private:

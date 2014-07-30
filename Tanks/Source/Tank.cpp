@@ -23,6 +23,7 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mFireCommand()
 , mFireCountdown(sf::Time::Zero)
 , mIsFiring(false)
+, mIsMarkedForRemoval(false)
 , mFireRateLevel(1)
 , mTravelledDistance(0.f)
 , mAmountRotation(0.f)
@@ -76,6 +77,11 @@ sf::FloatRect Tank::getBoundingRect() const
 	return getWorldTransform().transformRect(mSprite.getGlobalBounds());
 }
 
+bool Tank::isMarkedForRemoval() const
+{
+	return mIsMarkedForRemoval;
+}
+
 bool Tank::isAllied() const
 {
   return mType == Type::DefaultTank;
@@ -105,6 +111,13 @@ void Tank::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
+  // Entity has been destroyed: mark for removal
+  if (isDestroyed())
+  {
+    mIsMarkedForRemoval = true;
+    return;
+  }
+
   // Check if bullets are fired
   checkProjectileLaunch(dt, commands);
 

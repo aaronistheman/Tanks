@@ -20,8 +20,8 @@ std::vector<TankData> initializeTankData()
   // data[Tank::EnemyTank].directions.push_back(Direction( 45, 80, 0));
   // data[Tank::EnemyTank].directions.push_back(Direction(-45, 160, 0));
   // data[Tank::EnemyTank].directions.push_back(Direction( 45, 80, 0));
-  data[Tank::EnemyTank].directions.push_back(Direction( 90, 100, 30));
-  data[Tank::EnemyTank].directions.push_back(Direction(-90, 100, 0));
+  // data[Tank::EnemyTank].directions.push_back(Direction( 90, 100, 30));
+  // data[Tank::EnemyTank].directions.push_back(Direction(-90, 100, 0));
 
   return data;
 }

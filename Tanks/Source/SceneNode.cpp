@@ -41,11 +41,6 @@ void SceneNode::update(sf::Time dt, CommandQueue& commands)
 	updateChildren(dt, commands);
 }
 
-sf::FloatRect SceneNode::getBoundingRect() const
-{
-	return sf::FloatRect();
-}
-
 void SceneNode::updateCurrent(sf::Time, CommandQueue&)
 {
 	// Do nothing by default
@@ -130,6 +125,16 @@ void SceneNode::checkSceneCollision(SceneNode& sceneGraph,
     checkSceneCollision(*child, collisionPairs);
 }
 
+void SceneNode::removeWrecks()
+{
+	// Remove all children which request so
+	auto wreckfieldBegin = std::remove_if(mChildren.begin(), mChildren.end(), std::mem_fn(&SceneNode::isMarkedForRemoval));
+	mChildren.erase(wreckfieldBegin, mChildren.end());
+
+	// Call function recursively for all remaining children
+	std::for_each(mChildren.begin(), mChildren.end(), std::mem_fn(&SceneNode::removeWrecks));
+}
+
 void SceneNode::onCommand(const Command& command, sf::Time dt)
 {
 	// Command current node, if category matches
@@ -144,6 +149,17 @@ void SceneNode::onCommand(const Command& command, sf::Time dt)
 unsigned int SceneNode::getCategory() const
 {
 	return mDefaultCategory;
+}
+
+sf::FloatRect SceneNode::getBoundingRect() const
+{
+	return sf::FloatRect();
+}
+
+bool SceneNode::isMarkedForRemoval() const
+{
+	// By default, remove node if entity is destroyed
+	return isDestroyed();
 }
 
 bool SceneNode::isDestroyed() const

@@ -34,6 +34,8 @@ void World::update(sf::Time dt)
 	mPlayerTank->setVelocity(0.f, 0.f);
   mPlayerTank->setRotationOffset(0.f);
 
+  destroyProjectilesOutsideView();
+
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
 	while (!mCommandQueue.isEmpty())
 		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
@@ -42,6 +44,8 @@ void World::update(sf::Time dt)
   // Collision detection and response (may destroy entities)
 	handleCollisions();
 
+  // Remove all destroyed entities, create new ones
+	mSceneGraph.removeWrecks();
   spawnEnemies();
 
 	// Regular update step, adapt position (correct if outside view)
@@ -109,6 +113,8 @@ bool matchesCategories(SceneNode::Pair& colliders,
   }
   else if (type1 & category2 && type2 & category1)
   {
+    // Flip the elements of the pair to avoid having both
+    // A-B and B-A collisions recorded
     std::swap(colliders.first, colliders.second);
     return true;
   }
@@ -125,15 +131,26 @@ void World::handleCollisions()
 
   FOREACH(SceneNode::Pair pair, collisionPairs)
   {
-    if (matchesCategories(pair,
-                          Category::PlayerTank,
-                          Category::EnemyTank))
+    if (matchesCategories(pair, Category::PlayerTank, Category::EnemyTank))
     {
       auto& player = static_cast<Tank&>(*pair.first);
       auto& enemy = static_cast<Tank&>(*pair.second);
 
+      // player.setPosition(player.getPosition().x - 10.f, player.getPosition().y - 10.f);
+      // player.setVelocity(-player.getVelocity());
       player.damage(enemy.getHitpoints());
       enemy.destroy();
+    }
+    else if (matchesCategories(pair, Category::EnemyTank, 
+                               Category::AlliedProjectile)
+             || matchesCategories(pair, Category::PlayerTank,
+                                  Category::EnemyProjectile))
+    {
+      auto& tank = static_cast<Tank&>(*pair.first);
+      auto& projectile = static_cast<Projectile&>(*pair.second);
+
+      tank.damage(projectile.getDamage());
+      projectile.destroy();
     }
   }
 }
@@ -174,7 +191,7 @@ void World::buildScene()
 void World::addEnemies()
 {
   // Add enemies to the spawn point container
-  addEnemy(Tank::EnemyTank, 0.f, 0.f);
+  addEnemy(Tank::EnemyTank, -150.f, -120.f);
   addEnemy(Tank::EnemyTank, 150.f, 80.f);
 
   // Sort all enemies according to their y value, such that lower enemies are checked first for spawning
@@ -206,8 +223,26 @@ void World::spawnEnemies()
   }
 }
 
+void World::destroyProjectilesOutsideView()
+{
+  Command command;
+  command.category = Category::Projectile;
+  command.action = derivedAction<Projectile>(
+    [this] (Projectile& p, sf::Time)
+  {
+    if (!getViewBounds().intersects(p.getBoundingRect()))
+      p.destroy();
+  });
+
+  mCommandQueue.push(command);
+}
+
 sf::FloatRect World::getViewBounds() const
 {
+  sf::FloatRect rect(mWorldView.getCenter() - mWorldView.getSize() / 2.f + sf::Vector2f(100.f, 100.f), 
+                     mWorldView.getSize() - sf::Vector2f(200.f, 200.f));
+  return rect;
+
 	return sf::FloatRect(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
 }
 

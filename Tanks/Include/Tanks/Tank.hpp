@@ -29,6 +29,7 @@ class Tank : public Entity
 
     virtual unsigned int	getCategory() const;
 		virtual sf::FloatRect	getBoundingRect() const;
+    virtual bool          isMarkedForRemoval() const;
     bool                  isAllied() const;
     float                 getMaxMovementSpeed() const;
     float                 getMaxRotationSpeed() const;
@@ -60,12 +61,14 @@ class Tank : public Entity
     Command         mFireCommand;
     sf::Time        mFireCountdown;
     bool            mIsFiring;
+    bool            mIsMarkedForRemoval;
+
     int             mFireRateLevel;
 
     float           mTravelledDistance;
     float           mAmountRotation;
     std::size_t     mDirectionIndex;
-public:
+
     TextNode*       mHealthDisplay;
 };
 

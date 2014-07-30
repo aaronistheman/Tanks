@@ -43,6 +43,7 @@ class World : private sf::NonCopyable
     void                addEnemies();
     void                addEnemy(Tank::Type type, float relX, float relY);
     void                spawnEnemies();
+    void                destroyProjectilesOutsideView();
     sf::FloatRect       getViewBounds() const;
     sf::FloatRect       getBattlefieldBounds() const;
 
