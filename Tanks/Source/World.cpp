@@ -64,6 +64,16 @@ CommandQueue& World::getCommandQueue()
 	return mCommandQueue;
 }
 
+bool World::hasAlivePlayer() const
+{
+	return !mPlayerTank->isMarkedForRemoval();
+}
+
+/*bool World::hasPlayerReachedEnd() const
+{
+	return !mWorldBounds.contains(mPlayerAircraft->getPosition());
+}*/
+
 void World::loadTextures()
 {
 	mTextures.load(Textures::DefaultTank, "Media/Textures/DefaultTank.png");

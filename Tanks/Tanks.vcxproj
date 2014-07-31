@@ -19,6 +19,7 @@
     <ClCompile Include="Source\DataTables.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\GameOverState.cpp" />
     <ClCompile Include="Source\GameState.cpp" />
     <ClCompile Include="Source\Label.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="Include\Tanks\Entity.hpp" />
     <ClInclude Include="Include\Tanks\Foreach.hpp" />
     <ClInclude Include="Include\Tanks\Application.hpp" />
+    <ClInclude Include="Include\Tanks\GameOverState.hpp" />
     <ClInclude Include="Include\Tanks\GameState.hpp" />
     <ClInclude Include="Include\Tanks\Label.hpp" />
     <ClInclude Include="Include\Tanks\MenuState.hpp" />

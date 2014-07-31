@@ -25,6 +25,13 @@ class Player
 			ActionCount
 		};
 
+    enum MissionStatus
+    {
+      MissionRunning,
+      MissionSuccess,
+      MissionFailure
+    };
+
 
 	public:
 								Player();
@@ -35,6 +42,9 @@ class Player
 		void					assignKey(Action action, sf::Keyboard::Key key);
 		sf::Keyboard::Key		getAssignedKey(Action action) const;
 
+    void 					setMissionStatus(MissionStatus status);
+		MissionStatus 			getMissionStatus() const;
+
 
 	private:
 		void					initializeActions();
@@ -44,6 +54,7 @@ class Player
 	private:
 		std::map<sf::Keyboard::Key, Action>		mKeyBinding;
 		std::map<Action, Command>				mActionBinding;
+		MissionStatus 							mCurrentMissionStatus;
 };
 
 #endif // TANKS_PLAYER_HPP

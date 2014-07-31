@@ -32,6 +32,9 @@ class World : private sf::NonCopyable
 		
 		CommandQueue&						getCommandQueue();
 
+		bool 								hasAlivePlayer() const;
+		bool 								hasPlayerReachedEnd() const;
+
 
 	private:
 		void								loadTextures();
