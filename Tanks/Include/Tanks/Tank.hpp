@@ -27,8 +27,8 @@ class Tank : public Entity
     void                  rotate(float offset);
     float                 getRotationOffset() const;
 
-    virtual unsigned int	getCategory() const;
-		virtual sf::FloatRect	getBoundingRect() const;
+    virtual unsigned int	  getCategory() const;
+		virtual sf::FloatRect	  getBoundingRect() const;
     virtual bool          isMarkedForRemoval() const;
     virtual bool          isCollidingWithTank() const;
     bool                  isAllied() const;
@@ -36,6 +36,7 @@ class Tank : public Entity
     float                 getMaxRotationSpeed() const;
 
     void                  setIsCollidingWithTank(bool flag);
+    void                  setIntersection(sf::FloatRect rect);
     void                  fire();
 
 
@@ -65,6 +66,7 @@ class Tank : public Entity
     bool            mIsFiring;
     bool            mIsMarkedForRemoval;
     bool            mIsCollidingWithTank;
+    sf::FloatRect   mIntersection;
 
     int             mFireRateLevel;
 

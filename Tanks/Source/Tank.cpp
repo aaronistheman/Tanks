@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
 #include <cmath>
 #include <math.h>
@@ -26,6 +27,7 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mIsFiring(false)
 , mIsMarkedForRemoval(false)
 , mIsCollidingWithTank(false)
+, mIntersection(sf::FloatRect())
 , mFireRateLevel(1)
 , mTravelledDistance(0.f)
 , mAmountRotation(0.f)
@@ -109,6 +111,11 @@ void Tank::setIsCollidingWithTank(bool flag)
   mIsCollidingWithTank = flag;
 }
 
+void Tank::setIntersection(sf::FloatRect rect)
+{
+  mIntersection = rect;
+}
+
 void Tank::fire()
 {
 	// Only ships with fire interval != 0 are able to fire
@@ -119,6 +126,12 @@ void Tank::fire()
 void Tank::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mSprite, states);
+
+  sf::RectangleShape shape;
+	shape.setPosition(sf::Vector2f(mIntersection.left, mIntersection.top));
+	shape.setSize(sf::Vector2f(mIntersection.width, mIntersection.height));
+	shape.setFillColor(sf::Color::Red);
+	target.draw(shape);
 }
 
 void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
@@ -138,14 +151,24 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
 	updateMovementPattern(dt);
   if (mIsCollidingWithTank)
   {
-    /*// Collision solely by rotation: move tank away
-    if (getVelocity() == sf::Vector2f())
-      setVelocity(sf::Vector2f(1.f, 1.f) * getMaxMovementSpeed());
-    // Collision with velocity: reverse that velocity
-    else*/
-     // setVelocity(-getVelocity() * 2.f);
+    // Use the intersection to move the tank so as to remove that
+    // intersection
 
-    //setRotationOffset(-getRotationOffset() * 2.f);
+    // Edit velocity
+    sf::Vector2f velocity;
+    velocity.x = getMaxMovementSpeed() * 
+                 (getPosition().x > mIntersection.left) ? 1.f : -1.f;
+    velocity.y = getMaxMovementSpeed() *
+                 (getPosition().y > mIntersection.top) ? 1.f : -1.f;
+    setVelocity(velocity);
+    
+    // Edit position
+    sf::Vector2f positionOffset;
+    positionOffset.x = mIntersection.width * 
+                 (getPosition().x > mIntersection.left) ? 1.f : -1.f;
+    positionOffset.y = mIntersection.height *
+                 (getPosition().y > mIntersection.top) ? 1.f : -1.f;
+    setPosition(getPosition() + positionOffset);
 
     mIsCollidingWithTank = false;
   }

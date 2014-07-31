@@ -142,11 +142,12 @@ void World::handleCollisions()
       auto& player = static_cast<Tank&>(*pair.first);
       auto& enemy = static_cast<Tank&>(*pair.second);
 
-      player.damage(1);
-      // player.setIsCollidingWithTank(true);
-      // enemy.setIsCollidingWithTank(true);
-      // player.damage(enemy.getHitpoints() / 4);
-      // enemy.destroy();
+      sf::FloatRect intersection;
+      player.getBoundingRect().intersects(enemy.getBoundingRect(), intersection);
+      player.setIsCollidingWithTank(true);
+      player.setIntersection(intersection);
+      enemy.setIsCollidingWithTank(true);
+      enemy.setIntersection(intersection);
       std::cout << "collision\n";
     }
     else if (matchesCategories(pair, Category::EnemyTank, 
