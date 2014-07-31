@@ -25,6 +25,7 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mFireCountdown(sf::Time::Zero)
 , mIsFiring(false)
 , mIsMarkedForRemoval(false)
+, mIsCollidingWithTank(false)
 , mFireRateLevel(1)
 , mTravelledDistance(0.f)
 , mAmountRotation(0.f)
@@ -83,6 +84,11 @@ bool Tank::isMarkedForRemoval() const
 	return mIsMarkedForRemoval;
 }
 
+bool Tank::isCollidingWithTank() const
+{
+  return mIsCollidingWithTank;
+}
+
 bool Tank::isAllied() const
 {
   return mType == Type::DefaultTank;
@@ -96,6 +102,11 @@ float Tank::getMaxMovementSpeed() const
 float Tank::getMaxRotationSpeed() const
 {
   return Table[mType].rotationSpeed;
+}
+
+void Tank::setIsCollidingWithTank(bool flag)
+{
+  mIsCollidingWithTank = flag;
 }
 
 void Tank::fire()
@@ -122,8 +133,22 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
   // Check if bullets are fired
   checkProjectileLaunch(dt, commands);
 
-  // Update enemy movement pattern; apply velocity
+  // Update enemy movement pattern; react to collision with other tank;
+  // apply velocity
 	updateMovementPattern(dt);
+  if (mIsCollidingWithTank)
+  {
+    /*// Collision solely by rotation: move tank away
+    if (getVelocity() == sf::Vector2f())
+      setVelocity(sf::Vector2f(1.f, 1.f) * getMaxMovementSpeed());
+    // Collision with velocity: reverse that velocity
+    else*/
+     // setVelocity(-getVelocity() * 2.f);
+
+    //setRotationOffset(-getRotationOffset() * 2.f);
+
+    mIsCollidingWithTank = false;
+  }
 	Entity::updateCurrent(dt, commands);
   sf::Transformable::rotate(mRotationOffset * dt.asSeconds());
 

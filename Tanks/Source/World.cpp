@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <cmath>
 
+#include <iostream>
+
 
 World::World(sf::RenderWindow& window, FontHolder& fonts)
 : mWindow(window)
@@ -140,10 +142,12 @@ void World::handleCollisions()
       auto& player = static_cast<Tank&>(*pair.first);
       auto& enemy = static_cast<Tank&>(*pair.second);
 
-      // player.setPosition(player.getPosition().x - 10.f, player.getPosition().y - 10.f);
-      // player.setVelocity(-player.getVelocity());
-      player.damage(enemy.getHitpoints());
-      enemy.destroy();
+      player.damage(1);
+      // player.setIsCollidingWithTank(true);
+      // enemy.setIsCollidingWithTank(true);
+      // player.damage(enemy.getHitpoints() / 4);
+      // enemy.destroy();
+      std::cout << "collision\n";
     }
     else if (matchesCategories(pair, Category::EnemyTank, 
                                Category::AlliedProjectile)

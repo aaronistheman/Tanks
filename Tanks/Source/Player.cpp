@@ -19,7 +19,7 @@ struct TankMover
 
 	void operator() (Tank& tank, sf::Time) const
 	{
-		tank.accelerate(velocity);
+		tank.accelerate(velocity * tank.getMaxMovementSpeed());
 	}
 
 	sf::Vector2f velocity;
@@ -34,13 +34,14 @@ struct TankRotator
 
   void operator() (Tank& tank, sf::Time) const
   {
-    tank.rotate(offset);
+    tank.rotate(offset * tank.getMaxRotationSpeed());
   }
 
   float offset;
 };
 
 Player::Player()
+: mCurrentMissionStatus(MissionRunning)
 {
 	// Set initial key bindings
 	mKeyBinding[sf::Keyboard::Left] = MoveLeft;
@@ -119,15 +120,12 @@ Player::MissionStatus Player::getMissionStatus() const
 
 void Player::initializeActions()
 {
-	const float playerSpeed = 200.f;
-  const float playerRotationSpeed = 80.0f;
-
-	mActionBinding[MoveLeft].action	 = derivedAction<Tank>(TankMover(-playerSpeed, 0.f));
-	mActionBinding[MoveRight].action = derivedAction<Tank>(TankMover(+playerSpeed, 0.f));
-	mActionBinding[MoveUp].action    = derivedAction<Tank>(TankMover(0.f, -playerSpeed));
-	mActionBinding[MoveDown].action  = derivedAction<Tank>(TankMover(0.f, +playerSpeed));
-  mActionBinding[RotateLeft].action  = derivedAction<Tank>(TankRotator(-playerRotationSpeed));
-  mActionBinding[RotateRight].action = derivedAction<Tank>(TankRotator(playerRotationSpeed));
+	mActionBinding[MoveLeft].action	 = derivedAction<Tank>(TankMover(-1,  0));
+	mActionBinding[MoveRight].action = derivedAction<Tank>(TankMover(+1,  0));
+	mActionBinding[MoveUp].action    = derivedAction<Tank>(TankMover( 0, -1));
+	mActionBinding[MoveDown].action  = derivedAction<Tank>(TankMover( 0, +1));
+  mActionBinding[RotateLeft].action  = derivedAction<Tank>(TankRotator(-1));
+  mActionBinding[RotateRight].action = derivedAction<Tank>(TankRotator( 1));
 	mActionBinding[Fire].action        = derivedAction<Tank>([] (Tank& a, sf::Time){ a.fire(); });
 }
 
