@@ -8,6 +8,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 
 #include <cmath>
+#include <math.h>
 
 
 namespace
@@ -137,24 +138,43 @@ void Tank::updateMovementPattern(sf::Time dt)
   {
 		// Moved and rotated enough in current direction:
     // Change direction
-		if (mTravelledDistance > directions[mDirectionIndex].distance &&
-        mAmountRotation    > directions[mDirectionIndex].rotation)
+		if (mTravelledDistance >= directions[mDirectionIndex].distance &&
+        mAmountRotation    >= std::abs(directions[mDirectionIndex].rotation))
     {
       mDirectionIndex = (mDirectionIndex + 1) % directions.size();
       mTravelledDistance = 0.f;
       mAmountRotation    = 0.f;
     }
 
-    // Compute velocity from direction
-    float radians = toRadian(directions[mDirectionIndex].angle + 90.f);
-    float vx = getMaxMovementSpeed() * std::cos(radians);
-    float vy = getMaxMovementSpeed() * std::sin(radians);
-    setVelocity(vx, vy);
-    mTravelledDistance += getMaxMovementSpeed() * dt.asSeconds();
+    // Moved enough but haven't rotated enough: no more movement
+    // Implicitly handles a direction for zero distance
+    if (mTravelledDistance >= directions[mDirectionIndex].distance)
+    {
+      setVelocity(0.f, 0.f);
+    }
+    // Have not moved enough:
+    else
+    {
+      // Compute velocity from direction
+      float radians = toRadian(directions[mDirectionIndex].angle + 90.f);
+      float vx = getMaxMovementSpeed() * std::cos(radians);
+      float vy = getMaxMovementSpeed() * std::sin(radians);
+      setVelocity(vx, vy);
+      mTravelledDistance += getMaxMovementSpeed() * dt.asSeconds();
+    }
 
-    // Rotate (in degrees)
-    setRotationOffset(directions[mDirectionIndex].rotation);
-    mAmountRotation += getMaxRotationSpeed() * dt.asSeconds();
+    // Rotated enough but haven't moved enough: no more rotation
+    // Implicitly handles a direction for zero rotation
+    if (mAmountRotation >= std::abs(directions[mDirectionIndex].rotation))
+    {
+      setRotationOffset(0.f);
+    }
+    // Have not rotated enough:
+    else
+    {
+      setRotationOffset(directions[mDirectionIndex].rotation);
+      mAmountRotation += getMaxRotationSpeed() * dt.asSeconds();
+    }
   }
 }
 

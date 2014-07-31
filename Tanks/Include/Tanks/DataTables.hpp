@@ -10,14 +10,14 @@
 
 struct Direction
 {
-  Direction(float angle, float distance, float rotation)
-    : angle(angle)
+  Direction(float movementAngle, float distance, float rotation)
+    : angle(movementAngle)
     , distance(distance)
     , rotation(rotation)
   {
   }
 
-  float angle;
+  float angle; // gives the direction to move
   float distance;
   float rotation;
 };
