@@ -33,7 +33,6 @@ class World : private sf::NonCopyable
 		CommandQueue&						getCommandQueue();
 
 		bool 								hasAlivePlayer() const;
-		bool 								hasPlayerReachedEnd() const;
 
 
 	private:
@@ -44,11 +43,11 @@ class World : private sf::NonCopyable
 		
     void								buildScene();
     void                addEnemies();
-    void                addEnemy(Tank::Type type, float relX, float relY);
+    void                addEnemy(Tank::Type type, sf::Vector2f spawnPosition,
+                                 float rotation);
     void                spawnEnemies();
     void                destroyProjectilesOutsideView();
     sf::FloatRect       getViewBounds() const;
-    sf::FloatRect       getBattlefieldBounds() const;
 
 
 	private:
@@ -61,16 +60,18 @@ class World : private sf::NonCopyable
 
     struct SpawnPoint
     {
-      SpawnPoint(Tank::Type type, float x, float y)
+      SpawnPoint(Tank::Type type, float x, float y, float rotation)
         : type(type)
         , x(x)
         , y(y)
+        , r(rotation)
       {
       }
 
       Tank::Type type;
       float x;
       float y;
+      float r;
     };
 
 
@@ -85,7 +86,6 @@ class World : private sf::NonCopyable
 		CommandQueue						mCommandQueue;
 
 		sf::FloatRect						mWorldBounds;
-		sf::Vector2f						mSpawnPosition;
 		float								mScrollSpeed;
 		Tank*							mPlayerTank;
 

@@ -16,7 +16,6 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 , mSceneGraph()
 , mSceneLayers()
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
-, mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
 , mScrollSpeed(0.0f)
 , mPlayerTank(nullptr)
 {
@@ -24,7 +23,8 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 	buildScene();
 
 	// Prepare the view
-	mWorldView.setCenter(mSpawnPosition);
+	mWorldView.setCenter(mWorldView.getSize().x / 2.f, 
+                       mWorldBounds.height - mWorldView.getSize().y / 2.f);
 }
 
 void World::update(sf::Time dt)
@@ -69,11 +69,6 @@ bool World::hasAlivePlayer() const
 	return !mPlayerTank->isMarkedForRemoval();
 }
 
-/*bool World::hasPlayerReachedEnd() const
-{
-	return !mWorldBounds.contains(mPlayerAircraft->getPosition());
-}*/
-
 void World::loadTextures()
 {
 	mTextures.load(Textures::DefaultTank, "Media/Textures/DefaultTank.png");
@@ -87,7 +82,6 @@ void World::adaptPlayerPosition()
 {
 	// Keep player's position inside the screen bounds, at least borderDistance units from the border
 	sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
-	// const float borderDistance = 40.f;
   const float borderDistance = 50.f;
 
 	sf::Vector2f position = mPlayerTank->getPosition();
@@ -162,6 +156,15 @@ void World::handleCollisions()
       tank.damage(projectile.getDamage());
       projectile.destroy();
     }
+    else if (matchesCategories(pair, Category::AlliedProjectile,
+                               Category::EnemyProjectile))
+    {
+      auto& projectile1 = static_cast<Projectile&>(*pair.first);
+      auto& projectile2 = static_cast<Projectile&>(*pair.second);
+
+      projectile1.destroy();
+      projectile2.destroy();
+    }
   }
 }
 
@@ -191,7 +194,8 @@ void World::buildScene()
 	// Add player's tank
 	std::unique_ptr<Tank> leader(new Tank(Tank::DefaultTank, mTextures, mFonts));
 	mPlayerTank = leader.get();
-	mPlayerTank->setPosition(mSpawnPosition);
+	mPlayerTank->setPosition(sf::Vector2f(800.f, 60.f));
+  mPlayerTank->setRotation(180.f);
 	mSceneLayers[Air]->attachChild(std::move(leader));
 
 	// Add enemy aircraft
@@ -201,8 +205,10 @@ void World::buildScene()
 void World::addEnemies()
 {
   // Add enemies to the spawn point container
-  addEnemy(Tank::EnemyTank, -150.f, -120.f);
-  addEnemy(Tank::EnemyTank, 150.f, 80.f);
+  addEnemy(Tank::EnemyTank, sf::Vector2f(300.f, 250.f), 90.f);
+  addEnemy(Tank::EnemyTank, sf::Vector2f(950.f, 340.f), 270.f);
+  addEnemy(Tank::EnemyTank, sf::Vector2f(400.f, 500.f), 45.f);
+  addEnemy(Tank::EnemyTank, sf::Vector2f(800.f, 480.f), 270.f);
 
   // Sort all enemies according to their y value, such that lower enemies are checked first for spawning
 	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), [] (SpawnPoint lhs, SpawnPoint rhs)
@@ -211,9 +217,10 @@ void World::addEnemies()
 	});
 }
 
-void World::addEnemy(Tank::Type type, float relX, float relY)
+void World::addEnemy(Tank::Type type, sf::Vector2f spawnPosition,
+                     float rotation)
 {
-	SpawnPoint spawn(type, mSpawnPosition.x + relX, mSpawnPosition.y - relY);
+	SpawnPoint spawn(type, spawnPosition.x, spawnPosition.y, rotation);
 	mEnemySpawnPoints.push_back(spawn);
 }
 
@@ -225,7 +232,7 @@ void World::spawnEnemies()
 
     std::unique_ptr<Tank> enemy(new Tank(spawn.type, mTextures, mFonts));
     enemy->setPosition(spawn.x, spawn.y);
-    enemy->setRotation(180.f);
+    enemy->setRotation(spawn.r);
 
     mSceneLayers[Air]->attachChild(std::move(enemy));
 
@@ -249,19 +256,9 @@ void World::destroyProjectilesOutsideView()
 
 sf::FloatRect World::getViewBounds() const
 {
-  sf::FloatRect rect(mWorldView.getCenter() - mWorldView.getSize() / 2.f + sf::Vector2f(100.f, 100.f), 
-                     mWorldView.getSize() - sf::Vector2f(200.f, 200.f));
-  return rect;
+  // sf::FloatRect rect(mWorldView.getCenter() - mWorldView.getSize() / 2.f + sf::Vector2f(100.f, 100.f), 
+  //                    mWorldView.getSize() - sf::Vector2f(200.f, 200.f));
+  // return rect;
 
 	return sf::FloatRect(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
-}
-
-sf::FloatRect World::getBattlefieldBounds() const
-{
-  // Return view bounds + some area at top, where enemies spawn
-	sf::FloatRect bounds = getViewBounds();
-	bounds.top -= 100.f;
-	bounds.height += 100.f;
-
-	return bounds;
 }
