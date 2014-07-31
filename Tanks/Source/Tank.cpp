@@ -6,7 +6,6 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
 
 #include <cmath>
 #include <math.h>
@@ -126,12 +125,6 @@ void Tank::fire()
 void Tank::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mSprite, states);
-
-  sf::RectangleShape shape;
-	shape.setPosition(sf::Vector2f(mIntersection.left, mIntersection.top));
-	shape.setSize(sf::Vector2f(mIntersection.width, mIntersection.height));
-	shape.setFillColor(sf::Color::Red);
-	target.draw(shape);
 }
 
 void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)

@@ -20,6 +20,8 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
 , mScrollSpeed(0.0f)
 , mPlayerTank(nullptr)
+, mEnemySpawnPoints()
+, mActiveEnemies()
 {
 	loadTextures();
 	buildScene();
@@ -36,7 +38,9 @@ void World::update(sf::Time dt)
 	mPlayerTank->setVelocity(0.f, 0.f);
   mPlayerTank->setRotationOffset(0.f);
 
+  // These further update mCommandQueue
   destroyProjectilesOutsideView();
+  updateActiveEnemies();
 
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
 	while (!mCommandQueue.isEmpty())
@@ -52,7 +56,7 @@ void World::update(sf::Time dt)
 
 	// Regular update step, adapt position (correct if outside view)
 	mSceneGraph.update(dt, mCommandQueue);
-	adaptPlayerPosition();
+	adaptTankPositions();
 }
 
 void World::draw()
@@ -80,18 +84,31 @@ void World::loadTextures()
   mTextures.load(Textures::Bullet, "Media/Textures/Bullet.png");
 }
 
-void World::adaptPlayerPosition()
+void World::adaptTankPositions()
 {
-	// Keep player's position inside the screen bounds, at least borderDistance units from the border
+	// Keep all tanks' positions inside the screen bounds, 
+  // at least borderDistance units from the border
 	sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
   const float borderDistance = 50.f;
 
+  // Handle player's tank
 	sf::Vector2f position = mPlayerTank->getPosition();
 	position.x = std::max(position.x, viewBounds.left + borderDistance);
 	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
 	position.y = std::max(position.y, viewBounds.top + borderDistance);
 	position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
 	mPlayerTank->setPosition(position);
+
+  // Handle enemy tanks
+  FOREACH(Tank* enemyTank, mActiveEnemies)
+  {
+    sf::Vector2f position = enemyTank->getPosition();
+	  position.x = std::max(position.x, viewBounds.left + borderDistance);
+	  position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
+	  position.y = std::max(position.y, viewBounds.top + borderDistance);
+	  position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
+	  enemyTank->setPosition(position);
+  }
 }
 
 void World::adaptPlayerVelocity()
@@ -142,6 +159,7 @@ void World::handleCollisions()
       auto& player = static_cast<Tank&>(*pair.first);
       auto& enemy = static_cast<Tank&>(*pair.second);
 
+      // Update the intersection rectangles of both tanks
       sf::FloatRect intersection;
       player.getBoundingRect().intersects(enemy.getBoundingRect(), intersection);
       player.setIsCollidingWithTank(true);
@@ -259,11 +277,22 @@ void World::destroyProjectilesOutsideView()
   mCommandQueue.push(command);
 }
 
+void World::updateActiveEnemies()
+{
+  mActiveEnemies.clear();
+
+  Command enemyCollector;
+  enemyCollector.category = Category::EnemyTank;
+	enemyCollector.action = derivedAction<Tank>([this] (Tank& enemy, sf::Time)
+	{
+		if (!enemy.isDestroyed())
+			mActiveEnemies.push_back(&enemy);
+	});
+
+  mCommandQueue.push(enemyCollector);
+}
+
 sf::FloatRect World::getViewBounds() const
 {
-  // sf::FloatRect rect(mWorldView.getCenter() - mWorldView.getSize() / 2.f + sf::Vector2f(100.f, 100.f), 
-  //                    mWorldView.getSize() - sf::Vector2f(200.f, 200.f));
-  // return rect;
-
 	return sf::FloatRect(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
 }

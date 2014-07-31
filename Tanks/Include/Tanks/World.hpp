@@ -37,7 +37,7 @@ class World : private sf::NonCopyable
 
 	private:
 		void								loadTextures();
-		void								adaptPlayerPosition();
+		void								adaptTankPositions();
 		void								adaptPlayerVelocity();
     void                handleCollisions();
 		
@@ -47,6 +47,7 @@ class World : private sf::NonCopyable
                                  float rotation);
     void                spawnEnemies();
     void                destroyProjectilesOutsideView();
+    void                updateActiveEnemies();
     sf::FloatRect       getViewBounds() const;
 
 
@@ -90,6 +91,7 @@ class World : private sf::NonCopyable
 		Tank*							mPlayerTank;
 
     std::vector<SpawnPoint>     mEnemySpawnPoints;
+		std::vector<Tank*>				mActiveEnemies;
 };
 
 #endif // TANKS_WORLD_HPP
