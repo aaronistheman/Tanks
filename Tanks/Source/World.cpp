@@ -38,7 +38,7 @@ void World::update(sf::Time dt)
 	mPlayerTank->setVelocity(0.f, 0.f);
   mPlayerTank->setRotationOffset(0.f);
 
-  // These further update mCommandQueue
+  // These further update mCommandQueue 
   destroyProjectilesOutsideView();
   updateActiveEnemies();
 
@@ -50,9 +50,8 @@ void World::update(sf::Time dt)
   // Collision detection and response (may destroy entities)
 	handleCollisions();
 
-  // Remove all destroyed entities, create new ones
+  // Remove all destroyed entities
 	mSceneGraph.removeWrecks();
-  spawnEnemies();
 
 	// Regular update step, adapt position (correct if outside view)
 	mSceneGraph.update(dt, mCommandQueue);
@@ -73,6 +72,11 @@ CommandQueue& World::getCommandQueue()
 bool World::hasAlivePlayer() const
 {
 	return !mPlayerTank->isMarkedForRemoval();
+}
+
+bool World::hasAliveEnemy() const
+{
+  return mActiveEnemies.size() > 0;
 }
 
 void World::loadTextures()
@@ -159,6 +163,9 @@ void World::handleCollisions()
       auto& player = static_cast<Tank&>(*pair.first);
       auto& enemy = static_cast<Tank&>(*pair.second);
 
+      // Penalty to prevent abuse of pushing tanks
+      player.damage(1);
+
       // Update the intersection rectangles of both tanks
       sf::FloatRect intersection;
       player.getBoundingRect().intersects(enemy.getBoundingRect(), intersection);
@@ -166,7 +173,6 @@ void World::handleCollisions()
       player.setIntersection(intersection);
       enemy.setIsCollidingWithTank(true);
       enemy.setIntersection(intersection);
-      std::cout << "collision\n";
     }
     else if (matchesCategories(pair, Category::EnemyTank, 
                                Category::AlliedProjectile)
@@ -223,6 +229,7 @@ void World::buildScene()
 
 	// Add enemy aircraft
 	addEnemies();
+  spawnEnemies();
 }
 
 void World::addEnemies()
@@ -232,12 +239,6 @@ void World::addEnemies()
   addEnemy(Tank::EnemyTank, sf::Vector2f(950.f, 340.f), 270.f);
   addEnemy(Tank::EnemyTank, sf::Vector2f(400.f, 500.f), 45.f);
   addEnemy(Tank::EnemyTank, sf::Vector2f(800.f, 480.f), 270.f);
-
-  // Sort all enemies according to their y value, such that lower enemies are checked first for spawning
-	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), [] (SpawnPoint lhs, SpawnPoint rhs)
-	{
-		return lhs.y < rhs.y;
-	});
 }
 
 void World::addEnemy(Tank::Type type, sf::Vector2f spawnPosition,

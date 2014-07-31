@@ -17,10 +17,10 @@ std::vector<TankData> initializeTankData()
   data[Tank::EnemyTank].rotationSpeed = 60.f;
   data[Tank::EnemyTank].texture = Textures::EnemyTank;
   data[Tank::EnemyTank].fireInterval = sf::seconds(2);
-  // data[Tank::EnemyTank].directions.push_back(Direction( 90, 50, 30));
-  // data[Tank::EnemyTank].directions.push_back(Direction( 0, 50, -60));
-  // data[Tank::EnemyTank].directions.push_back(Direction( 270, 50, 60));
-  // data[Tank::EnemyTank].directions.push_back(Direction( 180, 50, -30));
+  data[Tank::EnemyTank].directions.push_back(Direction( 90, 50, 30));
+  data[Tank::EnemyTank].directions.push_back(Direction( 0, 50, -60));
+  data[Tank::EnemyTank].directions.push_back(Direction( 270, 50, 60));
+  data[Tank::EnemyTank].directions.push_back(Direction( 180, 50, -30));
 
   return data;
 }
@@ -36,10 +36,6 @@ std::vector<ProjectileData> initializeProjectileData()
 	data[Projectile::EnemyBullet].damage = 10;
 	data[Projectile::EnemyBullet].speed = 300.f;
 	data[Projectile::EnemyBullet].texture = Textures::Bullet;
-
-	// data[Projectile::Missile].damage = 200;
-	// data[Projectile::Missile].speed = 150.f;
-	// data[Projectile::Missile].texture = Textures::Missile;
 
 	return data;
 }

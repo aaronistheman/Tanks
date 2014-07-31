@@ -33,6 +33,7 @@ class World : private sf::NonCopyable
 		CommandQueue&						getCommandQueue();
 
 		bool 								hasAlivePlayer() const;
+    bool                hasAliveEnemy() const;
 
 
 	private:
