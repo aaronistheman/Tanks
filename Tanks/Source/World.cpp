@@ -22,6 +22,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 , mPlayerTank(nullptr)
 , mEnemySpawnPoints()
 , mActiveEnemies()
+, mHuntingEnemies()
 {
 	loadTextures();
 	buildScene();
@@ -41,6 +42,7 @@ void World::update(sf::Time dt)
   // These further update mCommandQueue 
   destroyProjectilesOutsideView();
   updateActiveEnemies();
+  updateHuntingEnemies();
 
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
 	while (!mCommandQueue.isEmpty())
@@ -82,7 +84,8 @@ bool World::hasAliveEnemy() const
 void World::loadTextures()
 {
 	mTextures.load(Textures::DefaultTank, "Media/Textures/DefaultTank.png");
-  mTextures.load(Textures::EnemyTank, "Media/Textures/EnemyTank.png");
+  mTextures.load(Textures::EnemyTank1, "Media/Textures/EnemyTank1.png");
+  mTextures.load(Textures::EnemyTank2, "Media/Textures/EnemyTank2.png");
   mTextures.load(Textures::Metal, "Media/Textures/Metal.png");
 
   mTextures.load(Textures::Bullet, "Media/Textures/Bullet.png");
@@ -185,7 +188,7 @@ void World::handleCollisions()
       tank.damage(projectile.getDamage());
       projectile.destroy();
     }
-    else if (matchesCategories(pair, Category::AlliedProjectile,
+    /*else if (matchesCategories(pair, Category::AlliedProjectile,
                                Category::EnemyProjectile))
     {
       auto& projectile1 = static_cast<Projectile&>(*pair.first);
@@ -193,7 +196,7 @@ void World::handleCollisions()
 
       projectile1.destroy();
       projectile2.destroy();
-    }
+    }*/
   }
 }
 
@@ -223,7 +226,7 @@ void World::buildScene()
 	// Add player's tank
 	std::unique_ptr<Tank> leader(new Tank(Tank::DefaultTank, mTextures, mFonts));
 	mPlayerTank = leader.get();
-	mPlayerTank->setPosition(sf::Vector2f(800.f, 60.f));
+	mPlayerTank->setPosition(mWorldView.getCenter());
   mPlayerTank->setRotation(180.f);
 	mSceneLayers[Air]->attachChild(std::move(leader));
 
@@ -235,10 +238,11 @@ void World::buildScene()
 void World::addEnemies()
 {
   // Add enemies to the spawn point container
-  addEnemy(Tank::EnemyTank, sf::Vector2f(300.f, 250.f), 90.f);
-  addEnemy(Tank::EnemyTank, sf::Vector2f(950.f, 340.f), 270.f);
-  addEnemy(Tank::EnemyTank, sf::Vector2f(400.f, 500.f), 45.f);
-  addEnemy(Tank::EnemyTank, sf::Vector2f(800.f, 480.f), 270.f);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(300.f, 250.f), 90.f);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(800.f, 480.f), 270.f);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(600.f, 250.f), 0.f);
 }
 
 void World::addEnemy(Tank::Type type, sf::Vector2f spawnPosition,
@@ -291,6 +295,47 @@ void World::updateActiveEnemies()
 	});
 
   mCommandQueue.push(enemyCollector);
+}
+
+void World::updateHuntingEnemies()
+{
+  // Update the movements of enemy tanks that move towards the player
+
+  // Setup command that stores all hunting enemies in mHuntingEnemies
+  /*Command huntingEnemyCollector;
+  huntingEnemyCollector.category = Category::EnemyTank;
+  huntingEnemyCollector.action = derivedAction<Tank>([this] (Tank& enemy, sf::Time)
+  {
+    if (enemy.isMovingTowardsPlayer() && !enemy.isDestroyed())
+      mHuntingEnemies.push_back(&enemy);
+  });*/
+
+  // Setup command that guides all hunting enemies towards the player
+  Command huntingEnemyGuider;
+  huntingEnemyGuider.category = Category::EnemyTank;
+  huntingEnemyGuider.action = derivedAction<Tank>([this] (Tank& enemy, sf::Time)
+  {
+    if (enemy.isMovingTowardsPlayer() && !enemy.isDestroyed())
+    {
+      sf::Vector2f velocity = sf::Vector2f(0.f, 0.f);
+
+      // Update left/right movement
+      if (enemy.getPosition().x > mPlayerTank->getPosition().x)
+        velocity.x -= enemy.getMaxMovementSpeed();
+      else if (enemy.getPosition().x < mPlayerTank->getPosition().x)
+        velocity.x += enemy.getMaxMovementSpeed();
+
+      // Update up/down movement
+      if (enemy.getPosition().y > mPlayerTank->getPosition().y)
+        velocity.y -= enemy.getMaxMovementSpeed();
+      else if (enemy.getPosition().y < mPlayerTank->getPosition().y)
+        velocity.y += enemy.getMaxMovementSpeed();
+
+      enemy.setVelocity(velocity);
+    }
+  });
+
+  mCommandQueue.push(huntingEnemyGuider);
 }
 
 sf::FloatRect World::getViewBounds() const

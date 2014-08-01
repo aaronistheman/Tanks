@@ -11,9 +11,12 @@ namespace Category
 		SceneAirLayer	 = 1 << 0,
 		PlayerTank		= 1 << 1,
 		AlliedTank		= 1 << 2,
-		EnemyTank		= 1 << 3,
-    AlliedProjectile = 1 << 4,
-    EnemyProjectile  = 1 << 5,
+		EnemyTank1		= 1 << 3,
+    EnemyTank2    = 1 << 4,
+    AlliedProjectile = 1 << 5,
+    EnemyProjectile  = 1 << 6,
+
+    EnemyTank = EnemyTank1 | EnemyTank2,
 
     Tank = PlayerTank | AlliedTank | EnemyTank,
 		Projectile = AlliedProjectile | EnemyProjectile,

@@ -41,11 +41,14 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
     createBullets(node, textures);
   };
 
-  std::unique_ptr<TextNode> healthDisplay(new TextNode(fonts, ""));
-  mHealthDisplay = healthDisplay.get();
-  attachChild(std::move(healthDisplay));
+  // if (mType == Type::DefaultTank)
+  // {
+    std::unique_ptr<TextNode> healthDisplay(new TextNode(fonts, ""));
+    mHealthDisplay = healthDisplay.get();
+    attachChild(std::move(healthDisplay));
 
-  updateTexts();
+    updateTexts();
+  // }
 }
 
 void Tank::setRotationOffset(float angle)
@@ -70,6 +73,12 @@ unsigned int Tank::getCategory() const
 		case DefaultTank:
 			return Category::PlayerTank;
 
+    case EnemyTank1:
+      return Category::EnemyTank1;
+
+    case EnemyTank2:
+      return Category::EnemyTank2;
+
 		default:
 			return Category::EnemyTank;
 	}
@@ -93,6 +102,11 @@ bool Tank::isCollidingWithTank() const
 bool Tank::isAllied() const
 {
   return mType == Type::DefaultTank;
+}
+
+bool Tank::isMovingTowardsPlayer() const
+{
+  return mType == Type::EnemyTank2;
 }
 
 float Tank::getMaxMovementSpeed() const
@@ -169,7 +183,10 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
   sf::Transformable::rotate(mRotationOffset * dt.asSeconds());
 
   // Update texts
-  updateTexts();
+  // if (mType == Type::DefaultTank)
+  // {
+    updateTexts();
+  // }
 }
 
 void Tank::updateMovementPattern(sf::Time dt)

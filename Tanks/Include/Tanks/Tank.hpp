@@ -16,7 +16,8 @@ class Tank : public Entity
     enum Type
     {
       DefaultTank,
-      EnemyTank,
+      EnemyTank1,
+      EnemyTank2,
       TypeCount
     };
 
@@ -32,6 +33,7 @@ class Tank : public Entity
     virtual bool          isMarkedForRemoval() const;
     virtual bool          isCollidingWithTank() const;
     bool                  isAllied() const;
+    bool                  isMovingTowardsPlayer() const;
     float                 getMaxMovementSpeed() const;
     float                 getMaxRotationSpeed() const;
 
