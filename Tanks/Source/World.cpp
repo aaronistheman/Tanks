@@ -239,11 +239,12 @@ void World::buildScene()
 void World::addEnemies()
 {
   // Add enemies to the spawn point container
-  // addEnemy(Tank::EnemyTank1, sf::Vector2f(300.f, 250.f), 90.f);
+  // addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f);
   // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f);
   // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f);
-  // addEnemy(Tank::EnemyTank2, sf::Vector2f(800.f, 480.f), 270.f);
-  addEnemy(Tank::EnemyTank2, sf::Vector2f(600.f, 250.f), 0.f);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f);
 }
 
 void World::addEnemy(Tank::Type type, sf::Vector2f spawnPosition,

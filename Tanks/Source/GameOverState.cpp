@@ -43,9 +43,9 @@ void GameOverState::draw()
 
 bool GameOverState::update(sf::Time dt)
 {
-	// Show state for 3 seconds, after return to menu
+	// Show state for 1.5 seconds, after return to menu
 	mElapsedTime += dt;
-	if (mElapsedTime > sf::seconds(3))
+	if (mElapsedTime > sf::seconds(1.5))
 	{
 		requestStateClear();
 		requestStackPush(States::Menu);
