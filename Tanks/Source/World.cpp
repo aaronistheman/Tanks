@@ -242,7 +242,7 @@ void World::addEnemies()
   // addEnemy(Tank::EnemyTank1, sf::Vector2f(300.f, 250.f), 90.f);
   // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f);
   // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f);
-  addEnemy(Tank::EnemyTank2, sf::Vector2f(800.f, 480.f), 270.f);
+  // addEnemy(Tank::EnemyTank2, sf::Vector2f(800.f, 480.f), 270.f);
   addEnemy(Tank::EnemyTank2, sf::Vector2f(600.f, 250.f), 0.f);
 }
 
@@ -301,16 +301,7 @@ void World::updateActiveEnemies()
 void World::updateHuntingEnemies()
 {
   // Update the movements of enemy tanks that move towards the player
-
-  // Setup command that stores all hunting enemies in mHuntingEnemies
-  /*Command huntingEnemyCollector;
-  huntingEnemyCollector.category = Category::EnemyTank;
-  huntingEnemyCollector.action = derivedAction<Tank>([this] (Tank& enemy, sf::Time)
-  {
-    if (enemy.isMovingTowardsPlayer() && !enemy.isDestroyed())
-      mHuntingEnemies.push_back(&enemy);
-  });*/
-
+  
   // Setup command that guides all hunting enemies towards the player
   Command huntingEnemyGuider;
   huntingEnemyGuider.category = Category::EnemyTank;
@@ -332,20 +323,20 @@ void World::updateHuntingEnemies()
       else if (enemy.getPosition().y < mPlayerTank->getPosition().y)
         velocity.y += enemy.getMaxMovementSpeed();
 
-      // Update rotation
+      // Update rotation; multiply height by negative one to counter SFML's
+      // upside down y-axis
       float widthBetweenEnemyAndPlayer = 
-        enemy.getPosition().x - mPlayerTank->getPosition().x;
+        mPlayerTank->getPosition().x - enemy.getPosition().x;
       float heightBetweenEnemyAndPlayer =
-        enemy.getPosition().y - mPlayerTank->getPosition().y;
+        (mPlayerTank->getPosition().y - enemy.getPosition().y) * -1;
       
       // Use desiredAngle to calculate the needed rotation offset
       float desiredAngle = 
-        std::atan(heightBetweenEnemyAndPlayer / widthBetweenEnemyAndPlayer);
-      float rotationOffset = (fixAngleToRange(toDegree(desiredAngle)) - toDegree(toTrigAngle(enemy.getRotation())) < 180.f)
-        ? 1.f : -1.f;
-      
-      if (rotationOffset == -1.f)
-        std::cout << "rotationOffset == -1.f\n";
+        toDegree(arctan(heightBetweenEnemyAndPlayer, widthBetweenEnemyAndPlayer));
+      float currentRotationAngle = toTrigAngle(enemy.getRotation());
+      float rotationOffset = 
+        (fixAngleToRangeDegrees(desiredAngle - currentRotationAngle) < 180.f) 
+        ? -1.f : 1.f;
 
       enemy.setVelocity(velocity);
       enemy.setRotationOffset(rotationOffset * enemy.getMaxRotationSpeed());

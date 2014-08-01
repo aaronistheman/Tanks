@@ -42,10 +42,17 @@ sf::Vector2f	unitVector(sf::Vector2f vector);
 // Because SFML's angles used in rotation are different from
 // the nature of typical trigonometry angles, this function
 // is necessary for using trig functions from <cmath>.
-float     toTrigAngle(float degree);
+// Keeps angle in degrees.
+float     toTrigAngle(float angleInDegreesSFML);
 
-// Edit the angle to be in the range 0 to 360 degrees
-float     fixAngleToRange(float angleInDegrees);
+// Edit the angle to be in the range [0, 360) degrees
+float     fixAngleToRangeDegrees(float angleInDegrees);
+
+// Edit the angle to be in the range [0, 2 * pi) radians
+float     fixAngleToRangeRadians(float angleInRadians);
+
+// Arctangent function with output range [0, 2 * pi) in radians
+float     arctan(float height, float width);
 
 #include <Tanks/Utility.inl>
 #endif // TANKS_UTILITY_HPP

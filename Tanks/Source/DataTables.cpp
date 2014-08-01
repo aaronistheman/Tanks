@@ -23,14 +23,11 @@ std::vector<TankData> initializeTankData()
   data[Tank::EnemyTank1].directions.push_back(Direction( 180, 50, -30));
 
   data[Tank::EnemyTank2].hitpoints = 60;
-  data[Tank::EnemyTank2].movementSpeed = 10.f;
+  data[Tank::EnemyTank2].movementSpeed = 60.f;
   data[Tank::EnemyTank2].rotationSpeed = 100.f;
   data[Tank::EnemyTank2].texture = Textures::EnemyTank2;
   data[Tank::EnemyTank2].fireInterval = sf::seconds(0.9);
-  // data[Tank::EnemyTank2].directions.push_back(Direction( 90, 50, 30));
-  // data[Tank::EnemyTank2].directions.push_back(Direction( 0, 50, -60));
-  // data[Tank::EnemyTank2].directions.push_back(Direction( 270, 50, 60));
-  // data[Tank::EnemyTank2].directions.push_back(Direction( 180, 50, -30));
+  // no directions -- this tank hunts the main player
 
   return data;
 }

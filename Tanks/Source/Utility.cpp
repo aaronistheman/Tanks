@@ -178,20 +178,72 @@ sf::Vector2f unitVector(sf::Vector2f vector)
 	return vector / length(vector);
 }
 
-float toTrigAngle(float degree)
+float toTrigAngle(float angleInDegreesSFML)
 {
-  if (degree <= 90)
-    return (90 - degree);
-  else /* (degree > 90) */
-    return (450 - degree);
+  if (angleInDegreesSFML <= 90)
+    return (90 - angleInDegreesSFML);
+  else /* (angleInDegreesSFML > 90) */
+    return (450 - angleInDegreesSFML);
 }
 
-float fixAngleToRange(float angleInDegrees)
+float fixAngleToRangeDegrees(float angleInDegrees)
 {
   while (angleInDegrees < 0.f)
     angleInDegrees += 360.f;
-  while (angleInDegrees > 360.f)
+  while (angleInDegrees >= 360.f)
     angleInDegrees -= 360.f;
 
   return angleInDegrees;
+}
+
+float fixAngleToRangeRadians(float angleInRadians)
+{
+  while (angleInRadians < 0.f)
+    angleInRadians += 2.f * 3.141592653589793238462643383f;
+  while (angleInRadians >= 2.f * 3.141592653589793238462643383f)
+    angleInRadians -= 2.f * 3.141592653589793238462643383f;
+
+  return angleInRadians;
+}
+
+float arctan(float height, float width)
+{
+  // Because the default range of std::atan only contains geometric
+  // quadrants 1 and 4, we check if, based on the height and
+  // width, the angle should actually be in quadrants 2 or 3 (or
+  // still 1 or 4).
+  // This method achieves the full range of [0, 2 * pi].
+
+  // Deal with either a height or width of 0;
+  // implicitly avoids risk of division by zero
+  if (height == 0 && width > 0)
+    return 0.f;
+  else if (height > 0 && width == 0)
+    return 3.141592653589793238462643383f / 2.f;
+  else if (height == 0 && width < 0)
+    return 3.141592653589793238462643383f;
+  else if (height < 0 && width == 0)
+    return 3.141592653589793238462643383f * 3.f / 2.f;
+  else if (height == 0 && width == 0)
+    return 0.f;
+
+  // Get the angle in radians within default range [-pi, pi]
+  float angle = std::atan(height / width);
+  angle = fixAngleToRangeRadians(angle);
+
+  // Quadrant 1:
+  if (height > 0 && width > 0)
+    return angle;
+  
+  // Quadrant 2 (treated as Quadrant 4 by std::atan):
+  else if (height > 0 && width < 0)
+    return angle - 3.141592653589793238462643383f;
+
+  // Quadrant 3 (treated as Quadrant 1 by std::atan):
+  else if (height < 0 && width < 0)
+    return angle + 3.141592653589793238462643383f;
+
+  // Quadrant 4:
+  else /* (height < 0 && width > 0) */
+    return angle;
 }
