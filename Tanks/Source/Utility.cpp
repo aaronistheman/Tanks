@@ -185,3 +185,13 @@ float toTrigAngle(float degree)
   else /* (degree > 90) */
     return (450 - degree);
 }
+
+float fixAngleToRange(float angleInDegrees)
+{
+  while (angleInDegrees < 0.f)
+    angleInDegrees += 360.f;
+  while (angleInDegrees > 360.f)
+    angleInDegrees -= 360.f;
+
+  return angleInDegrees;
+}

@@ -44,5 +44,8 @@ sf::Vector2f	unitVector(sf::Vector2f vector);
 // is necessary for using trig functions from <cmath>.
 float     toTrigAngle(float degree);
 
+// Edit the angle to be in the range 0 to 360 degrees
+float     fixAngleToRange(float angleInDegrees);
+
 #include <Tanks/Utility.inl>
 #endif // TANKS_UTILITY_HPP

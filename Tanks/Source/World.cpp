@@ -1,6 +1,7 @@
 #include <Tanks/World.hpp>
 #include <Tanks/Foreach.hpp>
 #include <Tanks/Category.hpp>
+#include <Tanks/Utility.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -238,9 +239,9 @@ void World::buildScene()
 void World::addEnemies()
 {
   // Add enemies to the spawn point container
-  addEnemy(Tank::EnemyTank1, sf::Vector2f(300.f, 250.f), 90.f);
-  addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f);
-  addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f);
+  // addEnemy(Tank::EnemyTank1, sf::Vector2f(300.f, 250.f), 90.f);
+  // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f);
+  // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f);
   addEnemy(Tank::EnemyTank2, sf::Vector2f(800.f, 480.f), 270.f);
   addEnemy(Tank::EnemyTank2, sf::Vector2f(600.f, 250.f), 0.f);
 }
@@ -331,7 +332,23 @@ void World::updateHuntingEnemies()
       else if (enemy.getPosition().y < mPlayerTank->getPosition().y)
         velocity.y += enemy.getMaxMovementSpeed();
 
+      // Update rotation
+      float widthBetweenEnemyAndPlayer = 
+        enemy.getPosition().x - mPlayerTank->getPosition().x;
+      float heightBetweenEnemyAndPlayer =
+        enemy.getPosition().y - mPlayerTank->getPosition().y;
+      
+      // Use desiredAngle to calculate the needed rotation offset
+      float desiredAngle = 
+        std::atan(heightBetweenEnemyAndPlayer / widthBetweenEnemyAndPlayer);
+      float rotationOffset = (fixAngleToRange(toDegree(desiredAngle)) - toDegree(toTrigAngle(enemy.getRotation())) < 180.f)
+        ? 1.f : -1.f;
+      
+      if (rotationOffset == -1.f)
+        std::cout << "rotationOffset == -1.f\n";
+
       enemy.setVelocity(velocity);
+      enemy.setRotationOffset(rotationOffset * enemy.getMaxRotationSpeed());
     }
   });
 
