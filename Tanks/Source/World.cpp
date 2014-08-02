@@ -178,6 +178,19 @@ void World::handleCollisions()
       enemy.setIsCollidingWithTank(true);
       enemy.setIntersection(intersection);
     }
+    else if (matchesCategories(pair, Category::EnemyTank, Category::EnemyTank))
+    {
+      auto& enemy1 = static_cast<Tank&>(*pair.first);
+      auto& enemy2 = static_cast<Tank&>(*pair.second);
+
+      // Update the intersection rectangles of both tanks
+      sf::FloatRect intersection;
+      enemy1.getBoundingRect().intersects(enemy2.getBoundingRect(), intersection);
+      enemy1.setIsCollidingWithTank(true);
+      enemy1.setIntersection(intersection);
+      enemy2.setIsCollidingWithTank(true);
+      enemy2.setIntersection(intersection);
+    }
     else if (matchesCategories(pair, Category::EnemyTank, 
                                Category::AlliedProjectile)
              || matchesCategories(pair, Category::PlayerTank,
@@ -231,7 +244,7 @@ void World::buildScene()
   mPlayerTank->setRotation(180.f);
 	mSceneLayers[Air]->attachChild(std::move(leader));
 
-	// Add enemy aircraft
+	// Add enemy tanks
 	addEnemies();
   spawnEnemies();
 }
@@ -239,9 +252,9 @@ void World::buildScene()
 void World::addEnemies()
 {
   // Add enemies to the spawn point container
-  // addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f);
-  // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f);
-  // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f);
   addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f);
   addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f);
   addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f);
