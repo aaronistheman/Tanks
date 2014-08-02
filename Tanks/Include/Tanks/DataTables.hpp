@@ -3,6 +3,7 @@
 
 #include <Tanks/ResourceIdentifiers.hpp>
 
+#include <SFML/System/Vector2.hpp>
 #include <SFML/System/Time.hpp>
 
 #include <vector>
@@ -29,6 +30,7 @@ struct TankData
   float           rotationSpeed;
   Textures::ID    texture;
 	sf::Time						fireInterval;
+  sf::Vector2f            bulletOffset;
   std::vector<Direction>  directions;
 };
 

@@ -52,8 +52,7 @@ class Tank : public Entity
     void         createBullets(SceneNode& node, const TextureHolder& textures) const;
     void         createProjectile(SceneNode& node,
                                   Projectile::Type type,
-                                  float xOffset,
-                                  float yOffset,
+                                  sf::Vector2f offset,
                                   const TextureHolder& textures) const;
 
     void            updateTexts();
@@ -77,6 +76,8 @@ class Tank : public Entity
     std::size_t     mDirectionIndex;
 
     TextNode*       mHealthDisplay;
+    SceneNode*      mBulletEmitter; // blank SceneNode used for positioning
+                                    // bullets according to offsets
 };
 
 #endif // TANKS_TANK_HPP

@@ -32,6 +32,7 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mAmountRotation(0.f)
 , mDirectionIndex(0)
 , mHealthDisplay(nullptr)
+, mBulletEmitter(nullptr)
 {
 	centerOrigin(mSprite);
 
@@ -49,6 +50,10 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 
     updateTexts();
   // }
+
+  std::unique_ptr<SceneNode> bulletEmitter(new SceneNode());
+  mBulletEmitter = bulletEmitter.get();
+  attachChild(std::move(bulletEmitter));
 }
 
 void Tank::setRotationOffset(float angle)
@@ -260,43 +265,31 @@ void Tank::createBullets(SceneNode& node,
 {
   Projectile::Type type = isAllied() 
     ? Projectile::AlliedBullet : Projectile::EnemyBullet;
-  createProjectile(node, type, 0.0f, 0.5f, textures);
+  createProjectile(node, type, Table[mType].bulletOffset, textures);
 }
 
 void Tank::createProjectile(SceneNode& node,
                             Projectile::Type type,
-                            float xOffset,
-                            float yOffset,
+                            sf::Vector2f offset,
                             const TextureHolder& textures) const
 {
   std::unique_ptr<Projectile> projectile(new Projectile(type, textures));
-  
-  // yOffsetAngle:
+
+  // Adjust projectlie's direction/velocity according to tank's rotation;
+  // create projectileAngle because trig functions need angle in radians
   float projectileAngle = toRadian(toTrigAngle(getRotation()));
-
-  // Adjust projectile's offset according to tank's rotation
-  // Each offset (x and y) has to be converted to an offset of the form
-  // (x, y) based on the tank's rotation.
-  // Use tank's angle to calculate angle-corrected yOffset:
-  float x2 = std::cos(projectileAngle) * yOffset;
-  float y2 = std::sin(projectileAngle) * yOffset;
-  // Use xOffsetAngle to calculate angle-corrected xOffset:
-  float xOffsetAngle = projectileAngle - toRadian(90);
-  float x1 = std::cos(xOffsetAngle) * xOffset;
-  float y1 = std::sin(xOffsetAngle) * xOffset;
-  sf::Vector2f offset((x1 + x2) * getBoundingRect().width * -1,
-                      (y1 + y2) * getBoundingRect().height);
-
-  // Adjust projectlie's direction according to tank's rotation
-  sf::Vector2f velocity(projectile->getMaxSpeed() * std::cos(projectileAngle), 
-                        projectile->getMaxSpeed() * std::sin(projectileAngle) * -1);
+  sf::Vector2f velocity(
+    projectile->getMaxSpeed() * std::cos(projectileAngle), 
+    projectile->getMaxSpeed() * std::sin(projectileAngle) * -1);
   
   // Adjust projectile's rotation according to tank's rotation
   projectile->setRotation(getRotation());
 
-  // Finally set projectile's position and velocity
-  projectile->setPosition(getWorldPosition() + offset * -1.f);
-  projectile->setVelocity(velocity);
+  // Finally set projectile's position and velocity;
+  // negate SFML's upside down y-axis
+  mBulletEmitter->setPosition(offset.x, -offset.y);
+  projectile->setPosition(mBulletEmitter->getWorldPosition());
+  // projectile->setVelocity(velocity);
   node.attachChild(std::move(projectile));
 }
 
