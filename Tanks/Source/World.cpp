@@ -215,7 +215,7 @@ void World::handleCollisions()
       tank.damage(projectile.getDamage());
       projectile.destroy();
     }
-    else if (matchesCategories(pair, Category::AlliedProjectile,
+    /*else if (matchesCategories(pair, Category::AlliedProjectile,
                                Category::EnemyProjectile))
     {
       auto& projectile1 = static_cast<Projectile&>(*pair.first);
@@ -223,7 +223,7 @@ void World::handleCollisions()
 
       projectile1.destroy();
       projectile2.destroy();
-    }
+    }*/
   }
 }
 
