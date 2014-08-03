@@ -162,7 +162,7 @@ void World::handleCollisions()
 
   FOREACH(SceneNode::Pair pair, collisionPairs)
   {
-    if (matchesCategories(pair, Category::PlayerTank, Category::EnemyTank))
+    /*if (matchesCategories(pair, Category::PlayerTank, Category::EnemyTank))
     {
       auto& player = static_cast<Tank&>(*pair.first);
       auto& enemy = static_cast<Tank&>(*pair.second);
@@ -190,6 +190,19 @@ void World::handleCollisions()
       enemy1.setIntersection(intersection);
       enemy2.setIsCollidingWithTank(true);
       enemy2.setIntersection(intersection);
+    }*/
+    if (matchesCategories(pair, Category::Tank, Category::Tank))
+    {
+      auto& tank1 = static_cast<Tank&>(*pair.first);
+      auto& tank2 = static_cast<Tank&>(*pair.second);
+
+      // Update the intersection rectangles of both tanks
+      sf::FloatRect intersection;
+      tank1.getBoundingRect().intersects(tank2.getBoundingRect(), intersection);
+      tank1.setIsCollidingWithTank(true);
+      tank1.setIntersection(intersection);
+      tank2.setIsCollidingWithTank(true);
+      tank2.setIntersection(intersection);
     }
     else if (matchesCategories(pair, Category::EnemyTank, 
                                Category::AlliedProjectile)
@@ -202,7 +215,7 @@ void World::handleCollisions()
       tank.damage(projectile.getDamage());
       projectile.destroy();
     }
-    /*else if (matchesCategories(pair, Category::AlliedProjectile,
+    else if (matchesCategories(pair, Category::AlliedProjectile,
                                Category::EnemyProjectile))
     {
       auto& projectile1 = static_cast<Projectile&>(*pair.first);
@@ -210,7 +223,7 @@ void World::handleCollisions()
 
       projectile1.destroy();
       projectile2.destroy();
-    }*/
+    }
   }
 }
 
@@ -252,8 +265,8 @@ void World::addEnemies()
 {
   // Add enemies to the spawn point container
   addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f);
-  // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f);
-  // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f);
   addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f);
   addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f);
   // addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f);
