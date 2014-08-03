@@ -241,7 +241,6 @@ void World::buildScene()
 	std::unique_ptr<Tank> leader(new Tank(Tank::DefaultTank, mTextures, mFonts));
 	mPlayerTank = leader.get();
 	mPlayerTank->setPosition(mWorldView.getCenter());
-  mPlayerTank->setRotation(180.f);
 	mSceneLayers[Air]->attachChild(std::move(leader));
 
 	// Add enemy tanks
@@ -255,8 +254,8 @@ void World::addEnemies()
   addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f);
   // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f);
   // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f);
-  // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f);
-  // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f);
   // addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f);
 }
 

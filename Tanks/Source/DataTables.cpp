@@ -2,35 +2,113 @@
 #include <Tanks/Tank.hpp>
 #include <Tanks/Projectile.hpp>
 
+#include <cassert>
+#include <fstream>
+#include <string>
+
+
+Tank::Type convertStringToTankType(std::string& s)
+{
+  if (s == "DefaultTank")
+    return Tank::DefaultTank;
+  else if (s == "EnemyTank1")
+    return Tank::EnemyTank1;
+  else if (s == "EnemyTank2")
+    return Tank::EnemyTank2;
+
+  else
+  {
+    // Terminate because someting went wrong with the file and that
+    // data could be crucial to the program
+    assert(false);
+    return Tank::DefaultTank;
+  }
+}
+
+Textures::ID convertStringToTextureID(std::string& s)
+{
+  if (s == "DefaultTank")
+    return Textures::DefaultTank;
+  else if (s == "EnemyTank1")
+    return Textures::EnemyTank1;
+  else if (s == "EnemyTank2")
+    return Textures::EnemyTank2;
+  else if (s == "Bullet")
+    return Textures::Bullet;
+
+  else
+  {
+    // Terminate because someting went wrong with the file and that
+    // data could be crucial to the program
+    assert(false);
+    return Textures::DefaultTank;
+  }
+}
+
 std::vector<TankData> initializeTankData()
 {
   std::vector<TankData> data(Tank::TypeCount);
 
-  data[Tank::DefaultTank].hitpoints = 100;
-  data[Tank::DefaultTank].movementSpeed = 200.f;
-  data[Tank::DefaultTank].rotationSpeed = 80.f;
-  data[Tank::DefaultTank].texture = Textures::DefaultTank;
-  data[Tank::DefaultTank].fireInterval = sf::seconds(1);
-  data[Tank::DefaultTank].bulletOffset = sf::Vector2f(0.f, 49.f);
+  std::string filePath = "DataTables/TankData.txt";
+  std::ifstream ist(filePath.c_str());
+  
+  // Figure out which tank is next for initializing data;
+  // initialize each data element of that tank
+  while (!ist.eof())
+  {
+    // This is used to input the labels preceding each data element (see
+    // the text files in the DataTables folder);
+    // we don't want to input the labels into any significant variable;
+    // they are there to make reading the file easier for humans
+    std::string label = "";
 
-  data[Tank::EnemyTank1].hitpoints = 40;
-  data[Tank::EnemyTank1].movementSpeed = 80.f;
-  data[Tank::EnemyTank1].rotationSpeed = 60.f;
-  data[Tank::EnemyTank1].texture = Textures::EnemyTank1;
-  data[Tank::EnemyTank1].fireInterval = sf::seconds(2);
-  data[Tank::EnemyTank1].bulletOffset = sf::Vector2f(0.f, 40.f);
+    std::string tankTypeString = "";
+    int hitpoints = 0;
+    float movementSpeed = 0.f;
+    float rotationSpeed = 0.f;
+    std::string textureName = "";
+    float fireInterval = 0.f;
+    float bulletOffsetX = 0.f;
+    float bulletOffsetY = 0.f;
+
+    ist >> label; // Ignore the label in front of each data element
+    ist >> tankTypeString;
+    Tank::Type tankType = convertStringToTankType(tankTypeString);
+    
+    ist >> label;
+    ist >> hitpoints;
+    data[tankType].hitpoints = hitpoints;
+    
+    ist >> label;
+    ist >> movementSpeed;
+    data[tankType].movementSpeed = movementSpeed;
+    
+    ist >> label;
+    ist >> rotationSpeed;
+    data[tankType].rotationSpeed = rotationSpeed;
+    
+    ist >> label;
+    ist >> textureName;
+    data[tankType].texture = convertStringToTextureID(textureName);
+    
+    ist >> label;
+    ist >> fireInterval;
+    data[tankType].fireInterval = sf::seconds(fireInterval);
+    
+    ist >> label;
+    ist >> bulletOffsetX;
+    ist >> label;
+    ist >> bulletOffsetY;
+    data[tankType].bulletOffset =
+      sf::Vector2f(bulletOffsetX, bulletOffsetY);
+
+  } // end file reading
+
+  // AI directions; these are not in the files
   data[Tank::EnemyTank1].directions.push_back(Direction( 90, 50, 30));
   data[Tank::EnemyTank1].directions.push_back(Direction( 0, 50, -60));
   data[Tank::EnemyTank1].directions.push_back(Direction( 270, 50, 60));
   data[Tank::EnemyTank1].directions.push_back(Direction( 180, 50, -30));
-
-  data[Tank::EnemyTank2].hitpoints = 60;
-  data[Tank::EnemyTank2].movementSpeed = 60.f;
-  data[Tank::EnemyTank2].rotationSpeed = 100.f;
-  data[Tank::EnemyTank2].texture = Textures::EnemyTank2;
-  data[Tank::EnemyTank2].fireInterval = sf::seconds(0.9);
-  data[Tank::EnemyTank2].bulletOffset = sf::Vector2f(0.f, 40.f);
-  // no directions -- this tank hunts the main player
 
   return data;
 }

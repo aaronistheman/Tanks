@@ -289,7 +289,7 @@ void Tank::createProjectile(SceneNode& node,
   // negate SFML's upside down y-axis
   mBulletEmitter->setPosition(offset.x, -offset.y);
   projectile->setPosition(mBulletEmitter->getWorldPosition());
-  // projectile->setVelocity(velocity);
+  projectile->setVelocity(velocity);
   node.attachChild(std::move(projectile));
 }
 

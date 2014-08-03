@@ -1,0 +1,26 @@
+TankType: DefaultTank 
+Hitpoints: 100 
+MovementSpeed: 200 
+RotationSpeed: 80 
+TextureName: DefaultTank 
+FireInterval: 1 
+BulletOffsetX: 0
+BulletOffsetY: 49
+
+TankType: EnemyTank1
+Hitpoints: 40
+MovementSpeed: 80 
+RotationSpeed: 60 
+TextureName: EnemyTank1
+FireInterval: 2
+BulletOffsetX: 0
+BulletOffsetY: 49
+
+TankType: EnemyTank2
+Hitpoints: 60
+MovementSpeed: 60
+RotationSpeed: 100
+TextureName: EnemyTank2
+FireInterval: 0.9
+BulletOffsetX: 0
+BulletOffsetY: 29
