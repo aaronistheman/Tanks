@@ -13,7 +13,7 @@
 class BlockNode : public SceneNode
 {
   public:
-                            BlockNode(Block::Type type, const TextureHolder& textures);
+                            BlockNode(Block::Type type);
 
     void                    addBlock(sf::Vector2f size, sf::Vector2f position);
     Block::Type             getBlockType() const;
@@ -22,9 +22,11 @@ class BlockNode : public SceneNode
 
 	private:
 		virtual void			updateCurrent(sf::Time dt, CommandQueue& commands);
-		virtual void			drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+		virtual void			drawCurrent(sf::RenderTarget& target, 
+                                  sf::RenderStates states) const;
 		
-		void					addVertex(float worldX, float worldY, float texCoordX, float texCoordY, const sf::Color& color) const;
+		void					addVertex(float worldX, float worldY, 
+                            const sf::Color& color) const;
 		void					computeVertices() const;
 
 
