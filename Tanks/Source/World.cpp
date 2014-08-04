@@ -8,8 +8,6 @@
 #include <algorithm>
 #include <cmath>
 
-#include <iostream>
-
 
 World::World(sf::RenderWindow& window, FontHolder& fonts)
 : mWindow(window)
@@ -162,35 +160,6 @@ void World::handleCollisions()
 
   FOREACH(SceneNode::Pair pair, collisionPairs)
   {
-    /*if (matchesCategories(pair, Category::PlayerTank, Category::EnemyTank))
-    {
-      auto& player = static_cast<Tank&>(*pair.first);
-      auto& enemy = static_cast<Tank&>(*pair.second);
-
-      // Penalty to prevent abuse of pushing tanks
-      player.damage(1);
-
-      // Update the intersection rectangles of both tanks
-      sf::FloatRect intersection;
-      player.getBoundingRect().intersects(enemy.getBoundingRect(), intersection);
-      player.setIsCollidingWithTank(true);
-      player.setIntersection(intersection);
-      enemy.setIsCollidingWithTank(true);
-      enemy.setIntersection(intersection);
-    }
-    else if (matchesCategories(pair, Category::EnemyTank, Category::EnemyTank))
-    {
-      auto& enemy1 = static_cast<Tank&>(*pair.first);
-      auto& enemy2 = static_cast<Tank&>(*pair.second);
-
-      // Update the intersection rectangles of both tanks
-      sf::FloatRect intersection;
-      enemy1.getBoundingRect().intersects(enemy2.getBoundingRect(), intersection);
-      enemy1.setIsCollidingWithTank(true);
-      enemy1.setIntersection(intersection);
-      enemy2.setIsCollidingWithTank(true);
-      enemy2.setIntersection(intersection);
-    }*/
     if (matchesCategories(pair, Category::Tank, Category::Tank))
     {
       auto& tank1 = static_cast<Tank&>(*pair.first);
@@ -215,15 +184,6 @@ void World::handleCollisions()
       tank.damage(projectile.getDamage());
       projectile.destroy();
     }
-    /*else if (matchesCategories(pair, Category::AlliedProjectile,
-                               Category::EnemyProjectile))
-    {
-      auto& projectile1 = static_cast<Projectile&>(*pair.first);
-      auto& projectile2 = static_cast<Projectile&>(*pair.second);
-
-      projectile1.destroy();
-      projectile2.destroy();
-    }*/
   }
 }
 
