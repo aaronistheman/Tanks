@@ -8,8 +8,6 @@
 #include <algorithm>
 #include <cmath>
 
-#include <iostream>
-
 
 World::World(sf::RenderWindow& window, FontHolder& fonts)
 : mWindow(window)
@@ -230,11 +228,11 @@ void World::addEnemies()
 {
   // Add enemies to the spawn point container
   addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f, 0);
-  addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f, 0);
-  addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f, 1);
-  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f, 0);
-  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f, 1);
-  addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f, 2);
+  // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f, 0);
+  // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f, 1);
+  // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f, 0);
+  // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f, 1);
+  // addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f, 2);
 
 	// Sort all enemies according to the number of tanks that must be killed
   // before each appears, 
@@ -297,10 +295,7 @@ void World::updateDestroyedEnemiesCounter()
   destroyedCollector.action = derivedAction<Tank>([this] (Tank& enemy, sf::Time)
   {
     if (enemy.isMarkedForRemoval())
-    {
       ++mNumberOfDestroyedEnemies;
-      std::cout << "mNumber: " << mNumberOfDestroyedEnemies << '\n';
-    }
   });
 
   mCommandQueue.push(destroyedCollector);

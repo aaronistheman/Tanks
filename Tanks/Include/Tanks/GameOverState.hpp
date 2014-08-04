@@ -20,7 +20,10 @@ class GameOverState : public State
 
 	private:
 		sf::Text			mGameOverText;
+    sf::Text      mPromptText;
 		sf::Time			mElapsedTime;
+    sf::Time      mWaitTime;
+    bool          mKeyReleased;
 };
 
 #endif // TANKS_GAMEOVERSTATE_HPP
