@@ -44,8 +44,10 @@ class World : private sf::NonCopyable
 		
     void								buildScene();
     void                addEnemies();
-    void                addEnemy(Tank::Type type, sf::Vector2f spawnPosition,
-                                 float rotation);
+    void                addEnemy(Tank::Type type, 
+                                 sf::Vector2f spawnPosition,
+                                 float rotation, 
+                                 float numberOfKillsToAppear);
     void                spawnEnemies();
     void                destroyProjectilesOutsideView();
     void                updateDestroyedEnemiesCounter();
@@ -64,11 +66,13 @@ class World : private sf::NonCopyable
 
     struct SpawnPoint
     {
-      SpawnPoint(Tank::Type type, float x, float y, float rotation)
+      SpawnPoint(Tank::Type type, float x, float y, float rotation,
+                 float numberOfKills)
         : type(type)
         , x(x)
         , y(y)
         , r(rotation)
+        , n(numberOfKills)
       {
       }
 
@@ -76,6 +80,7 @@ class World : private sf::NonCopyable
       float x;
       float y;
       float r;
+      float n;
     };
 
 

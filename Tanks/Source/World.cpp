@@ -55,8 +55,9 @@ void World::update(sf::Time dt)
   // Collision detection and response (may destroy entities)
 	handleCollisions();
 
-  // Remove all entities that are marked for removal
+  // Remove all entities that are marked for removal; create new ones
 	mSceneGraph.removeWrecks();
+	spawnEnemies();
 
 	// Regular update step, adapt position (correct if outside view)
 	mSceneGraph.update(dt, mCommandQueue);
@@ -228,24 +229,39 @@ void World::buildScene()
 void World::addEnemies()
 {
   // Add enemies to the spawn point container
-  addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f);
-  addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f);
-  addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f);
-  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f);
-  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f);
-  // addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f, 0);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f, 0);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f, 1);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f, 0);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f, 1);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f, 2);
+
+	// Sort all enemies according to the number of tanks that must be killed
+  // before each appears, 
+  // such that enemies with a lower amount of required kills are checked 
+  // first for spawning
+	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), [] (SpawnPoint lhs, SpawnPoint rhs)
+	{
+		return lhs.n > rhs.n;
+	});
 }
 
-void World::addEnemy(Tank::Type type, sf::Vector2f spawnPosition,
-                     float rotation)
+void World::addEnemy(Tank::Type type, 
+                     sf::Vector2f spawnPosition,
+                     float rotation, 
+                     float numberOfKillsToAppear)
 {
-	SpawnPoint spawn(type, spawnPosition.x, spawnPosition.y, rotation);
+	SpawnPoint spawn(type, spawnPosition.x, spawnPosition.y, rotation, 
+                   numberOfKillsToAppear);
 	mEnemySpawnPoints.push_back(spawn);
 }
 
 void World::spawnEnemies()
 {
-  while (!mEnemySpawnPoints.empty())
+  // Spawn all enemies that are able to appear based on the number of
+  // killed tanks this frame
+  while (!mEnemySpawnPoints.empty()
+         && mEnemySpawnPoints.back().n <= mNumberOfDestroyedEnemies)
   {
     SpawnPoint spawn = mEnemySpawnPoints.back();
 
@@ -254,7 +270,8 @@ void World::spawnEnemies()
     enemy->setRotation(spawn.r);
 
     mSceneLayers[Air]->attachChild(std::move(enemy));
-
+    
+		// Enemy is spawned, remove from the list to spawn
     mEnemySpawnPoints.pop_back();
   }
 }
