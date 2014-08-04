@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <cmath>
 
+#include <iostream>
+
 
 World::World(sf::RenderWindow& window, FontHolder& fonts)
 : mWindow(window)
@@ -22,6 +24,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 , mEnemySpawnPoints()
 , mActiveEnemies()
 , mHuntingEnemies()
+, mNumberOfDestroyedEnemies(0)
 {
 	loadTextures();
 	buildScene();
@@ -40,7 +43,8 @@ void World::update(sf::Time dt)
 
   // These further update mCommandQueue 
   destroyProjectilesOutsideView();
-  updateActiveEnemies();
+  updateDestroyedEnemiesCounter();
+  updateActiveEnemiesVector();
   updateHuntingEnemies();
 
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
@@ -51,7 +55,7 @@ void World::update(sf::Time dt)
   // Collision detection and response (may destroy entities)
 	handleCollisions();
 
-  // Remove all destroyed entities
+  // Remove all entities that are marked for removal
 	mSceneGraph.removeWrecks();
 
 	// Regular update step, adapt position (correct if outside view)
@@ -269,7 +273,23 @@ void World::destroyProjectilesOutsideView()
   mCommandQueue.push(command);
 }
 
-void World::updateActiveEnemies()
+void World::updateDestroyedEnemiesCounter()
+{
+  Command destroyedCollector;
+  destroyedCollector.category = Category::EnemyTank;
+  destroyedCollector.action = derivedAction<Tank>([this] (Tank& enemy, sf::Time)
+  {
+    if (enemy.isMarkedForRemoval())
+    {
+      ++mNumberOfDestroyedEnemies;
+      std::cout << "mNumber: " << mNumberOfDestroyedEnemies << '\n';
+    }
+  });
+
+  mCommandQueue.push(destroyedCollector);
+}
+
+void World::updateActiveEnemiesVector()
 {
   mActiveEnemies.clear();
 

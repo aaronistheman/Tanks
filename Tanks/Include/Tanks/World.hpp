@@ -48,7 +48,8 @@ class World : private sf::NonCopyable
                                  float rotation);
     void                spawnEnemies();
     void                destroyProjectilesOutsideView();
-    void                updateActiveEnemies();
+    void                updateDestroyedEnemiesCounter();
+    void                updateActiveEnemiesVector();
     void                updateHuntingEnemies();
     sf::FloatRect       getViewBounds() const;
 
@@ -95,6 +96,7 @@ class World : private sf::NonCopyable
     std::vector<SpawnPoint>     mEnemySpawnPoints;
 		std::vector<Tank*>				mActiveEnemies;
     std::vector<Tank*>        mHuntingEnemies;
+    int                       mNumberOfDestroyedEnemies;
 };
 
 #endif // TANKS_WORLD_HPP
