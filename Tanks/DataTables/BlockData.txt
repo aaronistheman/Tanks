@@ -1,0 +1,7 @@
+BlockType: Indestructible
+Color: 0 0 0 0
+Hitpoints: 100
+
+BlockType: Destructible
+Color: 0 0 0 0
+Hitpoints: 100

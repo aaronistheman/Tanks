@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\BlockNode.cpp" />
     <ClCompile Include="Source\Button.cpp" />
     <ClCompile Include="Source\Command.cpp" />
     <ClCompile Include="Source\CommandQueue.cpp" />
@@ -39,6 +40,8 @@
     <ClCompile Include="Source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Tanks\Block.hpp" />
+    <ClInclude Include="Include\Tanks\BlockNode.hpp" />
     <ClInclude Include="Include\Tanks\Button.hpp" />
     <ClInclude Include="Include\Tanks\Category.hpp" />
     <ClInclude Include="Include\Tanks\Command.hpp" />

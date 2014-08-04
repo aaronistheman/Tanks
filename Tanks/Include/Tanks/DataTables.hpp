@@ -5,6 +5,7 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/System/Time.hpp>
+#include <SFML/Graphics/Color.hpp>
 
 #include <vector>
 
@@ -41,8 +42,15 @@ struct ProjectileData
   Textures::ID    texture;
 };
 
+struct BlockData
+{
+  sf::Color     color;
+  int           hitpoints;
+};
+
 
 std::vector<TankData> initializeTankData();
 std::vector<ProjectileData> initializeProjectileData();
+std::vector<BlockData> initializeBlockData();
 
 #endif // TANKS_DATATABLES_HPP

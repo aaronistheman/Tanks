@@ -60,7 +60,7 @@ class World : private sf::NonCopyable
 		enum Layer
 		{
 			Background,
-			Air,
+			Ground,
 			LayerCount
 		};
 

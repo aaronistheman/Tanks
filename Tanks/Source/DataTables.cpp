@@ -1,6 +1,7 @@
 #include <Tanks/DataTables.hpp>
 #include <Tanks/Tank.hpp>
 #include <Tanks/Projectile.hpp>
+#include <Tanks/Block.hpp>
 
 #include <cassert>
 #include <fstream>
@@ -18,7 +19,7 @@ Tank::Type convertStringToTankType(std::string& s)
 
   else
   {
-    // Terminate because someting went wrong with the file and that
+    // Terminate because something went wrong with the file and that
     // data could be crucial to the program
     assert(false);
     return Tank::DefaultTank;
@@ -34,10 +35,26 @@ Projectile::Type convertStringToProjectileType(std::string& s)
 
   else
   {
-    // Terminate because someting went wrong with the file and that
+    // Terminate because something went wrong with the file and that
     // data could be crucial to the program
     assert(false);
     return Projectile::AlliedBullet;
+  }
+}
+
+Block::Type convertStringToBlockType(std::string& s)
+{
+  if (s == "Indestructible")
+    return Block::Indestructible;
+  else if (s == "Destructible")
+    return Block::Destructible;
+
+  else
+  {
+    // Terminate because something went wrong with the file and that
+    // data could be crucial to the program
+    assert(false);
+    return Block::Indestructible;
   }
 }
 
@@ -169,6 +186,54 @@ std::vector<ProjectileData> initializeProjectileData()
     ist >> label;
     ist >> textureName;
     data[projectileType].texture = convertStringToTextureID(textureName);
+  }
+
+  // stop file reading
+  ist.close();
+
+	return data;
+}
+
+std::vector<BlockData> initializeBlockData()
+{
+  std::vector<BlockData> data(Block::BlockCount);
+  
+  std::string filePath = "DataTables/BlockData.txt";
+  std::ifstream ist(filePath.c_str());
+  
+  // Figure out which block type is next for initializing data;
+  // initialize each data element of that block
+  while (!ist.eof())
+  {
+    // This is used to input the labels preceding each data element (see
+    // the text files in the DataTables folder);
+    // we don't want to input the labels into any significant variable;
+    // they are there to make reading the file easier for humans
+    std::string label = "";
+
+    std::string blockTypeString = "";
+    int redComponent = 0.f;
+    int greenComponent = 0.f;
+    int blueComponent = 0.f;
+    int alphaComponent = 0.f;
+    int hitpoints = 0;
+
+    ist >> label; // Ignore the label in front of each data element
+    ist >> blockTypeString;
+    Block::Type blockType = 
+      convertStringToBlockType(blockTypeString);
+    
+    ist >> label;
+    ist >> redComponent;
+    ist >> greenComponent;
+    ist >> blueComponent;
+    ist >> alphaComponent;
+    data[blockType].color = sf::Color(redComponent, greenComponent,
+                                      blueComponent, alphaComponent);
+
+    ist >> label;
+    ist >> hitpoints;
+    data[blockType].hitpoints = hitpoints;
   }
 
   // stop file reading

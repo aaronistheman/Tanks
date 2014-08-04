@@ -36,7 +36,7 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 {
 	centerOrigin(mSprite);
 
-  mFireCommand.category = Category::SceneAirLayer;
+  mFireCommand.category = Category::SceneGroundLayer;
   mFireCommand.action   = [this, &textures] (SceneNode& node, sf::Time)
   {
     createBullets(node, textures);

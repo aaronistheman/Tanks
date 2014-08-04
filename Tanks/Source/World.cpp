@@ -195,7 +195,7 @@ void World::buildScene()
 	// Initialize the different layers
 	for (std::size_t i = 0; i < LayerCount; ++i)
 	{
-		Category::Type category = (i == Air) ? Category::SceneAirLayer : Category::None;
+		Category::Type category = (i == Ground) ? Category::SceneGroundLayer : Category::None;
 
 		SceneNode::Ptr layer(new SceneNode(category));
 		mSceneLayers[i] = layer.get();
@@ -217,7 +217,7 @@ void World::buildScene()
 	std::unique_ptr<Tank> leader(new Tank(Tank::DefaultTank, mTextures, mFonts));
 	mPlayerTank = leader.get();
 	mPlayerTank->setPosition(mWorldView.getCenter());
-	mSceneLayers[Air]->attachChild(std::move(leader));
+	mSceneLayers[Ground]->attachChild(std::move(leader));
 
 	// Add enemy tanks
 	addEnemies();
@@ -267,7 +267,7 @@ void World::spawnEnemies()
     enemy->setPosition(spawn.x, spawn.y);
     enemy->setRotation(spawn.r);
 
-    mSceneLayers[Air]->attachChild(std::move(enemy));
+    mSceneLayers[Ground]->attachChild(std::move(enemy));
     
 		// Enemy is spawned, remove from the list to spawn
     mEnemySpawnPoints.pop_back();
