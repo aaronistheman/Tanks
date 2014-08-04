@@ -42,14 +42,11 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
     createBullets(node, textures);
   };
 
-  // if (mType == Type::DefaultTank)
-  // {
-    std::unique_ptr<TextNode> healthDisplay(new TextNode(fonts, ""));
-    mHealthDisplay = healthDisplay.get();
-    attachChild(std::move(healthDisplay));
+  std::unique_ptr<TextNode> healthDisplay(new TextNode(fonts, ""));
+  mHealthDisplay = healthDisplay.get();
+  attachChild(std::move(healthDisplay));
 
-    updateTexts();
-  // }
+  updateTexts();
 
   std::unique_ptr<SceneNode> bulletEmitter(new SceneNode());
   mBulletEmitter = bulletEmitter.get();
@@ -187,11 +184,7 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
 	Entity::updateCurrent(dt, commands);
   sf::Transformable::rotate(mRotationOffset * dt.asSeconds());
 
-  // Update texts
-  // if (mType == Type::DefaultTank)
-  // {
-    updateTexts();
-  // }
+  updateTexts();
 }
 
 void Tank::updateMovementPattern(sf::Time dt)

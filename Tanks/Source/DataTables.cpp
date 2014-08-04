@@ -25,6 +25,22 @@ Tank::Type convertStringToTankType(std::string& s)
   }
 }
 
+Projectile::Type convertStringToProjectileType(std::string& s)
+{
+  if (s == "AlliedBullet")
+    return Projectile::AlliedBullet;
+  else if (s == "EnemyBullet")
+    return Projectile::EnemyBullet;
+
+  else
+  {
+    // Terminate because someting went wrong with the file and that
+    // data could be crucial to the program
+    assert(false);
+    return Projectile::AlliedBullet;
+  }
+}
+
 Textures::ID convertStringToTextureID(std::string& s)
 {
   if (s == "DefaultTank")
@@ -101,8 +117,10 @@ std::vector<TankData> initializeTankData()
     ist >> bulletOffsetY;
     data[tankType].bulletOffset =
       sf::Vector2f(bulletOffsetX, bulletOffsetY);
+  } 
 
-  } // end file reading
+  // stop file reading
+  ist.close();
 
   // AI directions; these are not in the files
   data[Tank::EnemyTank1].directions.push_back(Direction( 90, 50, 30));
@@ -116,14 +134,45 @@ std::vector<TankData> initializeTankData()
 std::vector<ProjectileData> initializeProjectileData()
 {
 	std::vector<ProjectileData> data(Projectile::TypeCount);
+  
+  std::string filePath = "DataTables/ProjectileData.txt";
+  std::ifstream ist(filePath.c_str());
+  
+  // Figure out which projectile is next for initializing data;
+  // initialize each data element of that projectile
+  while (!ist.eof())
+  {
+    // This is used to input the labels preceding each data element (see
+    // the text files in the DataTables folder);
+    // we don't want to input the labels into any significant variable;
+    // they are there to make reading the file easier for humans
+    std::string label = "";
 
-	data[Projectile::AlliedBullet].damage = 10;
-	data[Projectile::AlliedBullet].speed = 300.f;
-	data[Projectile::AlliedBullet].texture = Textures::Bullet;
+    std::string projectileTypeString = "";
+    int damage = 0;
+    float speed = 0.f;
+    std::string textureName = "";
 
-	data[Projectile::EnemyBullet].damage = 10;
-	data[Projectile::EnemyBullet].speed = 300.f;
-	data[Projectile::EnemyBullet].texture = Textures::Bullet;
+    ist >> label; // Ignore the label in front of each data element
+    ist >> projectileTypeString;
+    Projectile::Type projectileType = 
+      convertStringToProjectileType(projectileTypeString);
+    
+    ist >> label;
+    ist >> damage;
+    data[projectileType].damage = damage;
+    
+    ist >> label;
+    ist >> speed;
+    data[projectileType].speed = speed;
+    
+    ist >> label;
+    ist >> textureName;
+    data[projectileType].texture = convertStringToTextureID(textureName);
+  }
+
+  // stop file reading
+  ist.close();
 
 	return data;
 }
