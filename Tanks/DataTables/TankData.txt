@@ -1,5 +1,5 @@
 TankType: DefaultTank 
-Hitpoints: 100 
+Hitpoints: 1000 
 MovementSpeed: 200 
 RotationSpeed: 80 
 TextureName: DefaultTank 

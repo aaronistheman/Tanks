@@ -11,6 +11,7 @@ namespace sf
 {
 	class Sprite;
 	class Text;
+  class Shape;
 }
 
 // Since std::to_string doesn't work on MinGW we have to implement
@@ -24,6 +25,7 @@ std::string toString(sf::Keyboard::Key key);
 // Calls setOrigin() with the center of the object
 void  centerOrigin(sf::Sprite& sprite);
 void  centerOrigin(sf::Text& text);
+void  centerOrigin(sf::Shape& shape);
 
 // Calls setScale() to resize the object
 void setSize(sf::Sprite& sprite, const sf::Vector2f& desiredSize);

@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Shape.hpp>
 
 #include <cmath>
 #include <random>
@@ -143,6 +144,12 @@ void centerOrigin(sf::Text& text)
 {
 	sf::FloatRect bounds = text.getLocalBounds();
 	text.setOrigin(std::floor(bounds.width / 2.f), std::floor(bounds.height / 2.f));
+}
+
+void centerOrigin(sf::Shape& shape)
+{
+  sf::FloatRect bounds = shape.getLocalBounds();
+  shape.setOrigin(std::floor(bounds.width / 2.f), std::floor(bounds.height / 2.f));
 }
 
 void setSize(sf::Sprite& sprite, const sf::Vector2f& desiredSize)

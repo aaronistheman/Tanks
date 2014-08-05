@@ -62,7 +62,7 @@ void World::update(sf::Time dt)
 
 	// Regular update step, adapt position (correct if outside view)
 	mSceneGraph.update(dt, mCommandQueue);
-	adaptTankPositions();
+	// adaptTankPositions();
 }
 
 void World::draw()
@@ -184,21 +184,34 @@ void World::handleCollisions()
 
       // Update the intersection rectangles of both tanks
       sf::FloatRect intersection;
-      tank1.getBoundingRect().intersects(tank2.getBoundingRect(), intersection);
-      tank1.setIsCollidingWithTank(true);
+      tank1.getBoundingRect().intersects(tank2.getBoundingRect(), 
+                                         intersection);
+      tank1.setIsColliding(true);
       tank1.setIntersection(intersection);
-      tank2.setIsCollidingWithTank(true);
+      tank2.setIsColliding(true);
       tank2.setIntersection(intersection);
     }
-    /*else if (matchesCategories(pair, Category::Tank, Category::BlockSystem))
+    else if (matchesCategories(pair, Category::Tank, Category::Block))
     {
       auto& tank = static_cast<Tank&>(*pair.first);
-      auto& blockNode = static_cast<BlockNode&>(*pair.second);
+      auto& block = static_cast<Block&>(*pair.second);
 
       // Update the intersection rectangle of the tank
       sf::FloatRect intersection;
-      
-    }*/
+      tank.getBoundingRect().intersects(block.getBoundingRect(), 
+                                        intersection);
+      tank.setIsColliding(true);
+      tank.setIntersection(intersection);
+    }
+    else if (matchesCategories(pair, 
+                               Category::Projectile, 
+                               Category::IndestructibleBlock))
+    {
+      auto& projectile = static_cast<Projectile&>(*pair.first);
+      auto& block = static_cast<Block&>(*pair.second);
+
+      projectile.destroy();
+    }
   }
 }
 
@@ -295,12 +308,34 @@ void World::addBlocks()
   // Add blocks to the spawn point container
   addBlock(Block::Indestructible, sf::Vector2f(300.f, 300.f), 
                                   sf::Vector2f(200.f, 200.f));
-  addBlock(Block::Indestructible, sf::Vector2f(0.f, 0.f),
-                                  sf::Vector2f(100.f, 100.f));
+
+  // Boundary blocks
+  const float boundaryThickness = 20.f;
+  float halfThickness = boundaryThickness / 2.f;
+  float worldViewX = mWorldView.getSize().x;
+  float worldViewY = mWorldView.getSize().y;
+  addBlock(Block::Indestructible, 
+           sf::Vector2f(worldViewX / 2.f, halfThickness),                           
+           sf::Vector2f(worldViewX - (boundaryThickness * 2), 
+                        boundaryThickness));
+  addBlock(Block::Indestructible,
+           sf::Vector2f(worldViewX - halfThickness, 
+                        worldViewY / 2.f),
+           sf::Vector2f(boundaryThickness,
+                        worldViewY - (boundaryThickness * 2)));
+  addBlock(Block::Indestructible,
+           sf::Vector2f(worldViewX / 2.f, 
+                        worldViewY - halfThickness),
+           sf::Vector2f(worldViewX - (boundaryThickness * 2),
+                        boundaryThickness));
+  addBlock(Block::Indestructible,
+           sf::Vector2f(halfThickness,
+                        worldViewY / 2.f),
+           sf::Vector2f(boundaryThickness,
+                        worldViewY - (boundaryThickness * 2)));
 }
 
-void World::addBlock(Block::Type type,
-                     sf::Vector2f spawnPosition,
+void World::addBlock(Block::Type type, sf::Vector2f spawnPosition,
                      sf::Vector2f size)
 {
   BlockSpawnPoint spawn(type, spawnPosition.x, spawnPosition.y,

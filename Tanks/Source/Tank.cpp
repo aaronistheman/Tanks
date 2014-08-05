@@ -25,7 +25,7 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mFireCountdown(sf::Time::Zero)
 , mIsFiring(false)
 , mIsMarkedForRemoval(false)
-, mIsCollidingWithTank(false)
+, mIsColliding(false)
 , mIntersection(sf::FloatRect())
 , mFireRateLevel(1)
 , mTravelledDistance(0.f)
@@ -96,9 +96,9 @@ bool Tank::isMarkedForRemoval() const
 	return mIsMarkedForRemoval;
 }
 
-bool Tank::isCollidingWithTank() const
+bool Tank::isColliding() const
 {
-  return mIsCollidingWithTank;
+  return mIsColliding;
 }
 
 bool Tank::isAllied() const
@@ -121,9 +121,9 @@ float Tank::getMaxRotationSpeed() const
   return Table[mType].rotationSpeed;
 }
 
-void Tank::setIsCollidingWithTank(bool flag)
+void Tank::setIsColliding(bool flag)
 {
-  mIsCollidingWithTank = flag;
+  mIsColliding = flag;
 }
 
 void Tank::setIntersection(sf::FloatRect rect)
@@ -158,7 +158,7 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
   // Update enemy movement pattern; react to collision with other tank;
   // apply velocity
 	updateMovementPattern(dt);
-  if (mIsCollidingWithTank)
+  if (mIsColliding)
   {
     // Use the intersection to move the tank so as to remove that
     // intersection
@@ -179,7 +179,7 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
                  (getPosition().y > mIntersection.top) ? 1.f : -1.f;
     setPosition(getPosition() + positionOffset);
 
-    mIsCollidingWithTank = false;
+    mIsColliding = false;
   }
 	Entity::updateCurrent(dt, commands);
   sf::Transformable::rotate(mRotationOffset * dt.asSeconds());

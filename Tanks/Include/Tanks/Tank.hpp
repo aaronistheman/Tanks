@@ -31,13 +31,13 @@ class Tank : public Entity
     virtual unsigned int	  getCategory() const;
 		virtual sf::FloatRect	  getBoundingRect() const;
     virtual bool          isMarkedForRemoval() const;
-    virtual bool          isCollidingWithTank() const;
+    virtual bool          isColliding() const;
     bool                  isAllied() const;
     bool                  isMovingTowardsPlayer() const;
     float                 getMaxMovementSpeed() const;
     float                 getMaxRotationSpeed() const;
 
-    void                  setIsCollidingWithTank(bool flag);
+    void                  setIsColliding(bool flag);
     void                  setIntersection(sf::FloatRect rect);
     void                  fire();
 
@@ -66,7 +66,7 @@ class Tank : public Entity
     sf::Time        mFireCountdown;
     bool            mIsFiring;
     bool            mIsMarkedForRemoval;
-    bool            mIsCollidingWithTank;
+    bool            mIsColliding;
     sf::FloatRect   mIntersection;
 
     int             mFireRateLevel;
