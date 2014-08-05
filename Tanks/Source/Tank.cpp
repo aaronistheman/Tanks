@@ -162,7 +162,7 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
   {
     // Use the intersection to move the tank so as to remove that
     // intersection
-
+    
     // Edit velocity
     sf::Vector2f velocity;
     velocity.x = getMaxMovementSpeed() * 

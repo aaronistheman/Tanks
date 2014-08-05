@@ -33,7 +33,23 @@ unsigned int Block::getCategory() const
 
 sf::FloatRect Block::getBoundingRect() const
 {
-  return getWorldTransform().transformRect(mShape.getGlobalBounds());
+  // Give some room to slightly interact with the block without
+  // collision detection
+  sf::FloatRect rect = 
+    getWorldTransform().transformRect(mShape.getGlobalBounds());
+  const float extraRoom = 10.f;
+  if (rect.width > extraRoom * 3.f)
+  {
+    rect.width -= (extraRoom * 2.f);
+    rect.left += extraRoom;
+  }
+  if (rect.height > extraRoom * 3.f)
+  {
+    rect.height -= (extraRoom * 2.f);
+    rect.top += extraRoom;
+  }
+
+  return rect;
 }
 
 void Block::drawCurrent(sf::RenderTarget& target, 

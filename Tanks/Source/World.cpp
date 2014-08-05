@@ -316,23 +316,23 @@ void World::addBlocks()
   float worldViewY = mWorldView.getSize().y;
   addBlock(Block::Indestructible, 
            sf::Vector2f(worldViewX / 2.f, halfThickness),                           
-           sf::Vector2f(worldViewX - (boundaryThickness * 2), 
+           sf::Vector2f(worldViewX, 
                         boundaryThickness));
   addBlock(Block::Indestructible,
            sf::Vector2f(worldViewX - halfThickness, 
                         worldViewY / 2.f),
            sf::Vector2f(boundaryThickness,
-                        worldViewY - (boundaryThickness * 2)));
+                        worldViewY));
   addBlock(Block::Indestructible,
            sf::Vector2f(worldViewX / 2.f, 
                         worldViewY - halfThickness),
-           sf::Vector2f(worldViewX - (boundaryThickness * 2),
+           sf::Vector2f(worldViewX,
                         boundaryThickness));
   addBlock(Block::Indestructible,
            sf::Vector2f(halfThickness,
                         worldViewY / 2.f),
            sf::Vector2f(boundaryThickness,
-                        worldViewY - (boundaryThickness * 2)));
+                        worldViewY));
 }
 
 void World::addBlock(Block::Type type, sf::Vector2f spawnPosition,
