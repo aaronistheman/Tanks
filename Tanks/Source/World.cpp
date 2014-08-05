@@ -2,6 +2,7 @@
 #include <Tanks/Foreach.hpp>
 #include <Tanks/Category.hpp>
 #include <Tanks/Utility.hpp>
+#include <Tanks/BlockNode.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -213,6 +214,10 @@ void World::buildScene()
 	backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
 	mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
 
+  // Add indestructible wall node to the scene
+  std::unique_ptr<BlockNode> indestructibleBlocksNode(new BlockNode(Block::Indestructible));
+  mSceneLayers[Ground]->attachChild(std::move(indestructibleBlocksNode));
+
 	// Add player's tank
 	std::unique_ptr<Tank> leader(new Tank(Tank::DefaultTank, mTextures, mFonts));
 	mPlayerTank = leader.get();
@@ -222,6 +227,7 @@ void World::buildScene()
 	// Add enemy tanks
 	addEnemies();
   spawnEnemies();
+  spawnBlocks();
 }
 
 void World::addEnemies()
@@ -272,6 +278,20 @@ void World::spawnEnemies()
 		// Enemy is spawned, remove from the list to spawn
     mEnemySpawnPoints.pop_back();
   }
+}
+
+void World::spawnBlocks()
+{
+  Command command;
+  command.category = Category::BlockSystem;
+  command.action = derivedAction<BlockNode>(
+    [this] (BlockNode& b, sf::Time)
+  {
+    if (b.getBlockType() == Block::Indestructible)
+      b.addBlock(sf::Vector2f(100.f, 100.f), sf::Vector2f(200.f, 200.f));
+  });
+
+  mCommandQueue.push(command);
 }
 
 void World::destroyProjectilesOutsideView()

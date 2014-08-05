@@ -49,6 +49,7 @@ class World : private sf::NonCopyable
                                  float rotation, 
                                  float numberOfKillsToAppear);
     void                spawnEnemies();
+    void                spawnBlocks();
     void                destroyProjectilesOutsideView();
     void                updateDestroyedEnemiesCounter();
     void                updateActiveEnemiesVector();
