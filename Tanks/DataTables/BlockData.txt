@@ -1,5 +1,5 @@
 BlockType: Indestructible
-Color: 0 0 255 0
+Color: 255 255 255 255
 Hitpoints: 100
 
 BlockType: Destructible

@@ -19,23 +19,21 @@ class Block : public SceneNode
 
   public:
                             Block(Block::Type type,
-                                  sf::Vector2f size,
-                                  sf::Vector2f position);
+                                  sf::Vector2f size);
 
     virtual unsigned int    getCategory() const;
     virtual sf::FloatRect   getBoundingRect() const;
 
 
 	private:
-		virtual void			updateCurrent(sf::Time dt, CommandQueue& commands);
 		virtual void			drawCurrent(sf::RenderTarget& target, 
                                   sf::RenderStates states) const;
 
 
   private:
-    Block::Type       mType;
-    sf::RectangleShape mShape;
-    int               mHitpoints;
+    Block::Type           mType;
+    sf::RectangleShape    mShape;
+    int                   mHitpoints;
 };
 
 #endif // TANKS_BLOCK_HPP

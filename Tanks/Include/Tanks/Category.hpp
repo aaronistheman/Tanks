@@ -15,6 +15,8 @@ namespace Category
     EnemyTank2    = 1 << 4,
     AlliedProjectile = 1 << 5,
     EnemyProjectile  = 1 << 6,
+    IndestructibleBlock = 1 << 7,
+    DestructibleBlock   = 1 << 8,
 
     EnemyTank = EnemyTank1 | EnemyTank2,
 

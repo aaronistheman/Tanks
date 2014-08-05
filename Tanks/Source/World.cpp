@@ -2,6 +2,7 @@
 #include <Tanks/Foreach.hpp>
 #include <Tanks/Category.hpp>
 #include <Tanks/Utility.hpp>
+#include <Tanks/Block.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -227,6 +228,10 @@ void World::buildScene()
 	mPlayerTank = leader.get();
 	mPlayerTank->setPosition(mWorldView.getCenter());
 	mSceneLayers[Ground]->attachChild(std::move(leader));
+
+  std::unique_ptr<Block> block(new Block(Block::Indestructible, sf::Vector2f(200.f, 200.f)));
+  block->setPosition(200.f, 200.f);
+  mSceneLayers[Ground]->attachChild(std::move(block));
 
 	// Add enemy tanks
 	addEnemies();
