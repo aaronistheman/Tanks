@@ -164,7 +164,18 @@ void World::handleCollisions()
 
   FOREACH(SceneNode::Pair pair, collisionPairs)
   {
-    if (matchesCategories(pair, Category::Tank, Category::Tank))
+    if (matchesCategories(pair, Category::EnemyTank, 
+                               Category::AlliedProjectile)
+             || matchesCategories(pair, Category::PlayerTank,
+                                  Category::EnemyProjectile))
+    {
+      auto& tank = static_cast<Tank&>(*pair.first);
+      auto& projectile = static_cast<Projectile&>(*pair.second);
+
+      tank.damage(projectile.getDamage());
+      projectile.destroy();
+    }
+    else if (matchesCategories(pair, Category::Tank, Category::Tank))
     {
       auto& tank1 = static_cast<Tank&>(*pair.first);
       auto& tank2 = static_cast<Tank&>(*pair.second);
@@ -177,16 +188,14 @@ void World::handleCollisions()
       tank2.setIsCollidingWithTank(true);
       tank2.setIntersection(intersection);
     }
-    else if (matchesCategories(pair, Category::EnemyTank, 
-                               Category::AlliedProjectile)
-             || matchesCategories(pair, Category::PlayerTank,
-                                  Category::EnemyProjectile))
+    else if (matchesCategories(pair, Category::Tank, Category::BlockSystem))
     {
       auto& tank = static_cast<Tank&>(*pair.first);
-      auto& projectile = static_cast<Projectile&>(*pair.second);
+      auto& blockNode = static_cast<BlockNode&>(*pair.second);
 
-      tank.damage(projectile.getDamage());
-      projectile.destroy();
+      // Update the intersection rectangle of the tank
+      sf::FloatRect intersection;
+      
     }
   }
 }
@@ -282,16 +291,19 @@ void World::spawnEnemies()
 
 void World::spawnBlocks()
 {
-  Command command;
-  command.category = Category::BlockSystem;
-  command.action = derivedAction<BlockNode>(
+  Command blockUpdater;
+  blockUpdater.category = Category::BlockSystem;
+  blockUpdater.action = derivedAction<BlockNode>(
     [this] (BlockNode& b, sf::Time)
   {
     if (b.getBlockType() == Block::Indestructible)
+    {
       b.addBlock(sf::Vector2f(100.f, 100.f), sf::Vector2f(200.f, 200.f));
+      b.addBlock(sf::Vector2f(100.f, 100.f), sf::Vector2f(1050.f, 450.f));
+    }
   });
 
-  mCommandQueue.push(command);
+  mCommandQueue.push(blockUpdater);
 }
 
 void World::destroyProjectilesOutsideView()
