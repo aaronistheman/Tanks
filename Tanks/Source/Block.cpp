@@ -1,5 +1,6 @@
 #include <Tanks/Block.hpp>
 #include <Tanks/DataTables.hpp>
+#include <Tanks/Utility.hpp>
 #include <Tanks/Foreach.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -18,6 +19,8 @@ Block::Block(Block::Type type,
 {
   mShape.setSize(size);
   mShape.setFillColor(Table[mType].color);
+
+  centerOrigin(mShape);
 }
 
 unsigned int Block::getCategory() const
@@ -30,7 +33,7 @@ unsigned int Block::getCategory() const
 
 sf::FloatRect Block::getBoundingRect() const
 {
-  return sf::FloatRect(getPosition(), mShape.getSize());
+  return getWorldTransform().transformRect(mShape.getGlobalBounds());
 }
 
 void Block::drawCurrent(sf::RenderTarget& target, 

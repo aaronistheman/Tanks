@@ -22,6 +22,7 @@ namespace Category
 
     Tank = PlayerTank | AlliedTank | EnemyTank,
 		Projectile = AlliedProjectile | EnemyProjectile,
+    Block = IndestructibleBlock | DestructibleBlock,
 	};
 }
 
