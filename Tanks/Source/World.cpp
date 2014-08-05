@@ -2,7 +2,6 @@
 #include <Tanks/Foreach.hpp>
 #include <Tanks/Category.hpp>
 #include <Tanks/Utility.hpp>
-#include <Tanks/Block.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -57,6 +56,9 @@ void World::update(sf::Time dt)
   // Remove all entities that are marked for removal; create new ones
 	mSceneGraph.removeWrecks();
 	spawnEnemies();
+
+  // Create new blocks if necessary
+  spawnBlocks();
 
 	// Regular update step, adapt position (correct if outside view)
 	mSceneGraph.update(dt, mCommandQueue);
@@ -229,13 +231,12 @@ void World::buildScene()
 	mPlayerTank->setPosition(mWorldView.getCenter());
 	mSceneLayers[Ground]->attachChild(std::move(leader));
 
-  std::unique_ptr<Block> block(new Block(Block::Indestructible, sf::Vector2f(200.f, 200.f)));
-  block->setPosition(200.f, 200.f);
-  mSceneLayers[Ground]->attachChild(std::move(block));
-
 	// Add enemy tanks
 	addEnemies();
   spawnEnemies();
+
+  // Add blocks
+  addBlocks();
   spawnBlocks();
 }
 
@@ -253,7 +254,7 @@ void World::addEnemies()
   // before each appears, 
   // such that enemies with a lower amount of required kills are checked 
   // first for spawning
-	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), [] (SpawnPoint lhs, SpawnPoint rhs)
+	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), [] (EnemySpawnPoint lhs, EnemySpawnPoint rhs)
 	{
 		return lhs.n > rhs.n;
 	});
@@ -264,7 +265,7 @@ void World::addEnemy(Tank::Type type,
                      float rotation, 
                      float numberOfKillsToAppear)
 {
-	SpawnPoint spawn(type, spawnPosition.x, spawnPosition.y, rotation, 
+	EnemySpawnPoint spawn(type, spawnPosition.x, spawnPosition.y, rotation, 
                    numberOfKillsToAppear);
 	mEnemySpawnPoints.push_back(spawn);
 }
@@ -276,7 +277,7 @@ void World::spawnEnemies()
   while (!mEnemySpawnPoints.empty()
          && mEnemySpawnPoints.back().n <= mNumberOfDestroyedEnemies)
   {
-    SpawnPoint spawn = mEnemySpawnPoints.back();
+    EnemySpawnPoint spawn = mEnemySpawnPoints.back();
 
     std::unique_ptr<Tank> enemy(new Tank(spawn.type, mTextures, mFonts));
     enemy->setPosition(spawn.x, spawn.y);
@@ -289,22 +290,41 @@ void World::spawnEnemies()
   }
 }
 
+void World::addBlocks()
+{
+  // Add blocks to the spawn point container
+  addBlock(Block::Indestructible, sf::Vector2f(300.f, 300.f), 
+                                  sf::Vector2f(200.f, 200.f));
+  addBlock(Block::Indestructible, sf::Vector2f(0.f, 0.f),
+                                  sf::Vector2f(100.f, 100.f));
+}
+
+void World::addBlock(Block::Type type,
+                     sf::Vector2f spawnPosition,
+                     sf::Vector2f size)
+{
+  BlockSpawnPoint spawn(type, spawnPosition.x, spawnPosition.y,
+                        size.x, size.y);
+  mBlockSpawnPoints.push_back(spawn);
+}
+
 void World::spawnBlocks()
 {
-  ;
-  /*Command blockUpdater;
-  blockUpdater.category = Category::BlockSystem;
-  blockUpdater.action = derivedAction<BlockNode>(
-    [this] (BlockNode& b, sf::Time)
+  // Spawn all blocks that are able to appear based on if seen by
+  // the view
+  while (!mBlockSpawnPoints.empty())
   {
-    if (b.getBlockType() == Block::Indestructible)
-    {
-      b.addBlock(sf::Vector2f(100.f, 100.f), sf::Vector2f(200.f, 200.f));
-      b.addBlock(sf::Vector2f(100.f, 100.f), sf::Vector2f(1050.f, 450.f));
-    }
-  });
+    BlockSpawnPoint spawn = mBlockSpawnPoints.back();
 
-  mCommandQueue.push(blockUpdater);*/
+    std::unique_ptr<Block> block(new Block(
+      spawn.type, sf::Vector2f(spawn.sizeX, spawn.sizeY)));
+    block->setPosition(spawn.posX, spawn.posY);
+
+    mSceneLayers[Ground]->attachChild(std::move(block));
+
+    // Block is spawned, remove from the list to spawn
+    mBlockSpawnPoints.pop_back();
+  }
 }
 
 void World::destroyProjectilesOutsideView()

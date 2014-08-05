@@ -6,6 +6,7 @@
 #include <Tanks/SceneNode.hpp>
 #include <Tanks/SpriteNode.hpp>
 #include <Tanks/Tank.hpp>
+#include <Tanks/Block.hpp>
 #include <Tanks/CommandQueue.hpp>
 #include <Tanks/Command.hpp>
 
@@ -49,6 +50,10 @@ class World : private sf::NonCopyable
                                  float rotation, 
                                  float numberOfKillsToAppear);
     void                spawnEnemies();
+    void                addBlocks();
+    void                addBlock(Block::Type type,
+                                 sf::Vector2f spawnPosition,
+                                 sf::Vector2f size);
     void                spawnBlocks();
     void                destroyProjectilesOutsideView();
     void                updateDestroyedEnemiesCounter();
@@ -65,9 +70,9 @@ class World : private sf::NonCopyable
 			LayerCount
 		};
 
-    struct SpawnPoint
+    struct EnemySpawnPoint
     {
-      SpawnPoint(Tank::Type type, float x, float y, float rotation,
+      EnemySpawnPoint(Tank::Type type, float x, float y, float rotation,
                  float numberOfKills)
         : type(type)
         , x(x)
@@ -82,6 +87,25 @@ class World : private sf::NonCopyable
       float y;
       float r;
       float n;
+    };
+
+    struct BlockSpawnPoint
+    {
+      BlockSpawnPoint(Block::Type type, float posX, float posY,
+                      float sizeX, float sizeY)
+        : type(type)
+        , posX(posX)
+        , posY(posY)
+        , sizeX(sizeX)
+        , sizeY(sizeY)
+      {
+      }
+
+      Block::Type type;
+      float posX;
+      float posY;
+      float sizeX;
+      float sizeY;
     };
 
 
@@ -99,7 +123,8 @@ class World : private sf::NonCopyable
 		float								mScrollSpeed;
 		Tank*							mPlayerTank;
 
-    std::vector<SpawnPoint>     mEnemySpawnPoints;
+    std::vector<EnemySpawnPoint>     mEnemySpawnPoints;
+    std::vector<BlockSpawnPoint>     mBlockSpawnPoints;
 		std::vector<Tank*>				mActiveEnemies;
     std::vector<Tank*>        mHuntingEnemies;
     int                       mNumberOfDestroyedEnemies;
