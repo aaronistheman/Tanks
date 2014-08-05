@@ -1,22 +1,41 @@
 #ifndef TANKS_BLOCK_HPP
 #define TANKS_BLOCK_HPP
 
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics/Color.hpp>
+#include <Tanks/SceneNode.hpp>
 
-struct Block
+#include <SFML/Graphics/RectangleShape.hpp>
+
+
+// The blocks contained in this node act as walls
+class Block : public SceneNode
 {
-  enum Type
-  {
-    Indestructible,
-    Destructible,
-    BlockCount
-  };
+  public:
+    enum Type
+    {
+      Indestructible,
+      Destructible,
+      TypeCount
+    };
 
-  sf::Vector2f    size;
-  sf::Vector2f    position;
-  sf::Color       color;
-  int             hitpoints;
+  public:
+                            Block(Block::Type type,
+                                  sf::Vector2f size,
+                                  sf::Vector2f position);
+
+    virtual unsigned int    getCategory() const;
+    virtual sf::FloatRect   getBoundingRect() const;
+
+
+	private:
+		virtual void			updateCurrent(sf::Time dt, CommandQueue& commands);
+		virtual void			drawCurrent(sf::RenderTarget& target, 
+                                  sf::RenderStates states) const;
+
+
+  private:
+    Block::Type       mType;
+    sf::RectangleShape mShape;
+    int               mHitpoints;
 };
 
-#endif TANKS_BLOCK_HPP
+#endif // TANKS_BLOCK_HPP

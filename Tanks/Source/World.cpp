@@ -2,7 +2,6 @@
 #include <Tanks/Foreach.hpp>
 #include <Tanks/Category.hpp>
 #include <Tanks/Utility.hpp>
-#include <Tanks/BlockNode.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -188,7 +187,7 @@ void World::handleCollisions()
       tank2.setIsCollidingWithTank(true);
       tank2.setIntersection(intersection);
     }
-    else if (matchesCategories(pair, Category::Tank, Category::BlockSystem))
+    /*else if (matchesCategories(pair, Category::Tank, Category::BlockSystem))
     {
       auto& tank = static_cast<Tank&>(*pair.first);
       auto& blockNode = static_cast<BlockNode&>(*pair.second);
@@ -196,7 +195,7 @@ void World::handleCollisions()
       // Update the intersection rectangle of the tank
       sf::FloatRect intersection;
       
-    }
+    }*/
   }
 }
 
@@ -222,10 +221,6 @@ void World::buildScene()
 	std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(texture, textureRect));
 	backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
 	mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
-
-  // Add indestructible wall node to the scene
-  std::unique_ptr<BlockNode> indestructibleBlocksNode(new BlockNode(Block::Indestructible));
-  mSceneLayers[Ground]->attachChild(std::move(indestructibleBlocksNode));
 
 	// Add player's tank
 	std::unique_ptr<Tank> leader(new Tank(Tank::DefaultTank, mTextures, mFonts));
@@ -291,7 +286,8 @@ void World::spawnEnemies()
 
 void World::spawnBlocks()
 {
-  Command blockUpdater;
+  ;
+  /*Command blockUpdater;
   blockUpdater.category = Category::BlockSystem;
   blockUpdater.action = derivedAction<BlockNode>(
     [this] (BlockNode& b, sf::Time)
@@ -303,7 +299,7 @@ void World::spawnBlocks()
     }
   });
 
-  mCommandQueue.push(blockUpdater);
+  mCommandQueue.push(blockUpdater);*/
 }
 
 void World::destroyProjectilesOutsideView()

@@ -196,7 +196,7 @@ std::vector<ProjectileData> initializeProjectileData()
 
 std::vector<BlockData> initializeBlockData()
 {
-  std::vector<BlockData> data(Block::BlockCount);
+  std::vector<BlockData> data(Block::TypeCount);
   
   std::string filePath = "DataTables/BlockData.txt";
   std::ifstream ist(filePath.c_str());
