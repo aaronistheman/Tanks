@@ -169,37 +169,62 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
   // Update enemy movement pattern
 	updateMovementPattern(dt);
 
-  // React to collision with other tank
+  // React to collision with other tank;
+  // Use the intersection to move the tank so as to remove that
+  // intersection
   if (mIsCollidingWithTank)
   {
-    // Use the intersection to move the tank so as to remove that
-    // intersection
+    sf::Vector2f position = getPosition();
     
     // Edit velocity
     sf::Vector2f velocity;
     velocity.x = getMaxMovementSpeed() * 
-                 (getPosition().x > mIntersection.left) ? 1.f : -1.f;
+                 (position.x > mIntersection.left) ? 1.f : -1.f;
     velocity.y = getMaxMovementSpeed() *
-                 (getPosition().y > mIntersection.top) ? 1.f : -1.f;
+                 (position.y > mIntersection.top) ? 1.f : -1.f;
     setVelocity(velocity);
     
     // Edit position
     sf::Vector2f positionOffset;
     positionOffset.x = mIntersection.width * 
-                 (getPosition().x > mIntersection.left) ? 1.f : -1.f;
+                 (position.x > mIntersection.left) ? 1.f : -1.f;
     positionOffset.y = mIntersection.height *
-                 (getPosition().y > mIntersection.top) ? 1.f : -1.f;
-    setPosition(getPosition() + positionOffset);
+                 (position.y > mIntersection.top) ? 1.f : -1.f;
+    setPosition(position + positionOffset);
 
     mIsCollidingWithTank = false;
   }
 
-  // React to collision with block
+  // React to collision with block;
+  // Use the intersection to cancel the tank's movement in whichever
+  // direction would put it through the block;
+  // prevent rotation
   if (mIsCollidingWithBlock)
   {
-    // Use the intersection to cancel the tank's movement in whichever
-    // direction would put it through the block;
-    // prevent rotation
+    
+    sf::Vector2f position = getPosition();
+    sf::Vector2f velocity = getVelocity();
+    sf::FloatRect boundingRect = getBoundingRect();
+    
+    if (boundingRect.left == mIntersection.left && velocity.x < 0.f)
+      // Cancel leftward movement
+      velocity.x = 0.f;
+    else if ((boundingRect.left + boundingRect.width) == 
+             (mIntersection.left + mIntersection.width) && velocity.x > 0.f)
+      // Cancel rightward movement
+      velocity.x = 0.f;
+
+    if (boundingRect.top == mIntersection.top && velocity.y < 0.f)
+      // Cancel upward movement
+      velocity.y = 0.f;
+    else if ((boundingRect.top + boundingRect.height) ==
+             (mIntersection.top + mIntersection.height) && velocity.y > 0.f)
+      // Cancel downward movement
+      velocity.y = 0.f;
+
+    setPosition(position);
+    setVelocity(velocity);
+    
     mIsCollidingWithBlock = false;
   }
 
