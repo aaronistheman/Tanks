@@ -25,7 +25,8 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mFireCountdown(sf::Time::Zero)
 , mIsFiring(false)
 , mIsMarkedForRemoval(false)
-, mIsColliding(false)
+, mIsCollidingWithTank(false)
+, mIsCollidingWithBlock(false)
 , mIntersection(sf::FloatRect())
 , mFireRateLevel(1)
 , mTravelledDistance(0.f)
@@ -96,9 +97,14 @@ bool Tank::isMarkedForRemoval() const
 	return mIsMarkedForRemoval;
 }
 
-bool Tank::isColliding() const
+bool Tank::isCollidingWithTank() const
 {
-  return mIsColliding;
+  return mIsCollidingWithTank;
+}
+
+bool Tank::isCollidingWithBlock() const
+{
+  return mIsCollidingWithBlock;
 }
 
 bool Tank::isAllied() const
@@ -121,9 +127,14 @@ float Tank::getMaxRotationSpeed() const
   return Table[mType].rotationSpeed;
 }
 
-void Tank::setIsColliding(bool flag)
+void Tank::setIsCollidingWithTank(bool flag)
 {
-  mIsColliding = flag;
+  mIsCollidingWithTank = flag;
+}
+
+void Tank::setIsCollidingWithBlock(bool flag)
+{
+  mIsCollidingWithBlock = flag;
 }
 
 void Tank::setIntersection(sf::FloatRect rect)
@@ -155,10 +166,11 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
   // Check if bullets are fired
   checkProjectileLaunch(dt, commands);
 
-  // Update enemy movement pattern; react to collision with other tank;
-  // apply velocity
+  // Update enemy movement pattern
 	updateMovementPattern(dt);
-  if (mIsColliding)
+
+  // React to collision with other tank
+  if (mIsCollidingWithTank)
   {
     // Use the intersection to move the tank so as to remove that
     // intersection
@@ -179,8 +191,19 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
                  (getPosition().y > mIntersection.top) ? 1.f : -1.f;
     setPosition(getPosition() + positionOffset);
 
-    mIsColliding = false;
+    mIsCollidingWithTank = false;
   }
+
+  // React to collision with block
+  if (mIsCollidingWithBlock)
+  {
+    // Use the intersection to cancel the tank's movement in whichever
+    // direction would put it through the block;
+    // prevent rotation
+    mIsCollidingWithBlock = false;
+  }
+
+  // Apply velocity and rotation
 	Entity::updateCurrent(dt, commands);
   sf::Transformable::rotate(mRotationOffset * dt.asSeconds());
 

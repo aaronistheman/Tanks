@@ -186,9 +186,9 @@ void World::handleCollisions()
       sf::FloatRect intersection;
       tank1.getBoundingRect().intersects(tank2.getBoundingRect(), 
                                          intersection);
-      tank1.setIsColliding(true);
+      tank1.setIsCollidingWithTank(true);
       tank1.setIntersection(intersection);
-      tank2.setIsColliding(true);
+      tank2.setIsCollidingWithTank(true);
       tank2.setIntersection(intersection);
     }
     else if (matchesCategories(pair, Category::Tank, Category::Block))
@@ -200,7 +200,7 @@ void World::handleCollisions()
       sf::FloatRect intersection;
       tank.getBoundingRect().intersects(block.getBoundingRect(), 
                                         intersection);
-      tank.setIsColliding(true);
+      tank.setIsCollidingWithBlock(true);
       tank.setIntersection(intersection);
     }
     else if (matchesCategories(pair, 
