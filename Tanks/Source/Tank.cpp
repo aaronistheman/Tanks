@@ -10,6 +10,8 @@
 #include <cmath>
 #include <math.h>
 
+#include <iostream>
+
 
 namespace
 {
@@ -27,7 +29,8 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mIsMarkedForRemoval(false)
 , mIsCollidingWithTank(false)
 , mIsCollidingWithBlock(false)
-, mIntersection(sf::FloatRect())
+, mIntersectionWithTank(sf::FloatRect())
+, mIntersectionWithBlock(sf::FloatRect())
 , mFireRateLevel(1)
 , mTravelledDistance(0.f)
 , mAmountRotation(0.f)
@@ -127,19 +130,16 @@ float Tank::getMaxRotationSpeed() const
   return Table[mType].rotationSpeed;
 }
 
-void Tank::setIsCollidingWithTank(bool flag)
+void Tank::setIsCollidingWithTank(bool flag, sf::FloatRect intersection)
 {
   mIsCollidingWithTank = flag;
+  mIntersectionWithTank = intersection;
 }
 
-void Tank::setIsCollidingWithBlock(bool flag)
+void Tank::setIsCollidingWithBlock(bool flag, sf::FloatRect intersection)
 {
   mIsCollidingWithBlock = flag;
-}
-
-void Tank::setIntersection(sf::FloatRect rect)
-{
-  mIntersection = rect;
+  mIntersectionWithBlock = intersection;
 }
 
 void Tank::fire()
@@ -168,65 +168,12 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
 
   // Update enemy movement pattern
 	updateMovementPattern(dt);
-
-  // React to collision with other tank;
-  // Use the intersection to move the tank so as to remove that
-  // intersection
-  if (mIsCollidingWithTank)
-  {
-    sf::Vector2f position = getPosition();
-    
-    // Edit velocity
-    sf::Vector2f velocity;
-    velocity.x = getMaxMovementSpeed() * 
-                 (position.x > mIntersection.left) ? 1.f : -1.f;
-    velocity.y = getMaxMovementSpeed() *
-                 (position.y > mIntersection.top) ? 1.f : -1.f;
-    setVelocity(velocity);
-    
-    // Edit position
-    sf::Vector2f positionOffset;
-    positionOffset.x = mIntersection.width * 
-                 (position.x > mIntersection.left) ? 1.f : -1.f;
-    positionOffset.y = mIntersection.height *
-                 (position.y > mIntersection.top) ? 1.f : -1.f;
-    setPosition(position + positionOffset);
-
-    mIsCollidingWithTank = false;
-  }
-
-  // React to collision with block;
-  // Use the intersection to cancel the tank's movement in whichever
-  // direction would put it through the block;
-  // prevent rotation
-  if (mIsCollidingWithBlock)
-  {
-    
-    sf::Vector2f position = getPosition();
-    sf::Vector2f velocity = getVelocity();
-    sf::FloatRect boundingRect = getBoundingRect();
-    
-    if (boundingRect.left == mIntersection.left && velocity.x < 0.f)
-      // Cancel leftward movement
-      velocity.x = 0.f;
-    else if ((boundingRect.left + boundingRect.width) == 
-             (mIntersection.left + mIntersection.width) && velocity.x > 0.f)
-      // Cancel rightward movement
-      velocity.x = 0.f;
-
-    if (boundingRect.top == mIntersection.top && velocity.y < 0.f)
-      // Cancel upward movement
-      velocity.y = 0.f;
-    else if ((boundingRect.top + boundingRect.height) ==
-             (mIntersection.top + mIntersection.height) && velocity.y > 0.f)
-      // Cancel downward movement
-      velocity.y = 0.f;
-
-    setPosition(position);
-    setVelocity(velocity);
-    
-    mIsCollidingWithBlock = false;
-  }
+  
+  // Handle collisions with tanks and blocks
+  handleCollisionWithTank();
+  if (mType == DefaultTank)
+    std::cout << mIsCollidingWithBlock << '\n';
+  handleCollisionWithBlock();
 
   // Apply velocity and rotation
 	Entity::updateCurrent(dt, commands);
@@ -298,6 +245,95 @@ void Tank::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
   {
     mFireCountdown -= dt;
     mIsFiring = false;
+  }
+}
+
+void Tank::handleCollisionWithTank()
+{
+  // React to collision with other tank;
+  // use the intersection to move the tank so as to remove that
+  // intersection
+  if (mIsCollidingWithTank)
+  {
+    sf::Vector2f position = getPosition();
+    
+    // Edit velocity
+    sf::Vector2f velocity;
+    velocity.x = getMaxMovementSpeed() * 
+                 (position.x > mIntersectionWithTank.left) ? 1.f : -1.f;
+    velocity.y = getMaxMovementSpeed() *
+                 (position.y > mIntersectionWithTank.top) ? 1.f : -1.f;
+    setVelocity(velocity);
+    
+    // Edit position
+    sf::Vector2f positionOffset;
+    positionOffset.x = mIntersectionWithTank.width * 
+                 (position.x > mIntersectionWithTank.left) ? 1.f : -1.f;
+    positionOffset.y = mIntersectionWithTank.height *
+                 (position.y > mIntersectionWithTank.top) ? 1.f : -1.f;
+    setPosition(position + positionOffset);
+    
+    setIsCollidingWithTank(false);
+  }
+}
+
+void Tank::handleCollisionWithBlock()
+{
+  // React to collision with block;
+  // use the intersection to cancel the tank's movement in whichever
+  // direction would put it through the block;
+  // prevent rotation
+  if (mIsCollidingWithBlock)
+  {
+    // sf::Vector2f position = getPosition();
+    // sf::Vector2f velocity = getVelocity();
+    // sf::FloatRect boundingRect = getBoundingRect();
+    
+    /*if (boundingRect.left == mIntersectionWithBlock.left && velocity.x < 0.f)
+      // Cancel leftward movement
+      velocity.x = 0.f;
+    else if ((boundingRect.left + boundingRect.width) == 
+             (mIntersectionWithBlock.left + mIntersectionWithBlock.width) && velocity.x > 0.f)
+      // Cancel rightward movement
+      velocity.x = 0.f;
+
+    if (boundingRect.top == mIntersectionWithBlock.top && velocity.y < 0.f)
+      // Cancel upward movement
+      velocity.y = 0.f;
+    else if ((boundingRect.top + boundingRect.height) ==
+             (mIntersectionWithBlock.top + mIntersectionWithBlock.height) && velocity.y > 0.f)
+      // Cancel downward movement
+      velocity.y = 0.f;*/
+
+    // Cancel leftward movement
+    // position.x = std::max(position.x, mIntersectionWithBlock.left + boundingRect.width);
+    // Cancel rightwrd movement
+    // position.x = std::min(position.x, mIntersectionWithBlock.left);
+    // Cancel upward movement
+    // position.y = std::max(position.y, mIntersectionWithBlock
+
+    // setPosition(position);
+    // setVelocity(velocity);
+    
+    sf::Vector2f position = getPosition();
+    
+    // Edit velocity
+    sf::Vector2f velocity;
+    velocity.x = getMaxMovementSpeed() * 
+                 (position.x > mIntersectionWithBlock.left) ? 1.f : -1.f;
+    velocity.y = getMaxMovementSpeed() *
+                 (position.y > mIntersectionWithBlock.top) ? 1.f : -1.f;
+    setVelocity(velocity);
+    
+    // Edit position
+    sf::Vector2f positionOffset;
+    positionOffset.x = mIntersectionWithBlock.width * 
+                 (position.x > mIntersectionWithBlock.left) ? 1.f : -1.f;
+    positionOffset.y = mIntersectionWithBlock.height *
+                 (position.y > mIntersectionWithBlock.top) ? 1.f : -1.f;
+    setPosition(position + positionOffset);
+    
+    setIsCollidingWithBlock(false);
   }
 }
 

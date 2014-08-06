@@ -38,9 +38,10 @@ class Tank : public Entity
     float                 getMaxMovementSpeed() const;
     float                 getMaxRotationSpeed() const;
 
-    void                  setIsCollidingWithTank(bool flag);
-    void                  setIsCollidingWithBlock(bool flag);
-    void                  setIntersection(sf::FloatRect rect);
+    void                  setIsCollidingWithTank(bool flag, 
+                            sf::FloatRect intersection = sf::FloatRect());
+    void                  setIsCollidingWithBlock(bool flag, 
+                            sf::FloatRect intersection = sf::FloatRect());
     void                  fire();
 
 
@@ -50,6 +51,8 @@ class Tank : public Entity
     virtual void    updateCurrent(sf::Time dt, CommandQueue& commands);
     void         updateMovementPattern(sf::Time dt);
     void         checkProjectileLaunch(sf::Time dt, CommandQueue& commands);
+    void         handleCollisionWithTank();
+    void         handleCollisionWithBlock();
 
     void         createBullets(SceneNode& node, const TextureHolder& textures) const;
     void         createProjectile(SceneNode& node,
@@ -70,7 +73,8 @@ class Tank : public Entity
     bool            mIsMarkedForRemoval;
     bool            mIsCollidingWithTank;
     bool            mIsCollidingWithBlock;
-    sf::FloatRect   mIntersection;
+    sf::FloatRect   mIntersectionWithTank;
+    sf::FloatRect   mIntersectionWithBlock;
 
     int             mFireRateLevel;
 

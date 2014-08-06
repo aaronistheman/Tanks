@@ -186,10 +186,8 @@ void World::handleCollisions()
       sf::FloatRect intersection;
       tank1.getBoundingRect().intersects(tank2.getBoundingRect(), 
                                          intersection);
-      tank1.setIsCollidingWithTank(true);
-      tank1.setIntersection(intersection);
-      tank2.setIsCollidingWithTank(true);
-      tank2.setIntersection(intersection);
+      tank1.setIsCollidingWithTank(true, intersection);
+      tank2.setIsCollidingWithTank(true, intersection);
     }
     else if (matchesCategories(pair, Category::Tank, Category::Block))
     {
@@ -200,8 +198,7 @@ void World::handleCollisions()
       sf::FloatRect intersection;
       tank.getBoundingRect().intersects(block.getBoundingRect(), 
                                         intersection);
-      tank.setIsCollidingWithBlock(true);
-      tank.setIntersection(intersection);
+      tank.setIsCollidingWithBlock(true, intersection);
     }
     else if (matchesCategories(pair, 
                                Category::Projectile, 
@@ -257,11 +254,11 @@ void World::addEnemies()
 {
   // Add enemies to the spawn point container
   addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f, 0);
-  addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f, 0);
-  addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f, 1);
-  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f, 0);
-  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f, 1);
-  addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f, 2);
+  // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f, 0);
+  // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f, 1);
+  // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f, 0);
+  // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f, 1);
+  // addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f, 2);
 
 	// Sort all enemies according to the number of tanks that must be killed
   // before each appears, 

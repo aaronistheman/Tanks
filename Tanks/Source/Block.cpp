@@ -37,7 +37,7 @@ sf::FloatRect Block::getBoundingRect() const
   // collision detection
   sf::FloatRect rect = 
     getWorldTransform().transformRect(mShape.getGlobalBounds());
-  const float extraRoom = 10.f;
+  /*const float extraRoom = 10.f;
   if (rect.width > extraRoom * 3.f)
   {
     rect.width -= (extraRoom * 2.f);
@@ -47,7 +47,7 @@ sf::FloatRect Block::getBoundingRect() const
   {
     rect.height -= (extraRoom * 2.f);
     rect.top += extraRoom;
-  }
+  }*/
 
   return rect;
 }
