@@ -100,16 +100,6 @@ bool Tank::isMarkedForRemoval() const
 	return mIsMarkedForRemoval;
 }
 
-bool Tank::isCollidingWithTank() const
-{
-  return mIsCollidingWithTank;
-}
-
-bool Tank::isCollidingWithBlock() const
-{
-  return mIsCollidingWithBlock;
-}
-
 bool Tank::isAllied() const
 {
   return mType == Type::DefaultTank;
@@ -280,41 +270,10 @@ void Tank::handleCollisionWithTank()
 void Tank::handleCollisionWithBlock()
 {
   // React to collision with block;
-  // use the intersection to cancel the tank's movement in whichever
-  // direction would put it through the block;
-  // prevent rotation
+  // use the intersection to move the tank so as to remove that
+  // intersection
   if (mIsCollidingWithBlock)
   {
-    // sf::Vector2f position = getPosition();
-    // sf::Vector2f velocity = getVelocity();
-    // sf::FloatRect boundingRect = getBoundingRect();
-    
-    /*if (boundingRect.left == mIntersectionWithBlock.left && velocity.x < 0.f)
-      // Cancel leftward movement
-      velocity.x = 0.f;
-    else if ((boundingRect.left + boundingRect.width) == 
-             (mIntersectionWithBlock.left + mIntersectionWithBlock.width) && velocity.x > 0.f)
-      // Cancel rightward movement
-      velocity.x = 0.f;
-
-    if (boundingRect.top == mIntersectionWithBlock.top && velocity.y < 0.f)
-      // Cancel upward movement
-      velocity.y = 0.f;
-    else if ((boundingRect.top + boundingRect.height) ==
-             (mIntersectionWithBlock.top + mIntersectionWithBlock.height) && velocity.y > 0.f)
-      // Cancel downward movement
-      velocity.y = 0.f;*/
-
-    // Cancel leftward movement
-    // position.x = std::max(position.x, mIntersectionWithBlock.left + boundingRect.width);
-    // Cancel rightwrd movement
-    // position.x = std::min(position.x, mIntersectionWithBlock.left);
-    // Cancel upward movement
-    // position.y = std::max(position.y, mIntersectionWithBlock
-
-    // setPosition(position);
-    // setVelocity(velocity);
-    
     sf::Vector2f position = getPosition();
     
     // Edit velocity
