@@ -52,6 +52,8 @@ class Tank : public Entity
     void         handleCollisions();
     void         handleCollisionsWithTank();
     void         handleCollisionsWithBlock();
+    void         adaptVelocityBasedOnCollisions();
+    void         adaptRotationBasedOnCollisions();
 
     void         createBullets(SceneNode& node, const TextureHolder& textures) const;
     void         createProjectile(SceneNode& node,
@@ -76,9 +78,6 @@ class Tank : public Entity
     Type            mType;
     sf::Sprite      mSprite;
     float           mRotationOffset; // basically a rate of rotation
-    sf::Vector2f    mPreviousVelocity;
-    float           mPreviousRotationOffset;
-    sf::Time        mPreviousChangeInTime;
     bool            mCanMoveLeft;
     bool            mCanMoveRight;
     bool            mCanMoveUp;

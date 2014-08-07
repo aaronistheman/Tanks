@@ -21,9 +21,6 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mType(type)
 , mSprite(textures.get(Table[type].texture))
 , mRotationOffset(0.f)
-, mPreviousVelocity()
-, mPreviousRotationOffset(0.f)
-, mPreviousChangeInTime(sf::Time::Zero)
 , mCanMoveLeft(true)
 , mCanMoveRight(true)
 , mCanMoveUp(true)
@@ -165,30 +162,6 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
   // Handle collisions with tanks and blocks
   handleCollisions();
 
-  // Update previous velocity, rotation, and dt in case of need to handle
-  // collision
-  mPreviousVelocity = getVelocity();
-  mPreviousRotationOffset = mRotationOffset;
-  mPreviousChangeInTime = dt;
-
-  // Edit velocity based on where tank can and cannot move (if necessary)
-  sf::Vector2f velocity = getVelocity();
-  if (!mCanMoveLeft && velocity.x < 0.f)
-    velocity.x = 0.f;
-  else if (!mCanMoveRight && velocity.x > 0.f)
-    velocity.x = 0.f;
-  if (!mCanMoveUp && velocity.y < 0.f)
-    velocity.y = 0.f;
-  else if (!mCanMoveDown && velocity.y > 0.f)
-    velocity.y = 0.f;
-  setVelocity(velocity);
-
-  // Edit rotation based on which way the tank can and cannot rotate (if
-  // necessary)
-  if ((!mCanRotateCounterclockwise && mRotationOffset < 0.f) ||
-      (!mCanRotateClockwise && mRotationOffset > 0.f))
-    mRotationOffset = 0.f;
-
   // Apply velocity and rotation
 	Entity::updateCurrent(dt, commands);
   sf::Transformable::rotate(mRotationOffset * dt.asSeconds());
@@ -264,6 +237,7 @@ void Tank::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 
 void Tank::handleCollisions()
 {
+  // Remove all movement restrictions from previous frame
   mCanMoveLeft = true;
   mCanMoveRight = true;
   mCanMoveUp = true;
@@ -271,8 +245,13 @@ void Tank::handleCollisions()
   mCanRotateCounterclockwise = true;
   mCanRotateClockwise = true;
 
+  // Update movement restrictions (if necessary)
   handleCollisionsWithTank();
   handleCollisionsWithBlock();
+
+  // Adapt movement based on movement restrictions
+  adaptVelocityBasedOnCollisions();
+  adaptRotationBasedOnCollisions();
 }
 
 void Tank::handleCollisionsWithTank()
@@ -389,6 +368,30 @@ void Tank::handleCollisionsWithBlock()
 
     mCollisionsWithBlock.pop_back();
   }
+}
+
+void Tank::adaptVelocityBasedOnCollisions()
+{
+  // Edit velocity based on where tank can and cannot move (if necessary)
+  sf::Vector2f velocity = getVelocity();
+  if (!mCanMoveLeft && velocity.x < 0.f)
+    velocity.x = 0.f;
+  else if (!mCanMoveRight && velocity.x > 0.f)
+    velocity.x = 0.f;
+  if (!mCanMoveUp && velocity.y < 0.f)
+    velocity.y = 0.f;
+  else if (!mCanMoveDown && velocity.y > 0.f)
+    velocity.y = 0.f;
+  setVelocity(velocity);
+}
+
+void Tank::adaptRotationBasedOnCollisions()
+{
+  // Edit rotation based on which way the tank can and cannot rotate (if
+  // necessary)
+  if ((!mCanRotateCounterclockwise && mRotationOffset < 0.f) ||
+      (!mCanRotateClockwise && mRotationOffset > 0.f))
+    mRotationOffset = 0.f;
 }
 
 void Tank::createBullets(SceneNode& node, 
