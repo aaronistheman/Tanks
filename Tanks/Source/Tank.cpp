@@ -10,8 +10,6 @@
 #include <cmath>
 #include <math.h>
 
-#include <iostream>
-
 
 namespace
 {
@@ -161,8 +159,6 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
   
   // Handle collisions with tanks and blocks
   handleCollisionWithTank();
-  if (mType == DefaultTank)
-    std::cout << mIsCollidingWithBlock << '\n';
   handleCollisionWithBlock();
 
   // Apply velocity and rotation
@@ -272,6 +268,7 @@ void Tank::handleCollisionWithBlock()
   // React to collision with block;
   // use the intersection to move the tank so as to remove that
   // intersection
+  setIsCollidingWithBlock(false);
   if (mIsCollidingWithBlock)
   {
     sf::Vector2f position = getPosition();
