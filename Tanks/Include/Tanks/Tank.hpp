@@ -9,6 +9,8 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 
+#include <vector>
+
 
 class Tank : public Entity
 {
@@ -36,10 +38,8 @@ class Tank : public Entity
     float                 getMaxMovementSpeed() const;
     float                 getMaxRotationSpeed() const;
 
-    void                  setIsCollidingWithTank(bool flag, 
-                            sf::FloatRect intersection = sf::FloatRect());
-    void                  setIsCollidingWithBlock(bool flag, 
-                            sf::FloatRect intersection = sf::FloatRect());
+    void                  addCollisionWithTank(sf::FloatRect intersection);
+    void                  addCollisionWithBlock(sf::FloatRect intersection);
     void                  fire();
 
 
@@ -61,21 +61,36 @@ class Tank : public Entity
     void            updateTexts();
 
   private:
+    struct CollisionData
+    {
+      CollisionData(sf::FloatRect intersection)
+        : intersection(intersection)
+      {
+      }
+
+      sf::FloatRect intersection;
+    };
+
+  private:
     Type            mType;
     sf::Sprite      mSprite;
     float           mRotationOffset; // basically a rate of rotation
     sf::Vector2f    mPreviousVelocity;
     float           mPreviousRotationOffset;
     sf::Time        mPreviousChangeInTime;
+    bool            mCanMoveLeft;
+    bool            mCanMoveRight;
+    bool            mCanMoveUp;
+    bool            mCanMoveDown;
+    bool            mCanRotateCounterclockwise;
+    bool            mCanRotateClockwise;
     
     Command         mFireCommand;
     sf::Time        mFireCountdown;
     bool            mIsFiring;
     bool            mIsMarkedForRemoval;
-    bool            mIsCollidingWithTank;
-    bool            mIsCollidingWithBlock;
-    sf::FloatRect   mIntersectionWithTank;
-    sf::FloatRect   mIntersectionWithBlock;
+    std::vector<CollisionData>    mCollisionsWithTank;
+    std::vector<CollisionData>    mCollisionsWithBlock;
 
     int             mFireRateLevel;
 

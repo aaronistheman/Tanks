@@ -24,14 +24,18 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mPreviousVelocity()
 , mPreviousRotationOffset(0.f)
 , mPreviousChangeInTime(sf::Time::Zero)
+, mCanMoveLeft(true)
+, mCanMoveRight(true)
+, mCanMoveUp(true)
+, mCanMoveDown(true)
+, mCanRotateCounterclockwise(true)
+, mCanRotateClockwise(true)
 , mFireCommand()
 , mFireCountdown(sf::Time::Zero)
 , mIsFiring(false)
 , mIsMarkedForRemoval(false)
-, mIsCollidingWithTank(false)
-, mIsCollidingWithBlock(false)
-, mIntersectionWithTank(sf::FloatRect())
-, mIntersectionWithBlock(sf::FloatRect())
+, mCollisionsWithTank()
+, mCollisionsWithBlock()
 , mFireRateLevel(1)
 , mTravelledDistance(0.f)
 , mAmountRotation(0.f)
@@ -121,16 +125,14 @@ float Tank::getMaxRotationSpeed() const
   return Table[mType].rotationSpeed;
 }
 
-void Tank::setIsCollidingWithTank(bool flag, sf::FloatRect intersection)
+void Tank::addCollisionWithTank(sf::FloatRect intersection)
 {
-  mIsCollidingWithTank = flag;
-  mIntersectionWithTank = intersection;
+  mCollisionsWithTank.push_back(CollisionData(intersection));
 }
 
-void Tank::setIsCollidingWithBlock(bool flag, sf::FloatRect intersection)
+void Tank::addCollisionWithBlock(sf::FloatRect intersection)
 {
-  mIsCollidingWithBlock = flag;
-  mIntersectionWithBlock = intersection;
+  mCollisionsWithBlock.push_back(CollisionData(intersection));
 }
 
 void Tank::fire()
@@ -169,6 +171,24 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
   mPreviousVelocity = getVelocity();
   mPreviousRotationOffset = mRotationOffset;
   mPreviousChangeInTime = dt;
+
+  // Edit velocity based on where tank can and cannot move (if necessary)
+  sf::Vector2f velocity = getVelocity();
+  if (!mCanMoveLeft && velocity.x < 0.f)
+    velocity.x = 0.f;
+  else if (!mCanMoveRight && velocity.x > 0.f)
+    velocity.x = 0.f;
+  if (!mCanMoveUp && velocity.y < 0.f)
+    velocity.y = 0.f;
+  else if (!mCanMoveDown && velocity.y > 0.f)
+    velocity.y = 0.f;
+  setVelocity(velocity);
+
+  // Edit rotation based on which way the tank can and cannot rotate (if
+  // necessary)
+  if ((!mCanRotateCounterclockwise && mRotationOffset < 0.f) ||
+      (!mCanRotateClockwise && mRotationOffset > 0.f))
+    mRotationOffset = 0.f;
 
   // Apply velocity and rotation
 	Entity::updateCurrent(dt, commands);
@@ -248,13 +268,9 @@ void Tank::handleCollisionWithTank()
   // React to collision with other tank;
   // use the intersection to move the tank so as to remove that
   // intersection
-  if (mIsCollidingWithTank)
+  while (!mCollisionsWithTank.empty())
   {
-    move(-mPreviousVelocity * mPreviousChangeInTime.asSeconds());
-    sf::Transformable::rotate(
-      -mPreviousRotationOffset * mPreviousChangeInTime.asSeconds());
-    /*sf::Vector2f position = getPosition();
-    
+    /*
     // Edit velocity
     sf::Vector2f velocity;
     velocity.x = getMaxMovementSpeed() * 
@@ -262,16 +278,25 @@ void Tank::handleCollisionWithTank()
     velocity.y = getMaxMovementSpeed() *
                  (position.y > mIntersectionWithTank.top) ? 1.f : -1.f;
     setVelocity(velocity);
-    
+    */
+    /*
     // Edit position
+    sf::Vector2f position = getPosition();
     sf::Vector2f positionOffset;
     positionOffset.x = mIntersectionWithTank.width * 
                  (position.x > mIntersectionWithTank.left) ? 1.f : -1.f;
     positionOffset.y = mIntersectionWithTank.height *
                  (position.y > mIntersectionWithTank.top) ? 1.f : -1.f;
-    setPosition(position + positionOffset);*/
+    setPosition(position + positionOffset);
+    */
+
+    CollisionData collision = mCollisionsWithTank.back();
+
+    move(-mPreviousVelocity * mPreviousChangeInTime.asSeconds());
+    sf::Transformable::rotate(
+      -mPreviousRotationOffset * mPreviousChangeInTime.asSeconds());
     
-    setIsCollidingWithTank(false);
+    mCollisionsWithTank.pop_back();
   }
 }
 
@@ -280,31 +305,59 @@ void Tank::handleCollisionWithBlock()
   // React to collision with block;
   // use the intersection to move the tank so as to remove that
   // intersection
-  if (mIsCollidingWithBlock)
-  {
-    move(-mPreviousVelocity * mPreviousChangeInTime.asSeconds());
-    sf::Transformable::rotate(
-      -mPreviousRotationOffset * mPreviousChangeInTime.asSeconds());
 
-    /*sf::Vector2f position = getPosition();
+  mCanMoveLeft = true;
+  mCanMoveRight = true;
+  mCanMoveUp = true;
+  mCanMoveDown = true;
+  mCanRotateCounterclockwise = true;
+  mCanRotateClockwise = true;
+
+  while (!mCollisionsWithBlock.empty())
+  {
+    sf::FloatRect boundingRect = getBoundingRect();
+    sf::FloatRect intersection = mCollisionsWithBlock.back().intersection;
+
+    // Check leftward and rightward movement
+    if ((boundingRect.top + boundingRect.height) > intersection.top
+      && boundingRect.top < (intersection.top + intersection.height)
+      && intersection.height > intersection.width)
+    {
+      mCanMoveLeft = !(boundingRect.left == intersection.left);
+      mCanMoveRight = !((boundingRect.left + boundingRect.width) ==
+                        (intersection.left + intersection.width));
+    }
     
-    // Edit velocity
-    sf::Vector2f velocity;
-    velocity.x = getMaxMovementSpeed() * 
-                 (position.x > mIntersectionWithBlock.left) ? 1.f : -1.f;
-    velocity.y = getMaxMovementSpeed() *
-                 (position.y > mIntersectionWithBlock.top) ? 1.f : -1.f;
-    setVelocity(velocity);
-    
-    // Edit position
-    sf::Vector2f positionOffset;
-    positionOffset.x = mIntersectionWithBlock.width * 
-                 (position.x > mIntersectionWithBlock.left) ? 1.f : -1.f;
-    positionOffset.y = mIntersectionWithBlock.height *
-                 (position.y > mIntersectionWithBlock.top) ? 1.f : -1.f;
-    setPosition(position + positionOffset);
-    */
-    setIsCollidingWithBlock(false);
+    // Check upward and downward movement
+    if ((boundingRect.left + boundingRect.width) > intersection.left
+      && boundingRect.left < (intersection.left + intersection.width)
+      && intersection.width > intersection.height)
+    {
+      mCanMoveUp = !(boundingRect.top == intersection.top);
+      mCanMoveDown = !((boundingRect.top + boundingRect.height) ==
+                       (intersection.top + intersection.height));
+    }
+
+    // Check rotation
+    float rotation = getRotation();
+    if ((180.f > rotation && rotation > 90.f) ||
+        (360.f > rotation && rotation > 270.f))
+    {
+      if (!mCanMoveLeft || !mCanMoveRight)
+        mCanRotateCounterclockwise = false;
+      if (!mCanMoveUp || !mCanMoveDown)
+        mCanRotateClockwise = false;
+    }
+    else if ((90.f > rotation && rotation > 0.f) ||
+             (270.f > rotation && rotation > 180.f))
+    {
+      if (!mCanMoveLeft || !mCanMoveRight)
+        mCanRotateClockwise = false;
+      if (!mCanMoveUp || !mCanMoveDown)
+        mCanRotateCounterclockwise = false;
+    }
+
+    mCollisionsWithBlock.pop_back();
   }
 }
 
