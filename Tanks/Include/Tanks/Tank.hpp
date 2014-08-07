@@ -49,8 +49,9 @@ class Tank : public Entity
     virtual void    updateCurrent(sf::Time dt, CommandQueue& commands);
     void         updateMovementPattern(sf::Time dt);
     void         checkProjectileLaunch(sf::Time dt, CommandQueue& commands);
-    void         handleCollisionWithTank();
-    void         handleCollisionWithBlock();
+    void         handleCollisions();
+    void         handleCollisionsWithTank();
+    void         handleCollisionsWithBlock();
 
     void         createBullets(SceneNode& node, const TextureHolder& textures) const;
     void         createProjectile(SceneNode& node,

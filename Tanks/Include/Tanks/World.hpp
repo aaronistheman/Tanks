@@ -127,7 +127,6 @@ class World : private sf::NonCopyable
     std::vector<BlockSpawnPoint>     mBlockSpawnPoints;
 		std::vector<Tank*>				mActiveEnemies;
     std::vector<Tank*>        mHuntingEnemies;
-    std::vector<Block*>       mVisibleBlocks;
     int                       mNumberOfDestroyedEnemies;
 };
 

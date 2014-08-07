@@ -22,7 +22,6 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 , mEnemySpawnPoints()
 , mActiveEnemies()
 , mHuntingEnemies()
-, mVisibleBlocks()
 , mNumberOfDestroyedEnemies(0)
 {
 	loadTextures();
@@ -61,7 +60,7 @@ void World::update(sf::Time dt)
   // Create new blocks if necessary
   spawnBlocks();
 
-	// Regular update step, adapt position so tanks are not in blocks
+	// Regular update step
 	mSceneGraph.update(dt, mCommandQueue);
 	// adaptTankPositions();
 }
@@ -99,42 +98,6 @@ void World::loadTextures()
 
 void World::adaptTankPositions()
 {
-  Command blockCollector;
-  blockCollector.category = Category::Block;
-  blockCollector.action = derivedAction<Block>([this] (Block& block, sf::Time)
-  {
-    if (!block.isDestroyed())
-      mVisibleBlocks.push_back(&block);
-  });
-
-  Command tankAdapter;
-  tankAdapter.category = Category::Tank;
-  tankAdapter.action = derivedAction<Tank>([this] (Tank& tank, sf::Time)
-  {
-    if (!tank.isDestroyed())
-    {
-      FOREACH (Block* block, mVisibleBlocks)
-      {
-        sf::FloatRect blockBounds = block->getBoundingRect();
-        float borderDistance = 0.f;
-        sf::Vector2f position = tank.getPosition();
-
-        position.x = std::max(position.x, blockBounds.left + blockBounds.width + borderDistance);
-        position.x = std::min(position.x, blockBounds.left - borderDistance);
-        position.y = std::max(position.y, blockBounds.top + blockBounds.height + borderDistance);
-        position.y = std::min(position.y, blockBounds.top - borderDistance);
-
-        tank.setPosition(position);
-      }
-    }
-  });
-
-  // Push commands, reset visible blocks
-  mCommandQueue.push(blockCollector);
-  mCommandQueue.push(tankAdapter);
-  mVisibleBlocks.clear();
-
-  /*
 	// Keep all tanks' positions inside the screen bounds, 
   // at least borderDistance units from the border
 	sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
@@ -157,7 +120,7 @@ void World::adaptTankPositions()
 	  position.y = std::max(position.y, viewBounds.top + borderDistance);
 	  position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
 	  enemyTank->setPosition(position);
-  }*/
+  }
 }
 
 void World::adaptPlayerVelocity()
@@ -293,7 +256,7 @@ void World::addEnemies()
   addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f, 0);
   // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f, 0);
   // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f, 1);
-  // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f, 0);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f, 0);
   // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f, 1);
   // addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f, 2);
 
@@ -466,13 +429,12 @@ void World::updateHuntingEnemies()
         velocity.y += enemy.getMaxMovementSpeed();
 
       // Update rotation; multiply height by negative one to counter SFML's
-      // upside down y-axis
+      // upside down y-axis;
+      // use desiredAngle to calculate the needed rotation offset
       float widthBetweenEnemyAndPlayer = 
         mPlayerTank->getPosition().x - enemy.getPosition().x;
       float heightBetweenEnemyAndPlayer =
         (mPlayerTank->getPosition().y - enemy.getPosition().y) * -1;
-      
-      // Use desiredAngle to calculate the needed rotation offset
       float desiredAngle = 
         toDegree(arctan(heightBetweenEnemyAndPlayer, widthBetweenEnemyAndPlayer));
       float currentRotationAngle = toTrigAngle(enemy.getRotation());
