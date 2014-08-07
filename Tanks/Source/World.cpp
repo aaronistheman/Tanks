@@ -254,11 +254,11 @@ void World::addEnemies()
 {
   // Add enemies to the spawn point container
   addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f, 0);
-  // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f, 0);
-  // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f, 1);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f, 0);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f, 1);
   addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f, 0);
-  // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f, 1);
-  // addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f, 2);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f, 1);
+  addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f, 2);
 
 	// Sort all enemies according to the number of tanks that must be killed
   // before each appears, 
@@ -427,6 +427,10 @@ void World::updateHuntingEnemies()
         velocity.y -= enemy.getMaxMovementSpeed();
       else if (enemy.getPosition().y < mPlayerTank->getPosition().y)
         velocity.y += enemy.getMaxMovementSpeed();
+      
+      // If moving diagonally, reduce velocity (to have always same velocity)
+	    if (velocity.x != 0.f && velocity.y != 0.f)
+        velocity /= std::sqrt(2.f);
 
       // Update rotation; multiply height by negative one to counter SFML's
       // upside down y-axis;

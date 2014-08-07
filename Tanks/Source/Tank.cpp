@@ -193,7 +193,8 @@ void Tank::updateMovementPattern(sf::Time dt)
     // Have not moved enough:
     else
     {
-      // Compute velocity from direction
+      // Compute velocity from direction; indirectly handles the speed
+      // reduction necessary in diagonal movement
       float radians = toRadian(directions[mDirectionIndex].angle + 90.f);
       float vx = getMaxMovementSpeed() * std::cos(radians);
       float vy = getMaxMovementSpeed() * std::sin(radians);
@@ -220,7 +221,7 @@ void Tank::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 {
   // Enemies try to fire all the time
 	if (!isAllied())
-	  ;// fire();
+	  fire();
  
   if (mIsFiring && mFireCountdown <= sf::Time::Zero)
   {
