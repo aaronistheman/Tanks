@@ -63,7 +63,7 @@ void World::update(sf::Time dt)
 
 	// Regular update step, adapt position so tanks are not in blocks
 	mSceneGraph.update(dt, mCommandQueue);
-	adaptTankPositions();
+	// adaptTankPositions();
 }
 
 void World::draw()
@@ -290,7 +290,7 @@ void World::buildScene()
 void World::addEnemies()
 {
   // Add enemies to the spawn point container
-  addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f, 0);
+  // addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f, 0);
   // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f, 0);
   // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f, 1);
   addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f, 0);

@@ -140,10 +140,10 @@ std::vector<TankData> initializeTankData()
   ist.close();
 
   // AI directions; these are not in the files
-  data[Tank::EnemyTank1].directions.push_back(Direction( 90, 50, 30));
-  data[Tank::EnemyTank1].directions.push_back(Direction( 0, 50, -60));
-  data[Tank::EnemyTank1].directions.push_back(Direction( 270, 50, 60));
-  data[Tank::EnemyTank1].directions.push_back(Direction( 180, 50, -30));
+  // data[Tank::EnemyTank1].directions.push_back(Direction( 90, 50, 30));
+  // data[Tank::EnemyTank1].directions.push_back(Direction( 0, 50, -60));
+  // data[Tank::EnemyTank1].directions.push_back(Direction( 270, 50, 60));
+  // data[Tank::EnemyTank1].directions.push_back(Direction( 180, 50, -30));
 
   return data;
 }

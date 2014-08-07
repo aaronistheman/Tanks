@@ -64,6 +64,9 @@ class Tank : public Entity
     Type            mType;
     sf::Sprite      mSprite;
     float           mRotationOffset; // basically a rate of rotation
+    sf::Vector2f    mPreviousVelocity;
+    float           mPreviousRotationOffset;
+    sf::Time        mPreviousChangeInTime;
     
     Command         mFireCommand;
     sf::Time        mFireCountdown;

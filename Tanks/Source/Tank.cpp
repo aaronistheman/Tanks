@@ -21,6 +21,9 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mType(type)
 , mSprite(textures.get(Table[type].texture))
 , mRotationOffset(0.f)
+, mPreviousVelocity()
+, mPreviousRotationOffset(0.f)
+, mPreviousChangeInTime(sf::Time::Zero)
 , mFireCommand()
 , mFireCountdown(sf::Time::Zero)
 , mIsFiring(false)
@@ -161,6 +164,12 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
   handleCollisionWithTank();
   handleCollisionWithBlock();
 
+  // Update previous velocity, rotation, and dt in case of need to handle
+  // collision
+  mPreviousVelocity = getVelocity();
+  mPreviousRotationOffset = mRotationOffset;
+  mPreviousChangeInTime = dt;
+
   // Apply velocity and rotation
 	Entity::updateCurrent(dt, commands);
   sf::Transformable::rotate(mRotationOffset * dt.asSeconds());
@@ -219,7 +228,7 @@ void Tank::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 {
   // Enemies try to fire all the time
 	if (!isAllied())
-	  fire();
+	  ;// fire();
  
   if (mIsFiring && mFireCountdown <= sf::Time::Zero)
   {
@@ -241,7 +250,10 @@ void Tank::handleCollisionWithTank()
   // intersection
   if (mIsCollidingWithTank)
   {
-    sf::Vector2f position = getPosition();
+    move(-mPreviousVelocity * mPreviousChangeInTime.asSeconds());
+    sf::Transformable::rotate(
+      -mPreviousRotationOffset * mPreviousChangeInTime.asSeconds());
+    /*sf::Vector2f position = getPosition();
     
     // Edit velocity
     sf::Vector2f velocity;
@@ -257,7 +269,7 @@ void Tank::handleCollisionWithTank()
                  (position.x > mIntersectionWithTank.left) ? 1.f : -1.f;
     positionOffset.y = mIntersectionWithTank.height *
                  (position.y > mIntersectionWithTank.top) ? 1.f : -1.f;
-    setPosition(position + positionOffset);
+    setPosition(position + positionOffset);*/
     
     setIsCollidingWithTank(false);
   }
@@ -268,10 +280,13 @@ void Tank::handleCollisionWithBlock()
   // React to collision with block;
   // use the intersection to move the tank so as to remove that
   // intersection
-  setIsCollidingWithBlock(false);
   if (mIsCollidingWithBlock)
   {
-    sf::Vector2f position = getPosition();
+    move(-mPreviousVelocity * mPreviousChangeInTime.asSeconds());
+    sf::Transformable::rotate(
+      -mPreviousRotationOffset * mPreviousChangeInTime.asSeconds());
+
+    /*sf::Vector2f position = getPosition();
     
     // Edit velocity
     sf::Vector2f velocity;
@@ -288,7 +303,7 @@ void Tank::handleCollisionWithBlock()
     positionOffset.y = mIntersectionWithBlock.height *
                  (position.y > mIntersectionWithBlock.top) ? 1.f : -1.f;
     setPosition(position + positionOffset);
-    
+    */
     setIsCollidingWithBlock(false);
   }
 }
