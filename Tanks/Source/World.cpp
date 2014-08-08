@@ -209,6 +209,16 @@ void World::handleCollisions()
 
       projectile.destroy();
     }
+    else if (matchesCategories(pair,
+                               Category::Projectile,
+                               Category::DestructibleBlock))
+    {
+      auto& projectile = static_cast<Projectile&>(*pair.first);
+      auto& block = static_cast<Block&>(*pair.second);
+
+      block.damage(projectile.getDamage());
+      projectile.destroy();
+    }
   }
 }
 
@@ -308,7 +318,7 @@ void World::addBlocks()
   // Add blocks to the spawn point container
   addBlock(Block::Indestructible, sf::Vector2f(300.f, 300.f), 
                                   sf::Vector2f(200.f, 20.f));
-  addBlock(Block::Indestructible, sf::Vector2f(800.f, 450.f),
+  addBlock(Block::Destructible, sf::Vector2f(800.f, 450.f),
                                   sf::Vector2f(200.f, 200.f));
 
   // Boundary blocks

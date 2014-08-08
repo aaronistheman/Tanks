@@ -23,6 +23,12 @@ class Block : public SceneNode
 
     virtual unsigned int    getCategory() const;
     virtual sf::FloatRect   getBoundingRect() const;
+    
+    void        repair(int points);
+    void        damage(int points);
+    void        destroy();
+    int         getHitpoints() const;
+    bool        isDestroyed() const;
 
 
 	private:

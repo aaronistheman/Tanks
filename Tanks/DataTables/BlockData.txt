@@ -4,4 +4,4 @@ Hitpoints: 100
 
 BlockType: Destructible
 Color: 0 0 0 255
-Hitpoints: 100
+Hitpoints: 30

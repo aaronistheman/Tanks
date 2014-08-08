@@ -5,6 +5,8 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
+#include <cassert>
+
 
 namespace
 {
@@ -34,6 +36,35 @@ unsigned int Block::getCategory() const
 sf::FloatRect Block::getBoundingRect() const
 {
   return getWorldTransform().transformRect(mShape.getGlobalBounds());
+}
+
+void Block::repair(int points)
+{
+  assert(points > 0);
+
+  mHitpoints += points;
+}
+
+void Block::damage(int points)
+{
+  assert(points > 0);
+  
+  mHitpoints -= points;
+}
+
+void Block::destroy()
+{
+  mHitpoints = 0;
+}
+
+int Block::getHitpoints() const
+{
+  return mHitpoints;
+}
+
+bool Block::isDestroyed() const
+{
+  return (mType == Destructible && mHitpoints <= 0);
 }
 
 void Block::drawCurrent(sf::RenderTarget& target, 
