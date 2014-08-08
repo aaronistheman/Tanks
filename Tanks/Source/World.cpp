@@ -20,9 +20,9 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 , mScrollSpeed(0.0f)
 , mPlayerTank(nullptr)
 , mEnemySpawnPoints()
-, mActiveEnemies()
 , mHuntingEnemies()
 , mNumberOfDestroyedEnemies(0)
+, mNumberOfAliveEnemies(0)
 {
 	loadTextures();
 	buildScene();
@@ -41,8 +41,7 @@ void World::update(sf::Time dt)
 
   // These further update mCommandQueue 
   destroyProjectilesOutsideView();
-  updateDestroyedEnemiesCounter();
-  updateActiveEnemiesVector();
+  updateEnemyCounters();
   updateHuntingEnemies();
 
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
@@ -83,7 +82,7 @@ bool World::hasAlivePlayer() const
 
 bool World::hasAliveEnemy() const
 {
-  return mActiveEnemies.size() > 0;
+  return mNumberOfAliveEnemies > 0;
 }
 
 void World::loadTextures()
@@ -110,7 +109,7 @@ void World::adaptTankPositions()
 	position.y = std::max(position.y, viewBounds.top + borderDistance);
 	position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
 	mPlayerTank->setPosition(position);
-
+  /*
   // Handle enemy tanks
   FOREACH(Tank* enemyTank, mActiveEnemies)
   {
@@ -121,6 +120,7 @@ void World::adaptTankPositions()
 	  position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
 	  enemyTank->setPosition(position);
   }
+  */
 }
 
 void World::adaptPlayerVelocity()
@@ -295,6 +295,9 @@ void World::spawnEnemies()
 
     mSceneLayers[Ground]->attachChild(std::move(enemy));
     
+    // Update alive enemies counter
+    ++mNumberOfAliveEnemies;
+
 		// Enemy is spawned, remove from the list to spawn
     mEnemySpawnPoints.pop_back();
   }
@@ -375,30 +378,18 @@ void World::destroyProjectilesOutsideView()
   mCommandQueue.push(command);
 }
 
-void World::updateDestroyedEnemiesCounter()
+void World::updateEnemyCounters()
 {
-  Command destroyedCollector;
-  destroyedCollector.category = Category::EnemyTank;
-  destroyedCollector.action = derivedAction<Tank>([this] (Tank& enemy, sf::Time)
-  {
-    if (enemy.isMarkedForRemoval())
-      ++mNumberOfDestroyedEnemies;
-  });
-
-  mCommandQueue.push(destroyedCollector);
-}
-
-void World::updateActiveEnemiesVector()
-{
-  mActiveEnemies.clear();
-
   Command enemyCollector;
   enemyCollector.category = Category::EnemyTank;
-	enemyCollector.action = derivedAction<Tank>([this] (Tank& enemy, sf::Time)
-	{
-		if (!enemy.isDestroyed())
-			mActiveEnemies.push_back(&enemy);
-	});
+  enemyCollector.action = derivedAction<Tank>([this] (Tank& enemy, sf::Time)
+  {
+    if (enemy.isMarkedForRemoval())
+    {
+      ++mNumberOfDestroyedEnemies;
+      --mNumberOfAliveEnemies;
+    }
+  });
 
   mCommandQueue.push(enemyCollector);
 }
