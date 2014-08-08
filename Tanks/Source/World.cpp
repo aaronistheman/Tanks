@@ -227,7 +227,7 @@ void World::buildScene()
 	// Initialize the different layers
 	for (std::size_t i = 0; i < LayerCount; ++i)
 	{
-		Category::Type category = (i == Ground) ? Category::SceneGroundLayer : Category::None;
+		Category::Type category = (i == MainGround) ? Category::SceneGroundLayer : Category::None;
 
 		SceneNode::Ptr layer(new SceneNode(category));
 		mSceneLayers[i] = layer.get();
@@ -249,7 +249,7 @@ void World::buildScene()
 	std::unique_ptr<Tank> leader(new Tank(Tank::DefaultTank, mTextures, mFonts));
 	mPlayerTank = leader.get();
 	mPlayerTank->setPosition(mWorldView.getCenter());
-	mSceneLayers[Ground]->attachChild(std::move(leader));
+	mSceneLayers[MainGround]->attachChild(std::move(leader));
 
 	// Add enemy tanks
 	addEnemies();
@@ -265,7 +265,8 @@ void World::addEnemies()
   // Add enemies to the spawn point container
   addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f, 0);
   // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f, 0);
-  addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f, 1);
+  addEnemy(Tank::EnemyTank1, sf::Vector2f(800.f, 450.f), 180.f, 1);
+  // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f, 1);
   // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f, 0);
   // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f, 1);
   // addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f, 2);
@@ -303,7 +304,7 @@ void World::spawnEnemies()
     enemy->setPosition(spawn.x, spawn.y);
     enemy->setRotation(spawn.r);
 
-    mSceneLayers[Ground]->attachChild(std::move(enemy));
+    mSceneLayers[MainGround]->attachChild(std::move(enemy));
     
     // Update alive enemies counter
     ++mNumberOfAliveEnemies;
@@ -367,7 +368,7 @@ void World::spawnBlocks()
       spawn.type, sf::Vector2f(spawn.sizeX, spawn.sizeY)));
     block->setPosition(spawn.posX, spawn.posY);
 
-    mSceneLayers[Ground]->attachChild(std::move(block));
+    mSceneLayers[UpperGround]->attachChild(std::move(block));
 
     // Block is spawned, remove from the list to spawn
     mBlockSpawnPoints.pop_back();

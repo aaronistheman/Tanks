@@ -64,8 +64,10 @@ class World : private sf::NonCopyable
 	private:
 		enum Layer
 		{
+      // Order these layers from least to most visible
 			Background,
-			Ground,
+			MainGround,
+      UpperGround,
 			LayerCount
 		};
 
