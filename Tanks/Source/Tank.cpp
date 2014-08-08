@@ -159,8 +159,8 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
   // Update enemy movement pattern
 	updateMovementPattern(dt);
   
-  // Handle collisions with tanks and blocks
-  handleCollisions();
+  // Handle intersections between tanks and blocks
+  handleIntersections();
 
   // Apply velocity and rotation
 	Entity::updateCurrent(dt, commands);
@@ -236,7 +236,7 @@ void Tank::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
   }
 }
 
-void Tank::handleCollisions()
+void Tank::handleIntersections()
 {
   // Remove all movement restrictions from previous frame
   mCanMoveLeft = true;
@@ -247,15 +247,15 @@ void Tank::handleCollisions()
   mCanRotateClockwise = true;
 
   // Update movement restrictions (if necessary)
-  handleCollisionsWithTank();
-  handleCollisionsWithBlock();
+  handleIntersectionsWithTank();
+  handleIntersectionsWithBlock();
 
   // Adapt movement based on movement restrictions
   adaptVelocityBasedOnCollisions();
   adaptRotationBasedOnCollisions();
 }
 
-void Tank::handleCollisionsWithTank()
+void Tank::handleIntersectionsWithTank()
 {
   // React to collision with other tank;
   // use the intersection to move the tank so as to remove that
@@ -313,7 +313,7 @@ void Tank::handleCollisionsWithTank()
   }
 }
 
-void Tank::handleCollisionsWithBlock()
+void Tank::handleIntersectionsWithBlock()
 {
   // React to collision with block;
   // use the intersection to move the tank so as to remove that

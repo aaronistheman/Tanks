@@ -18,8 +18,8 @@ BulletOffsetY: 49
 
 TankType: EnemyTank2
 Hitpoints: 60
-MovementSpeed: 120
-RotationSpeed: 100
+MovementSpeed: 80
+RotationSpeed: 65
 TextureName: EnemyTank2
 FireInterval: 0.9
 BulletOffsetX: 0
