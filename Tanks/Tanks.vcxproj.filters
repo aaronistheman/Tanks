@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Text Data Files">
-      <UniqueIdentifier>{230fc98f-1bb4-41f7-b8e7-beaad987fe70}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -205,16 +202,5 @@
     <None Include="Include\Tanks\ResourceHolder.inl">
       <Filter>Header Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="DataTables\BlockData.txt">
-      <Filter>Text Data Files</Filter>
-    </Text>
-    <Text Include="DataTables\ProjectileData.txt">
-      <Filter>Text Data Files</Filter>
-    </Text>
-    <Text Include="DataTables\TankData.txt">
-      <Filter>Text Data Files</Filter>
-    </Text>
   </ItemGroup>
 </Project>

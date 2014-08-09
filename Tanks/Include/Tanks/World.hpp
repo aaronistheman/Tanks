@@ -26,6 +26,14 @@ namespace sf
 class World : private sf::NonCopyable
 {
 	public:
+    enum Level
+    {
+      MainOne, // use "Main" to denote main game mode
+      MainTwo,
+      TypeCount
+    };
+
+  public:
 		explicit							World(sf::RenderWindow& window, FontHolder& fonts);
 		void								update(sf::Time dt);
 		void								draw();

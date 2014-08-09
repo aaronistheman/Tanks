@@ -2,6 +2,7 @@
 #define TANKS_DATATABLES_HPP
 
 #include <Tanks/ResourceIdentifiers.hpp>
+#include <Tanks/SpawnPoint.hpp>
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/System/Time.hpp>
@@ -48,14 +49,25 @@ struct BlockData
   int           hitpoints;
 };
 
+enum WorldView
+{
+  Static,
+  Following,
+  Scrolling
+};
+
 struct LevelData
 {
-  
+  Textures::ID                    backgroundTexture;
+  WorldView                       worldView;
+  std::vector<EnemySpawnPoint>    enemySpawnPoints;
+  std::vector<BlockSpawnPoint>    blockSpawnPoints;
 };
 
 
-std::vector<TankData> initializeTankData();
-std::vector<ProjectileData> initializeProjectileData();
-std::vector<BlockData> initializeBlockData();
+std::vector<TankData>         initializeTankData();
+std::vector<ProjectileData>   initializeProjectileData();
+std::vector<BlockData>        initializeBlockData();
+std::vector<LevelData>        initializeLevelData();
 
 #endif // TANKS_DATATABLES_HPP

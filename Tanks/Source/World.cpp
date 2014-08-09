@@ -1,4 +1,5 @@
 #include <Tanks/World.hpp>
+#include <Tanks/DataTables.hpp>
 #include <Tanks/Foreach.hpp>
 #include <Tanks/Category.hpp>
 #include <Tanks/Utility.hpp>
@@ -8,6 +9,11 @@
 #include <algorithm>
 #include <cmath>
 
+
+namespace
+{
+  const std::vector<LevelData> Table = initializeLevelData();
+}
 
 World::World(sf::RenderWindow& window, FontHolder& fonts)
 : mWindow(window)
