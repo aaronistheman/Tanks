@@ -82,7 +82,7 @@ std::vector<TankData> initializeTankData()
 {
   std::vector<TankData> data(Tank::TypeCount);
 
-  std::string filePath = "DataTables/TankData.txt";
+  std::string filePath = "DataTables/EntityData/TankData.txt";
   std::ifstream ist(filePath.c_str());
   
   // Figure out which tank is next for initializing data;
@@ -152,7 +152,7 @@ std::vector<ProjectileData> initializeProjectileData()
 {
 	std::vector<ProjectileData> data(Projectile::TypeCount);
   
-  std::string filePath = "DataTables/ProjectileData.txt";
+  std::string filePath = "DataTables/EntityData/ProjectileData.txt";
   std::ifstream ist(filePath.c_str());
   
   // Figure out which projectile is next for initializing data;
@@ -198,7 +198,7 @@ std::vector<BlockData> initializeBlockData()
 {
   std::vector<BlockData> data(Block::TypeCount);
   
-  std::string filePath = "DataTables/BlockData.txt";
+  std::string filePath = "DataTables/EntityData/BlockData.txt";
   std::ifstream ist(filePath.c_str());
   
   // Figure out which block type is next for initializing data;
