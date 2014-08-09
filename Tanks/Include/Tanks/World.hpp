@@ -87,7 +87,6 @@ class World : private sf::NonCopyable
 		CommandQueue						mCommandQueue;
 
 		sf::FloatRect						mWorldBounds;
-		float								mScrollSpeed;
 		Tank*							mPlayerTank;
 
     std::vector<EnemySpawnPoint>     mEnemySpawnPoints;

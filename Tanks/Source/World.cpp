@@ -26,7 +26,6 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 , mSceneGraph()
 , mSceneLayers()
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
-, mScrollSpeed(0.0f)
 , mPlayerTank(nullptr)
 , mEnemySpawnPoints()
 , mHuntingEnemies()
@@ -141,9 +140,6 @@ void World::adaptPlayerVelocity()
 	// If moving diagonally, reduce velocity (to have always same velocity)
 	if (velocity.x != 0.f && velocity.y != 0.f)
 		mPlayerTank->setVelocity(velocity / std::sqrt(2.f));
-
-	// Add scrolling velocity
-	mPlayerTank->accelerate(0.f, mScrollSpeed);
 }
 
 bool matchesCategories(SceneNode::Pair& colliders,
