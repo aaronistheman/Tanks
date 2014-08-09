@@ -37,14 +37,16 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 	buildScene();
   
 	// Prepare the view
-	mWorldView.setCenter(mWorldView.getSize().x / 2.f, 
-                       mWorldBounds.height - mWorldView.getSize().y / 2.f);
+  if (Table[mLevel].worldView == WorldView::Static)
+	  mWorldView.setCenter(mWorldView.getSize().x / 2.f, 
+                         mWorldBounds.height - mWorldView.getSize().y / 2.f);
 }
 
 void World::update(sf::Time dt)
 {
-	// Scroll the world, reset player velocity and rotation offset
-	mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());	
+	// Reset player velocity and rotation offset
+	if (Table[mLevel].worldView == WorldView::Following)
+    mWorldView.setCenter(mPlayerTank->getPosition());
 	mPlayerTank->setVelocity(0.f, 0.f);
   mPlayerTank->setRotationOffset(0.f);
 

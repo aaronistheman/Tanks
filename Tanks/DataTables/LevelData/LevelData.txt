@@ -1,6 +1,6 @@
 Level: MainOne
 TextureName: Metal
-WorldView: Static
+WorldView: Following
 
 Level: MainTwo
 TextureName: Metal
