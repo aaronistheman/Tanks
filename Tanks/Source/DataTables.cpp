@@ -107,32 +107,27 @@ std::vector<TankData> initializeTankData()
 
     ist >> label; // Ignore the label in front of each data element
     ist >> tankTypeString;
-    Tank::Type tankType = convertStringToTankType(tankTypeString);
-    
     ist >> label;
     ist >> hitpoints;
-    data[tankType].hitpoints = hitpoints;
-    
     ist >> label;
     ist >> movementSpeed;
-    data[tankType].movementSpeed = movementSpeed;
-    
     ist >> label;
     ist >> rotationSpeed;
-    data[tankType].rotationSpeed = rotationSpeed;
-    
     ist >> label;
     ist >> textureName;
-    data[tankType].texture = convertStringToTextureID(textureName);
-    
     ist >> label;
     ist >> fireInterval;
-    data[tankType].fireInterval = sf::seconds(fireInterval);
-    
     ist >> label;
     ist >> bulletOffsetX;
     ist >> label;
     ist >> bulletOffsetY;
+
+    Tank::Type tankType = convertStringToTankType(tankTypeString);
+    data[tankType].hitpoints = hitpoints;
+    data[tankType].movementSpeed = movementSpeed;
+    data[tankType].rotationSpeed = rotationSpeed;
+    data[tankType].texture = convertStringToTextureID(textureName);
+    data[tankType].fireInterval = sf::seconds(fireInterval);
     data[tankType].bulletOffset =
       sf::Vector2f(bulletOffsetX, bulletOffsetY);
   } 
@@ -173,19 +168,17 @@ std::vector<ProjectileData> initializeProjectileData()
 
     ist >> label; // Ignore the label in front of each data element
     ist >> projectileTypeString;
-    Projectile::Type projectileType = 
-      convertStringToProjectileType(projectileTypeString);
-    
     ist >> label;
     ist >> damage;
-    data[projectileType].damage = damage;
-    
     ist >> label;
     ist >> speed;
-    data[projectileType].speed = speed;
-    
     ist >> label;
     ist >> textureName;
+
+    Projectile::Type projectileType = 
+      convertStringToProjectileType(projectileTypeString);
+    data[projectileType].damage = damage;
+    data[projectileType].speed = speed;
     data[projectileType].texture = convertStringToTextureID(textureName);
   }
 
@@ -221,19 +214,17 @@ std::vector<BlockData> initializeBlockData()
 
     ist >> label; // Ignore the label in front of each data element
     ist >> blockTypeString;
-    Block::Type blockType = 
-      convertStringToBlockType(blockTypeString);
-    
     ist >> label;
     ist >> redComponent;
     ist >> greenComponent;
     ist >> blueComponent;
     ist >> alphaComponent;
-    data[blockType].color = sf::Color(redComponent, greenComponent,
-                                      blueComponent, alphaComponent);
-
     ist >> label;
     ist >> hitpoints;
+
+    Block::Type blockType = convertStringToBlockType(blockTypeString);
+    data[blockType].color = sf::Color(redComponent, greenComponent,
+                                      blueComponent, alphaComponent);
     data[blockType].hitpoints = hitpoints;
   }
 
