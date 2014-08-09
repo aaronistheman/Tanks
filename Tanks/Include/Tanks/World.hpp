@@ -28,7 +28,7 @@ class World : private sf::NonCopyable
 {
   public:
 		explicit							World(sf::RenderWindow& window, FontHolder& fonts,
-                                Level::Type level);
+                                GameType::GameType gameType);
 		void								update(sf::Time dt);
 		void								draw();
 		
@@ -44,6 +44,7 @@ class World : private sf::NonCopyable
 		void								adaptPlayerVelocity();
     void                handleCollisions();
 		
+    Level::Level        getFirstLevel();
     void								buildScene();
     void                addEnemies();
     void                addEnemy(Tank::Type type, 
@@ -78,7 +79,8 @@ class World : private sf::NonCopyable
 		sf::View							mWorldView;
 		TextureHolder						mTextures;
     FontHolder&             mFonts;
-    Level::Type             mLevel;
+    GameType::GameType      mGameType;
+    Level::Level            mLevel;
 
 		SceneNode							mSceneGraph;
 		std::array<SceneNode*, LayerCount>	mSceneLayers;

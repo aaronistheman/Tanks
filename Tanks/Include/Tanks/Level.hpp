@@ -1,14 +1,29 @@
 #ifndef TANKS_LEVEL_HPP
 #define TANKS_LEVEL_HPP
 
-struct Level
+namespace Level
 {
-  enum Type
+  enum Level
   {
-    MainOne, // use "Main" to denote main game mode
+    // For organizing World data;
+    // use "Main" to denote default game mode
+    MainOne,
     MainTwo,
+    Survival,
     TypeCount
   };
-};
+  
+} // namespace Level
+
+namespace GameType
+{
+  enum GameType
+  {
+    Default,
+    Survival,
+    TypeCount
+  };
+
+} // namespace GameType
 
 #endif // TANKS_LEVEL_HPP
