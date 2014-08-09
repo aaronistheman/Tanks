@@ -1,8 +1,11 @@
 Level: MainOne
 TextureName: Metal
+WorldView: Static
 
 Level: MainTwo
 TextureName: Metal
+WorldView: Static
 
 Level: Survival
 TextureName: Metal
+WorldView: Static

@@ -9,6 +9,7 @@
 #include <Tanks/Command.hpp>
 #include <Tanks/SpawnPoint.hpp>
 #include <Tanks/Level.hpp>
+#include <Tanks/DataTables.hpp>
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -77,6 +78,7 @@ class World : private sf::NonCopyable
 	private:
 		sf::RenderWindow&					mWindow;
 		sf::View							mWorldView;
+    WorldView::Type       mViewType;
 		TextureHolder						mTextures;
     FontHolder&             mFonts;
     GameType::GameType      mGameType;

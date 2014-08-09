@@ -77,6 +77,24 @@ Level::Level convertStringToLevel(std::string& s)
   }
 }
 
+WorldView::Type convertStringToWorldViewType(std::string& s)
+{
+  if (s == "Static")
+    return WorldView::Static;
+  else if (s == "Following")
+    return WorldView::Following;
+  else if (s == "Scrolling")
+    return WorldView::Scrolling;
+
+  else
+  {
+    // Terminate because something went wrong with the file and that
+    // data could be crucial to the program
+    assert(false);
+    return WorldView::Static;
+  }
+}
+
 Textures::ID convertStringToTextureID(std::string& s)
 {
   if (s == "DefaultTank")
@@ -271,14 +289,18 @@ std::vector<LevelData> initializeLevelData()
 
     std::string levelString = "";
     std::string textureName = "";
+    std::string worldView = "";
 
     ist >> label; // Ignore the label in front of each data element
     ist >> levelString;
     ist >> label;
     ist >> textureName;
+    ist >> label;
+    ist >> worldView;
 
     Level::Level level = convertStringToLevel(levelString);
     data[level].backgroundTexture = convertStringToTextureID(textureName);
+    data[level].worldView = convertStringToWorldViewType(worldView);
   }
 
   // stop file reading

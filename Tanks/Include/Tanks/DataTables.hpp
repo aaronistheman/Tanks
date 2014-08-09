@@ -49,17 +49,20 @@ struct BlockData
   int           hitpoints;
 };
 
-enum WorldView
+namespace WorldView
 {
-  Static,
-  Following,
-  Scrolling
-};
+  enum Type
+  {
+    Static,
+    Following,
+    Scrolling
+  };
+} // namespace WorldView
 
 struct LevelData
 {
   Textures::ID                    backgroundTexture;
-  // WorldView                       worldView;
+  WorldView::Type                 worldView;
   // std::vector<EnemySpawnPoint>    enemySpawnPoints;
   // std::vector<BlockSpawnPoint>    blockSpawnPoints;
 };
