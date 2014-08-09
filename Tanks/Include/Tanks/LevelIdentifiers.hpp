@@ -1,9 +1,9 @@
-#ifndef TANKS_LEVEL_HPP
-#define TANKS_LEVEL_HPP
+#ifndef TANKS_LEVELIDENTIFIERS_HPP
+#define TANKS_LEVELIDENTIFIERS_HPP
 
 namespace Level
 {
-  enum Level
+  enum ID
   {
     // For organizing World data;
     // use "Main" to denote default game mode
@@ -17,7 +17,7 @@ namespace Level
 
 namespace GameType
 {
-  enum GameType
+  enum ID
   {
     Default,
     Survival,
@@ -26,4 +26,4 @@ namespace GameType
 
 } // namespace GameType
 
-#endif // TANKS_LEVEL_HPP
+#endif // TANKS_LEVELIDENTIFIERS_HPP

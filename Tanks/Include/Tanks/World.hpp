@@ -8,8 +8,7 @@
 #include <Tanks/CommandQueue.hpp>
 #include <Tanks/Command.hpp>
 #include <Tanks/SpawnPoint.hpp>
-#include <Tanks/Level.hpp>
-#include <Tanks/DataTables.hpp>
+#include <Tanks/LevelIdentifiers.hpp>
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -29,7 +28,7 @@ class World : private sf::NonCopyable
 {
   public:
 		explicit							World(sf::RenderWindow& window, FontHolder& fonts,
-                                GameType::GameType gameType);
+                                GameType::ID gameType);
 		void								update(sf::Time dt);
 		void								draw();
 		
@@ -45,7 +44,7 @@ class World : private sf::NonCopyable
 		void								adaptPlayerVelocity();
     void                handleCollisions();
 		
-    Level::Level        getFirstLevel();
+    Level::ID           getFirstLevel();
     void								buildScene();
     void                addEnemies();
     void                addEnemy(Tank::Type type, 
@@ -78,11 +77,10 @@ class World : private sf::NonCopyable
 	private:
 		sf::RenderWindow&					mWindow;
 		sf::View							mWorldView;
-    WorldView::Type       mViewType;
 		TextureHolder						mTextures;
     FontHolder&             mFonts;
-    GameType::GameType      mGameType;
-    Level::Level            mLevel;
+    GameType::ID            mGameType;
+    Level::ID               mLevel;
 
 		SceneNode							mSceneGraph;
 		std::array<SceneNode*, LayerCount>	mSceneLayers;

@@ -2,7 +2,7 @@
 #include <Tanks/Tank.hpp>
 #include <Tanks/Projectile.hpp>
 #include <Tanks/Block.hpp>
-#include <Tanks/Level.hpp>
+#include <Tanks/LevelIdentifiers.hpp>
 
 #include <cassert>
 #include <fstream>
@@ -59,7 +59,7 @@ Block::Type convertStringToBlockType(std::string& s)
   }
 }
 
-Level::Level convertStringToLevel(std::string& s)
+Level::ID convertStringToLevel(std::string& s)
 {
   if (s == "MainOne")
     return Level::MainOne;
@@ -298,7 +298,7 @@ std::vector<LevelData> initializeLevelData()
     ist >> label;
     ist >> worldView;
 
-    Level::Level level = convertStringToLevel(levelString);
+    Level::ID level = convertStringToLevel(levelString);
     data[level].backgroundTexture = convertStringToTextureID(textureName);
     data[level].worldView = convertStringToWorldViewType(worldView);
   }

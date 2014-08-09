@@ -1,4 +1,5 @@
 #include <Tanks/World.hpp>
+#include <Tanks/DataTables.hpp>
 #include <Tanks/Foreach.hpp>
 #include <Tanks/Category.hpp>
 #include <Tanks/Utility.hpp>
@@ -15,10 +16,9 @@ namespace
 }
 
 World::World(sf::RenderWindow& window, FontHolder& fonts,
-             GameType::GameType gameType)
+             GameType::ID gameType)
 : mWindow(window)
 , mWorldView(window.getDefaultView())
-, mViewType()
 , mFonts(fonts)
 , mGameType(gameType)
 , mLevel(getFirstLevel())
@@ -39,7 +39,6 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 	// Prepare the view
 	mWorldView.setCenter(mWorldView.getSize().x / 2.f, 
                        mWorldBounds.height - mWorldView.getSize().y / 2.f);
-  mViewType = Table[mLevel].worldView;
 }
 
 void World::update(sf::Time dt)
@@ -232,7 +231,7 @@ void World::handleCollisions()
   }
 }
 
-Level::Level World::getFirstLevel()
+Level::ID World::getFirstLevel()
 {
   switch (mGameType)
   {
