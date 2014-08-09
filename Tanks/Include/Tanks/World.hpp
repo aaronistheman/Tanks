@@ -8,6 +8,7 @@
 #include <Tanks/CommandQueue.hpp>
 #include <Tanks/Command.hpp>
 #include <Tanks/SpawnPoint.hpp>
+#include <Tanks/Level.hpp>
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -25,16 +26,9 @@ namespace sf
 
 class World : private sf::NonCopyable
 {
-	public:
-    enum Level
-    {
-      MainOne, // use "Main" to denote main game mode
-      MainTwo,
-      TypeCount
-    };
-
   public:
-		explicit							World(sf::RenderWindow& window, FontHolder& fonts);
+		explicit							World(sf::RenderWindow& window, FontHolder& fonts,
+                                Level::Type level);
 		void								update(sf::Time dt);
 		void								draw();
 		
@@ -84,6 +78,7 @@ class World : private sf::NonCopyable
 		sf::View							mWorldView;
 		TextureHolder						mTextures;
     FontHolder&             mFonts;
+    Level::Type             mLevel;
 
 		SceneNode							mSceneGraph;
 		std::array<SceneNode*, LayerCount>	mSceneLayers;

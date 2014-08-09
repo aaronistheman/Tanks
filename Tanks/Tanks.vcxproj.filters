@@ -194,6 +194,9 @@
     <ClInclude Include="Include\Tanks\SpawnPoint.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Tanks\Level.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Include\Tanks\Utility.inl">

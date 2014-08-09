@@ -2,7 +2,7 @@
 #include <Tanks/Tank.hpp>
 #include <Tanks/Projectile.hpp>
 #include <Tanks/Block.hpp>
-#include <Tanks/World.hpp>
+#include <Tanks/Level.hpp>
 
 #include <cassert>
 #include <fstream>
@@ -245,7 +245,9 @@ std::vector<BlockData> initializeBlockData()
 
 std::vector<LevelData> initializeLevelData()
 {
-  std::vector<LevelData> data(World::TypeCount);
+  std::vector<LevelData> data(Level::TypeCount);
+
+
 
   return data;
 }

@@ -15,10 +15,12 @@ namespace
   const std::vector<LevelData> Table = initializeLevelData();
 }
 
-World::World(sf::RenderWindow& window, FontHolder& fonts)
+World::World(sf::RenderWindow& window, FontHolder& fonts,
+             Level::Type level)
 : mWindow(window)
 , mWorldView(window.getDefaultView())
 , mFonts(fonts)
+, mLevel(level)
 , mTextures() 
 , mSceneGraph()
 , mSceneLayers()
