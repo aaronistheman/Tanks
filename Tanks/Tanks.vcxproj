@@ -62,6 +62,7 @@
     <ClInclude Include="Include\Tanks\ResourceIdentifiers.hpp" />
     <ClInclude Include="Include\Tanks\SceneNode.hpp" />
     <ClInclude Include="Include\Tanks\SettingsState.hpp" />
+    <ClInclude Include="Include\Tanks\SpawnPoint.hpp" />
     <ClInclude Include="Include\Tanks\SpriteNode.hpp" />
     <ClInclude Include="Include\Tanks\State.hpp" />
     <ClInclude Include="Include\Tanks\StateIdentifiers.hpp" />

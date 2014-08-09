@@ -48,6 +48,11 @@ struct BlockData
   int           hitpoints;
 };
 
+struct LevelData
+{
+  
+};
+
 
 std::vector<TankData> initializeTankData();
 std::vector<ProjectileData> initializeProjectileData();

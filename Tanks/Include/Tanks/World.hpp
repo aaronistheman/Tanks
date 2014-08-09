@@ -5,10 +5,9 @@
 #include <Tanks/ResourceIdentifiers.hpp>
 #include <Tanks/SceneNode.hpp>
 #include <Tanks/SpriteNode.hpp>
-#include <Tanks/Tank.hpp>
-#include <Tanks/Block.hpp>
 #include <Tanks/CommandQueue.hpp>
 #include <Tanks/Command.hpp>
+#include <Tanks/SpawnPoint.hpp>
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -70,44 +69,6 @@ class World : private sf::NonCopyable
       UpperGround,
 			LayerCount
 		};
-
-    struct EnemySpawnPoint
-    {
-      EnemySpawnPoint(Tank::Type type, float x, float y, float rotation,
-                 float numberOfKills)
-        : type(type)
-        , x(x)
-        , y(y)
-        , r(rotation)
-        , n(numberOfKills)
-      {
-      }
-
-      Tank::Type type;
-      float x;
-      float y;
-      float r;
-      float n;
-    };
-
-    struct BlockSpawnPoint
-    {
-      BlockSpawnPoint(Block::Type type, float posX, float posY,
-                      float sizeX, float sizeY)
-        : type(type)
-        , posX(posX)
-        , posY(posY)
-        , sizeX(sizeX)
-        , sizeY(sizeY)
-      {
-      }
-
-      Block::Type type;
-      float posX;
-      float posY;
-      float sizeX;
-      float sizeY;
-    };
 
 
 	private:
