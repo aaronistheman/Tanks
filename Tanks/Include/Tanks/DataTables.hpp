@@ -59,9 +59,9 @@ enum WorldView
 struct LevelData
 {
   Textures::ID                    backgroundTexture;
-  WorldView                       worldView;
-  std::vector<EnemySpawnPoint>    enemySpawnPoints;
-  std::vector<BlockSpawnPoint>    blockSpawnPoints;
+  // WorldView                       worldView;
+  // std::vector<EnemySpawnPoint>    enemySpawnPoints;
+  // std::vector<BlockSpawnPoint>    blockSpawnPoints;
 };
 
 

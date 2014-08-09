@@ -259,7 +259,7 @@ void World::buildScene()
 	}
 
 	// Prepare the tiled background
-	sf::Texture& texture = mTextures.get(Textures::Metal);
+	sf::Texture& texture = mTextures.get(Table[mLevel].backgroundTexture);
 	sf::IntRect textureRect(mWorldBounds);
 	texture.setRepeated(true);
 

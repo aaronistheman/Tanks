@@ -59,6 +59,24 @@ Block::Type convertStringToBlockType(std::string& s)
   }
 }
 
+Level::Level convertStringToLevel(std::string& s)
+{
+  if (s == "MainOne")
+    return Level::MainOne;
+  else if (s == "MainTwo")
+    return Level::MainTwo;
+  else if (s == "Survival")
+    return Level::Survival;
+
+  else
+  {
+    // Terminate because something went wrong with the file and that
+    // data could be crucial to the program
+    assert(false);
+    return Level::MainOne;
+  }
+}
+
 Textures::ID convertStringToTextureID(std::string& s)
 {
   if (s == "DefaultTank")
@@ -69,6 +87,8 @@ Textures::ID convertStringToTextureID(std::string& s)
     return Textures::EnemyTank2;
   else if (s == "Bullet")
     return Textures::Bullet;
+  else if (s == "Metal")
+    return Textures::Metal;
 
   else
   {
@@ -238,7 +258,31 @@ std::vector<LevelData> initializeLevelData()
 {
   std::vector<LevelData> data(Level::TypeCount);
 
+  std::string filePath = "DataTables/LevelData/LevelData.txt";
+  std::ifstream ist(filePath.c_str());
 
+  while (!ist.eof())
+  {
+    // This is used to input the labels preceding each data element (see
+    // the text files in the DataTables folder);
+    // we don't want to input the labels into any significant variable;
+    // they are there to make reading the file easier for humans
+    std::string label = "";
+
+    std::string levelString = "";
+    std::string textureName = "";
+
+    ist >> label; // Ignore the label in front of each data element
+    ist >> levelString;
+    ist >> label;
+    ist >> textureName;
+
+    Level::Level level = convertStringToLevel(levelString);
+    data[level].backgroundTexture = convertStringToTextureID(textureName);
+  }
+
+  // stop file reading
+  ist.close();
 
   return data;
 }
