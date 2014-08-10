@@ -335,9 +335,16 @@ std::vector<LevelData> initializeLevelData()
       ist >> levelLabel;
 
     // Reset the reading variables
-    std::string levelString = "";
-    std::string textureID = "";
-    std::string worldView = "";
+    std::string   levelString = "";
+    std::string   textureID = "";
+    std::string   worldView = "";
+    float         playerSpawnX = 0.f;
+    float         playerSpawnY = 0.f;
+    std::string   enemyType = "";
+    float         enemyPosX = 0.f;
+    float         enemyPosY = 0.f;
+    float         rotation = 0.f;
+    float         requiredKills = 0.f;
 
     // Get the actual type of level
     ist >> levelString;
@@ -357,6 +364,20 @@ std::vector<LevelData> initializeLevelData()
       {
         ist >> worldView;
         data[levelID].worldView = convertStringToWorldViewType(worldView);
+      }
+      else if (levelLabel == "PlayerSpawn")
+      {
+        ist >> playerSpawnX >> playerSpawnY;
+        data[levelID].playerSpawnPosition = 
+          sf::Vector2f(playerSpawnX, playerSpawnY);
+      }
+      else if (levelLabel == "Enemy")
+      {
+        ist >> enemyType >> enemyPosX >> enemyPosY >> 
+          rotation >> requiredKills;
+        data[levelID].enemySpawnPoints.push_back(
+          EnemySpawnPoint(convertStringToTankType(enemyType), 
+            enemyPosX, enemyPosY, rotation, requiredKills));
       }
       else
       {

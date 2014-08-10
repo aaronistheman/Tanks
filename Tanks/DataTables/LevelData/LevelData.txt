@@ -1,6 +1,9 @@
 LevelID		MainOne
 TextureID	Metal
 WorldView	Following
+PlayerSpawn     640 330
+Enemy		EnemyTank1 100 150 90 0
+Enemy           EnemyTank1 800 450 180 1
 
 LevelID		MainTwo
 TextureID	Metal
