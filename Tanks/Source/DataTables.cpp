@@ -56,7 +56,7 @@ Block::Type convertStringToBlockType(std::string& s)
   }
 }
 
-Level::ID convertStringToLevel(std::string& s)
+Level::ID convertStringToLevelID(std::string& s)
 {
   if (s == "MainOne")
     return Level::MainOne;
@@ -131,7 +131,7 @@ std::vector<TankData> initializeTankData()
     int hitpoints = 0;
     float movementSpeed = 0.f;
     float rotationSpeed = 0.f;
-    std::string textureName = "";
+    std::string textureID = "";
     float fireInterval = 0.f;
     float bulletOffsetX = 0.f;
     float bulletOffsetY = 0.f;
@@ -165,8 +165,8 @@ std::vector<TankData> initializeTankData()
       }
       else if (dataLabel == "TextureID")
       {
-        ist >> textureName;
-        data[tankType].texture = convertStringToTextureID(textureName);
+        ist >> textureID;
+        data[tankType].texture = convertStringToTextureID(textureID);
       }
       else if (dataLabel == "FireInterval")
       {
@@ -186,6 +186,11 @@ std::vector<TankData> initializeTankData()
         data[tankType].directions.push_back(
           Direction(directionAngle, directionDistance, directionRotation));
       }
+      else
+      {
+        // bad data label; call assert() to prevent hidden bad data reading
+        assert(false);
+      }
     }
   }
 
@@ -197,65 +202,80 @@ std::vector<TankData> initializeTankData()
 
 std::vector<ProjectileData> initializeProjectileData()
 {
-	std::vector<ProjectileData> data(Projectile::TypeCount);
-  
+  std::vector<ProjectileData> data(Projectile::TypeCount);
+
   std::string filePath = "DataTables/EntityData/ProjectileData.txt";
   std::ifstream ist(filePath.c_str());
-  
-  // Figure out which projectile is next for initializing data;
-  // initialize each data element of that projectile
-  while (!ist.eof())
-  {
-    // This is used to input the labels preceding each data element (see
-    // the text files in the DataTables folder);
-    // we don't want to input the labels into any significant variable;
-    // they are there to make reading the file easier for humans
-    std::string label = "";
 
+  std::string dataLabel = ""; // tells which projectile's data is being read
+  
+  while (ist.good())
+  {
+    // Confirm that we're about to begin reading projectile data
+    while (dataLabel != "ProjectileType")
+      ist >> dataLabel;
+
+    // Reset the reading variables
     std::string projectileTypeString = "";
     int damage = 0;
     float speed = 0.f;
-    std::string textureName = "";
+    std::string textureID = "";
 
-    ist >> label; // Ignore the label in front of each data element
+    // Get the actual type of projectile
     ist >> projectileTypeString;
-    ist >> label;
-    ist >> damage;
-    ist >> label;
-    ist >> speed;
-    ist >> label;
-    ist >> textureName;
-
     Projectile::Type projectileType = 
       convertStringToProjectileType(projectileTypeString);
-    data[projectileType].damage = damage;
-    data[projectileType].speed = speed;
-    data[projectileType].texture = convertStringToTextureID(textureName);
+    
+    // Read all of the data for a specific projectile type until told that the
+    // data for a different projectile type is next
+    while (ist.good() && ist >> dataLabel && dataLabel != "ProjectileType")
+    {
+      // Use dataLabel to determine which data is being read
+      if (dataLabel == "Damage")
+      {
+        ist >> damage;
+        data[projectileType].damage = damage;
+      }
+      else if (dataLabel == "Speed")
+      {
+        ist >> speed;
+        data[projectileType].speed = speed;
+      }
+      else if (dataLabel == "TextureID")
+      {
+        ist >> textureID;
+        data[projectileType].texture = convertStringToTextureID(textureID);
+      }
+      else
+      {
+        // bad data label; call assert() to prevent hidden bad data reading
+        assert(false);
+      }
+    }
   }
 
   // stop file reading
   ist.close();
 
-	return data;
+  return data;
 }
 
 std::vector<BlockData> initializeBlockData()
 {
   std::vector<BlockData> data(Block::TypeCount);
-  
+
   std::string filePath = "DataTables/EntityData/BlockData.txt";
   std::ifstream ist(filePath.c_str());
-  
-  // Figure out which block type is next for initializing data;
-  // initialize each data element of that block
-  while (!ist.eof())
-  {
-    // This is used to input the labels preceding each data element (see
-    // the text files in the DataTables folder);
-    // we don't want to input the labels into any significant variable;
-    // they are there to make reading the file easier for humans
-    std::string label = "";
 
+  std::string dataLabel = ""; // tells which block's data is being read
+  
+  while (ist.good())
+  {
+    // Confirm that we're about to begin reading block data
+    while (dataLabel != "BlockType")
+      ist >> dataLabel;
+
+    // Reset the reading variables
     std::string blockTypeString = "";
     int redComponent = 0.f;
     int greenComponent = 0.f;
@@ -263,20 +283,34 @@ std::vector<BlockData> initializeBlockData()
     int alphaComponent = 0.f;
     int hitpoints = 0;
 
-    ist >> label; // Ignore the label in front of each data element
+    // Get the actual type of block
     ist >> blockTypeString;
-    ist >> label;
-    ist >> redComponent;
-    ist >> greenComponent;
-    ist >> blueComponent;
-    ist >> alphaComponent;
-    ist >> label;
-    ist >> hitpoints;
-
-    Block::Type blockType = convertStringToBlockType(blockTypeString);
-    data[blockType].color = sf::Color(redComponent, greenComponent,
-                                      blueComponent, alphaComponent);
-    data[blockType].hitpoints = hitpoints;
+    Block::Type blockType = 
+      convertStringToBlockType(blockTypeString);
+    
+    // Read all of the data for a specific block type until told that the
+    // data for a different block type is next
+    while (ist.good() && ist >> dataLabel && dataLabel != "BlockType")
+    {
+      // Use dataLabel to determine which data is being read
+      if (dataLabel == "Color")
+      {
+        ist >> redComponent >> greenComponent >> 
+          blueComponent >> alphaComponent;
+        data[blockType].color = sf::Color(redComponent, greenComponent,
+                                          blueComponent, alphaComponent);
+      }
+      else if (dataLabel == "Hitpoints")
+      {
+        ist >> hitpoints;
+        data[blockType].hitpoints = hitpoints;
+      }
+      else
+      {
+        // bad data label; call assert() to prevent hidden bad data reading
+        assert(false);
+      }
+    }
   }
 
   // stop file reading
@@ -292,28 +326,44 @@ std::vector<LevelData> initializeLevelData()
   std::string filePath = "DataTables/LevelData/LevelData.txt";
   std::ifstream ist(filePath.c_str());
 
-  while (!ist.eof())
-  {
-    // This is used to input the labels preceding each data element (see
-    // the text files in the DataTables folder);
-    // we don't want to input the labels into any significant variable;
-    // they are there to make reading the file easier for humans
-    std::string label = "";
+  std::string levelLabel = "";
 
+  while (ist.good())
+  {
+    // Confirm that we're about to begin reading level data
+    while (levelLabel != "LevelID")
+      ist >> levelLabel;
+
+    // Reset the reading variables
     std::string levelString = "";
-    std::string textureName = "";
+    std::string textureID = "";
     std::string worldView = "";
 
-    ist >> label; // Ignore the label in front of each data element
+    // Get the actual type of level
     ist >> levelString;
-    ist >> label;
-    ist >> textureName;
-    ist >> label;
-    ist >> worldView;
-
-    Level::ID level = convertStringToLevel(levelString);
-    data[level].backgroundTexture = convertStringToTextureID(textureName);
-    data[level].worldView = convertStringToWorldViewType(worldView);
+    Level::ID levelID = convertStringToLevelID(levelString);
+    
+    // Read all of the data for a specific level until told that the
+    // data for a different level is next
+    while (ist.good() && ist >> levelLabel && levelLabel != "LevelID")
+    {
+      // Use dataLabel to determine which data is being read
+      if (levelLabel == "TextureID")
+      {
+        ist >> textureID;
+        data[levelID].backgroundTexture = convertStringToTextureID(textureID);
+      }
+      else if (levelLabel == "WorldView")
+      {
+        ist >> worldView;
+        data[levelID].worldView = convertStringToWorldViewType(worldView);
+      }
+      else
+      {
+        // bad data label; call assert() to prevent hidden bad data reading
+        assert(false);
+      }
+    }
   }
 
   // stop file reading

@@ -1,9 +1,9 @@
-ProjectileType: AlliedBullet
-Damage: 10
-Speed: 300
-TextureName: Bullet
+ProjectileType	AlliedBullet
+Damage          10
+Speed		300
+TextureID       Bullet
 
-ProjectileType: EnemyBullet
-Damage: 10
-Speed: 300
-TextureName: Bullet
+ProjectileType	EnemyBullet
+Damage		10
+Speed		300
+TextureID       Bullet
