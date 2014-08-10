@@ -23,7 +23,6 @@ Tank::Type convertStringToTankType(std::string& s)
     // Terminate because something went wrong with the file and that
     // data could be crucial to the program
     assert(false);
-    return Tank::DefaultTank;
   }
 }
 
@@ -39,7 +38,6 @@ Projectile::Type convertStringToProjectileType(std::string& s)
     // Terminate because something went wrong with the file and that
     // data could be crucial to the program
     assert(false);
-    return Projectile::AlliedBullet;
   }
 }
 
@@ -55,7 +53,6 @@ Block::Type convertStringToBlockType(std::string& s)
     // Terminate because something went wrong with the file and that
     // data could be crucial to the program
     assert(false);
-    return Block::Indestructible;
   }
 }
 
@@ -73,7 +70,6 @@ Level::ID convertStringToLevel(std::string& s)
     // Terminate because something went wrong with the file and that
     // data could be crucial to the program
     assert(false);
-    return Level::MainOne;
   }
 }
 
@@ -91,7 +87,6 @@ WorldView::Type convertStringToWorldViewType(std::string& s)
     // Terminate because something went wrong with the file and that
     // data could be crucial to the program
     assert(false);
-    return WorldView::Static;
   }
 }
 
@@ -113,7 +108,6 @@ Textures::ID convertStringToTextureID(std::string& s)
     // Terminate because someting went wrong with the file and that
     // data could be crucial to the program
     assert(false);
-    return Textures::DefaultTank;
   }
 }
 
@@ -123,17 +117,16 @@ std::vector<TankData> initializeTankData()
 
   std::string filePath = "DataTables/EntityData/TankData.txt";
   std::ifstream ist(filePath.c_str());
-  
-  // Figure out which tank is next for initializing data;
-  // initialize each data element of that tank
-  while (!ist.eof())
-  {
-    // This is used to input the labels preceding each data element (see
-    // the text files in the DataTables folder);
-    // we don't want to input the labels into any significant variable;
-    // they are there to make reading the file easier for humans
-    std::string label = "";
 
+  std::string dataLabel = ""; // tells which tank's data is being read
+  
+  while (ist.good())
+  {
+    // Confirm that we're about to begin reading tank data
+    while (dataLabel != "TankType")
+      ist >> dataLabel;
+
+    // Reset the reading variables
     std::string tankTypeString = "";
     int hitpoints = 0;
     float movementSpeed = 0.f;
@@ -143,32 +136,48 @@ std::vector<TankData> initializeTankData()
     float bulletOffsetX = 0.f;
     float bulletOffsetY = 0.f;
 
-    ist >> label; // Ignore the label in front of each data element
+    // Get the actual type of tank
     ist >> tankTypeString;
-    ist >> label;
-    ist >> hitpoints;
-    ist >> label;
-    ist >> movementSpeed;
-    ist >> label;
-    ist >> rotationSpeed;
-    ist >> label;
-    ist >> textureName;
-    ist >> label;
-    ist >> fireInterval;
-    ist >> label;
-    ist >> bulletOffsetX;
-    ist >> label;
-    ist >> bulletOffsetY;
-
     Tank::Type tankType = convertStringToTankType(tankTypeString);
-    data[tankType].hitpoints = hitpoints;
-    data[tankType].movementSpeed = movementSpeed;
-    data[tankType].rotationSpeed = rotationSpeed;
-    data[tankType].texture = convertStringToTextureID(textureName);
-    data[tankType].fireInterval = sf::seconds(fireInterval);
-    data[tankType].bulletOffset =
-      sf::Vector2f(bulletOffsetX, bulletOffsetY);
-  } 
+    
+    // Read all of the data for a specific tank type until told that the
+    // data for a different tank type is next
+    while (ist.good() && ist >> dataLabel && dataLabel != "TankType")
+    {
+      // Use dataLabel to determine which data is being read
+      if (dataLabel == "Hitpoints")
+      {
+        ist >> hitpoints;
+        data[tankType].hitpoints = hitpoints;
+      }
+      else if (dataLabel == "MovementSpeed")
+      {
+        ist >> movementSpeed;
+        data[tankType].movementSpeed = movementSpeed;
+      }
+      else if (dataLabel == "RotationSpeed")
+      {
+        ist >> rotationSpeed;
+        data[tankType].rotationSpeed = rotationSpeed;
+      }
+      else if (dataLabel == "TextureID")
+      {
+        ist >> textureName;
+        data[tankType].texture = convertStringToTextureID(textureName);
+      }
+      else if (dataLabel == "FireInterval")
+      {
+        ist >> fireInterval;
+        data[tankType].fireInterval = sf::seconds(fireInterval);
+      }
+      else if (dataLabel == "BulletOffset")
+      {
+        ist >> bulletOffsetX >> bulletOffsetY;
+        data[tankType].bulletOffset = 
+          sf::Vector2f(bulletOffsetX, bulletOffsetY);
+      }
+    }
+  }
 
   // stop file reading
   ist.close();

@@ -63,6 +63,7 @@ struct LevelData
 {
   Textures::ID                    backgroundTexture;
   WorldView::Type                 worldView;
+  // sf::Vector2f                    playerSpawnPosition;
   // std::vector<EnemySpawnPoint>    enemySpawnPoints;
   // std::vector<BlockSpawnPoint>    blockSpawnPoints;
 };
