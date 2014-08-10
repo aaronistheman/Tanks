@@ -57,7 +57,7 @@ namespace WorldView
     Following,
     Scrolling
   };
-} // namespace WorldView
+}
 
 struct LevelData
 {

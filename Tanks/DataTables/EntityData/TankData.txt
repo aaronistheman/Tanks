@@ -13,6 +13,10 @@ RotationSpeed 60
 TextureID EnemyTank1
 FireInterval 2
 BulletOffset 0 49
+Direction 90 50 30
+Direction 0 50 -60
+Direction 270 50 60
+Direction 180 50 -30
 
 TankType EnemyTank2
 Hitpoints 60

@@ -135,6 +135,9 @@ std::vector<TankData> initializeTankData()
     float fireInterval = 0.f;
     float bulletOffsetX = 0.f;
     float bulletOffsetY = 0.f;
+    float directionAngle = 0.f;
+    float directionDistance = 0.f;
+    float directionRotation = 0.f;
 
     // Get the actual type of tank
     ist >> tankTypeString;
@@ -176,17 +179,18 @@ std::vector<TankData> initializeTankData()
         data[tankType].bulletOffset = 
           sf::Vector2f(bulletOffsetX, bulletOffsetY);
       }
+      else if (dataLabel == "Direction")
+      {
+        // AI direction (not every tank has this)
+        ist >> directionAngle >> directionDistance >> directionRotation;
+        data[tankType].directions.push_back(
+          Direction(directionAngle, directionDistance, directionRotation));
+      }
     }
   }
 
   // stop file reading
   ist.close();
-
-  // AI directions; these are not in the files
-  data[Tank::EnemyTank1].directions.push_back(Direction( 90, 50, 30));
-  data[Tank::EnemyTank1].directions.push_back(Direction( 0, 50, -60));
-  data[Tank::EnemyTank1].directions.push_back(Direction( 270, 50, 60));
-  data[Tank::EnemyTank1].directions.push_back(Direction( 180, 50, -30));
 
   return data;
 }
