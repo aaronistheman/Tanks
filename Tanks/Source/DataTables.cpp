@@ -338,6 +338,10 @@ std::vector<LevelData> initializeLevelData()
     std::string   levelString = "";
     std::string   textureID = "";
     std::string   worldView = "";
+    float         worldBoundsLeft = 0.f;
+    float         worldBoundsTop = 0.f;
+    float         worldBoundsWidth = 0.f;
+    float         worldBoundsHeight = 0.f;
     float         playerSpawnX = 0.f;
     float         playerSpawnY = 0.f;
     std::string   enemyType = "";
@@ -365,10 +369,17 @@ std::vector<LevelData> initializeLevelData()
         ist >> textureID;
         data[levelID].backgroundTexture = convertStringToTextureID(textureID);
       }
-      else if (levelLabel == "WorldView")
+      else if (levelLabel == "WorldViewType")
       {
         ist >> worldView;
         data[levelID].worldView = convertStringToWorldViewType(worldView);
+      }
+      else if (levelLabel == "WorldBounds")
+      {
+        ist >> worldBoundsLeft >> worldBoundsTop >> 
+          worldBoundsWidth >> worldBoundsHeight;
+        data[levelID].worldBounds = sf::FloatRect(worldBoundsLeft, 
+          worldBoundsTop, worldBoundsWidth, worldBoundsHeight);
       }
       else if (levelLabel == "PlayerSpawn")
       {

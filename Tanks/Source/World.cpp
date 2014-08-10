@@ -25,7 +25,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 , mTextures() 
 , mSceneGraph()
 , mSceneLayers()
-, mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
+, mWorldBounds(Table[mLevel].worldBounds)
 , mPlayerTank(nullptr)
 , mEnemySpawnPoints()
 , mHuntingEnemies()
@@ -444,4 +444,23 @@ void World::updateHuntingEnemies()
 sf::FloatRect World::getViewBounds() const
 {
 	return sf::FloatRect(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
+}
+
+sf::FloatRect World::getBattlefieldBounds() const
+{
+  if (Table[mLevel].worldView == WorldView::Static)
+    return getViewBounds();
+  else // Table[mLevel].worldView == WorldView::Following
+  {
+    // Return view bounds + some area around all sides, where enemies
+    // and blocks spawn
+	  sf::FloatRect bounds = getViewBounds();
+    const float extraArea = 100.f;
+	  bounds.top -= extraArea;
+	  bounds.height += extraArea * 2.f;
+    bounds.left -= extraArea;
+    bounds.width += extraArea * 2.f;
+
+	  return bounds;
+  }
 }

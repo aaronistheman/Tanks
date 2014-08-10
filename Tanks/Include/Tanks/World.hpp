@@ -61,6 +61,7 @@ class World : private sf::NonCopyable
     void                updateEnemyCounters();
     void                updateHuntingEnemies();
     sf::FloatRect       getViewBounds() const;
+    sf::FloatRect       getBattlefieldBounds() const;
 
 
 	private:
