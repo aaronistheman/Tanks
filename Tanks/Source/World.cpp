@@ -283,15 +283,6 @@ void World::buildScene()
 
 void World::addEnemies()
 {
-  // Add enemies to the spawn point container
-  // addEnemy(Tank::EnemyTank1, sf::Vector2f(100.f, 150.f), 90.f, 0);
-  // addEnemy(Tank::EnemyTank1, sf::Vector2f(950.f, 340.f), 270.f, 0);
-  // addEnemy(Tank::EnemyTank1, sf::Vector2f(800.f, 450.f), 180.f, 1);
-  // addEnemy(Tank::EnemyTank1, sf::Vector2f(400.f, 500.f), 45.f, 1);
-  // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 100.f), 90.f, 0);
-  // addEnemy(Tank::EnemyTank2, sf::Vector2f(1000.f, 450.f), 0.f, 1);
-  // addEnemy(Tank::EnemyTank2, sf::Vector2f(200.f, 540.f), 230.f, 2);
-
   mEnemySpawnPoints = Table[mLevel].enemySpawnPoints;
 
 	// Sort all enemies according to the number of tanks that must be killed
@@ -339,36 +330,7 @@ void World::spawnEnemies()
 
 void World::addBlocks()
 {
-  // Add blocks to the spawn point container
-  addBlock(Block::Indestructible, sf::Vector2f(300.f, 300.f), 
-                                  sf::Vector2f(200.f, 20.f));
-  addBlock(Block::Destructible, sf::Vector2f(800.f, 450.f),
-                                  sf::Vector2f(200.f, 200.f));
-
-  // Boundary blocks
-  const float boundaryThickness = 20.f;
-  float halfThickness = boundaryThickness / 2.f;
-  float worldViewX = mWorldView.getSize().x;
-  float worldViewY = mWorldView.getSize().y;
-  addBlock(Block::Indestructible, 
-           sf::Vector2f(worldViewX / 2.f, halfThickness),                           
-           sf::Vector2f(worldViewX, 
-                        boundaryThickness));
-  addBlock(Block::Indestructible,
-           sf::Vector2f(worldViewX - halfThickness, 
-                        worldViewY / 2.f),
-           sf::Vector2f(boundaryThickness,
-                        worldViewY));
-  addBlock(Block::Indestructible,
-           sf::Vector2f(worldViewX / 2.f, 
-                        worldViewY - halfThickness),
-           sf::Vector2f(worldViewX,
-                        boundaryThickness));
-  addBlock(Block::Indestructible,
-           sf::Vector2f(halfThickness,
-                        worldViewY / 2.f),
-           sf::Vector2f(boundaryThickness,
-                        worldViewY));
+  mBlockSpawnPoints = Table[mLevel].blockSpawnPoints;
 }
 
 void World::addBlock(Block::Type type, sf::Vector2f spawnPosition,

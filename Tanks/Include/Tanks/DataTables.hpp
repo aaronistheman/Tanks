@@ -65,7 +65,7 @@ struct LevelData
   WorldView::Type                 worldView;
   sf::Vector2f                    playerSpawnPosition;
   std::vector<EnemySpawnPoint>    enemySpawnPoints;
-  // std::vector<BlockSpawnPoint>    blockSpawnPoints;
+  std::vector<BlockSpawnPoint>    blockSpawnPoints;
 };
 
 
