@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <vector>
 
 
 namespace
@@ -289,9 +290,10 @@ void World::addEnemies()
   // before each appears, 
   // such that enemies with a lower amount of required kills are checked 
   // first for spawning
-	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), [] (EnemySpawnPoint lhs, EnemySpawnPoint rhs)
+	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), 
+    [] (EnemySpawnPoint lhs, EnemySpawnPoint rhs)
 	{
-		return lhs.n > rhs.n;
+		return lhs.n < rhs.n;
 	});
 }
 
@@ -307,24 +309,32 @@ void World::addEnemy(Tank::Type type,
 
 void World::spawnEnemies()
 {
-  // Spawn all enemies that are able to appear based on the number of
-  // killed tanks this frame
-  while (!mEnemySpawnPoints.empty()
-         && mEnemySpawnPoints.back().n <= mNumberOfDestroyedEnemies)
+  // Only check the spawns that are satisfied by the number of destroyed
+  // enemies
+  for (auto spawn = mEnemySpawnPoints.begin(); 
+    (spawn != mEnemySpawnPoints.end() && spawn->n <= mNumberOfDestroyedEnemies); )
   {
-    EnemySpawnPoint spawn = mEnemySpawnPoints.back();
+    // Only spawn an enemy if it is within the battlefield bounds;
+    // ignore the spawn point otherwise
+    if (getBattlefieldBounds().contains(spawn->x, spawn->y))
+    {
+      std::unique_ptr<Tank> enemy(new Tank(spawn->type, mTextures, mFonts));
+      enemy->setPosition(spawn->x, spawn->y);
+      enemy->setRotation(spawn->r);
 
-    std::unique_ptr<Tank> enemy(new Tank(spawn.type, mTextures, mFonts));
-    enemy->setPosition(spawn.x, spawn.y);
-    enemy->setRotation(spawn.r);
-
-    mSceneLayers[MainGround]->attachChild(std::move(enemy));
+      mSceneLayers[MainGround]->attachChild(std::move(enemy));
     
-    // Update alive enemies counter
-    ++mNumberOfAliveEnemies;
-
-		// Enemy is spawned, remove from the list to spawn
-    mEnemySpawnPoints.pop_back();
+      // Update alive enemies counter
+      ++mNumberOfAliveEnemies;
+    
+		  // Enemy is spawned, remove from the list to spawn;
+      // update the iterator
+      spawn = mEnemySpawnPoints.erase(spawn);
+    }
+    else
+    {
+      ++spawn;
+    }
   }
 }
 
@@ -367,7 +377,7 @@ void World::destroyProjectilesOutsideView()
   command.action = derivedAction<Projectile>(
     [this] (Projectile& p, sf::Time)
   {
-    if (!getViewBounds().intersects(p.getBoundingRect()))
+    if (!getBattlefieldBounds().intersects(p.getBoundingRect()))
       p.destroy();
   });
 

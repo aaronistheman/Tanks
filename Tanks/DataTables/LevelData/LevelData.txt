@@ -1,7 +1,7 @@
 LevelID		MainOne
 TextureID	Metal
 WorldViewType	Following
-WorldBounds	0 0 1280 660
+WorldBounds	-100 -100 1480 860
 PlayerSpawn     640 330
 Enemy		EnemyTank1 100 150 90 0
 Enemy           EnemyTank1 800 450 180 1

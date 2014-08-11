@@ -15,7 +15,7 @@
 #include <SFML/Graphics/Texture.hpp>
 
 #include <array>
-#include <queue>
+#include <vector>
 
 
 // Forward declaration
@@ -58,6 +58,8 @@ class World : private sf::NonCopyable
                                  sf::Vector2f size);
     void                spawnBlocks();
     void                destroyProjectilesOutsideView();
+    void                despawnEnemiesOutsideView();
+    void                despawnBlocksOutsideView();
     void                updateEnemyCounters();
     void                updateHuntingEnemies();
     sf::FloatRect       getViewBounds() const;
