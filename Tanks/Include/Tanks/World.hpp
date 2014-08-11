@@ -35,7 +35,7 @@ class World : private sf::NonCopyable
 		CommandQueue&						getCommandQueue();
 
 		bool 								hasAlivePlayer() const;
-    bool                hasAliveEnemy() const;
+    bool                hasEnemies() const;
 
 
 	private:
@@ -97,6 +97,7 @@ class World : private sf::NonCopyable
     std::vector<Tank*>        mHuntingEnemies;
     int                       mNumberOfDestroyedEnemies;
     int                       mNumberOfAliveEnemies;
+    bool                      mNeedSortEnemies;
 };
 
 #endif // TANKS_WORLD_HPP

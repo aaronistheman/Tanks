@@ -23,7 +23,7 @@ bool GameState::update(sf::Time dt)
 		mPlayer.setMissionStatus(Player::MissionFailure);
 		requestStackPush(States::GameOver);
 	}
-	else if(!mWorld.hasAliveEnemy())
+	else if(!mWorld.hasEnemies())
 	{
 	  mPlayer.setMissionStatus(Player::MissionSuccess);
 	  requestStackPush(States::GameOver);

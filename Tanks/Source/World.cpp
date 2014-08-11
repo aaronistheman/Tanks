@@ -32,6 +32,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 , mHuntingEnemies()
 , mNumberOfDestroyedEnemies(0)
 , mNumberOfAliveEnemies(0)
+, mNeedSortEnemies(false)
 {
 	loadTextures();
 	buildScene();
@@ -52,6 +53,7 @@ void World::update(sf::Time dt)
 
   // These further update mCommandQueue 
   destroyProjectilesOutsideView();
+  despawnEnemiesOutsideView();
   updateEnemyCounters();
   updateHuntingEnemies();
 
@@ -72,7 +74,6 @@ void World::update(sf::Time dt)
 
 	// Regular update step
 	mSceneGraph.update(dt, mCommandQueue);
-	// adaptTankPositions();
 }
 
 void World::draw()
@@ -91,9 +92,9 @@ bool World::hasAlivePlayer() const
 	return !mPlayerTank->isMarkedForRemoval();
 }
 
-bool World::hasAliveEnemy() const
+bool World::hasEnemies() const
 {
-  return mNumberOfAliveEnemies > 0;
+  return (mNumberOfAliveEnemies > 0 || !mEnemySpawnPoints.empty());
 }
 
 void World::loadTextures()
@@ -285,16 +286,7 @@ void World::buildScene()
 void World::addEnemies()
 {
   mEnemySpawnPoints = Table[mLevel].enemySpawnPoints;
-
-	// Sort all enemies according to the number of tanks that must be killed
-  // before each appears, 
-  // such that enemies with a lower amount of required kills are checked 
-  // first for spawning
-	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), 
-    [] (EnemySpawnPoint lhs, EnemySpawnPoint rhs)
-	{
-		return lhs.n < rhs.n;
-	});
+	mNeedSortEnemies = true;
 }
 
 void World::addEnemy(Tank::Type type, 
@@ -305,10 +297,26 @@ void World::addEnemy(Tank::Type type,
 	EnemySpawnPoint spawn(type, spawnPosition.x, spawnPosition.y, rotation, 
                    numberOfKillsToAppear);
 	mEnemySpawnPoints.push_back(spawn);
+	mNeedSortEnemies = true;
 }
 
 void World::spawnEnemies()
 {
+  if (mNeedSortEnemies)
+  {
+    // Sort all enemies according to the number of tanks that must be killed
+    // before each appears, 
+    // such that enemies with a lower amount of required kills are checked 
+    // first for spawning
+	  std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), 
+      [] (EnemySpawnPoint lhs, EnemySpawnPoint rhs)
+	  {
+		  return lhs.n < rhs.n;
+	  });
+
+    mNeedSortEnemies = false;
+  }
+
   // Only check the spawns that are satisfied by the number of destroyed
   // enemies
   for (auto spawn = mEnemySpawnPoints.begin(); 
@@ -379,6 +387,25 @@ void World::destroyProjectilesOutsideView()
   {
     if (!getBattlefieldBounds().intersects(p.getBoundingRect()))
       p.destroy();
+  });
+
+  mCommandQueue.push(command);
+}
+
+void World::despawnEnemiesOutsideView()
+{
+  Command command;
+  command.category = Category::EnemyTank;
+  command.action = derivedAction<Tank>(
+    [this] (Tank& t, sf::Time)
+  {
+    if (!t.isDestroyed() && !getBattlefieldBounds().contains(t.getPosition()))
+    {
+      addEnemy(t.getType(), t.getPosition(), t.getRotation(), 
+        mNumberOfDestroyedEnemies);
+      t.destroy();
+      --mNumberOfDestroyedEnemies; // negate the increase that would occur
+    }
   });
 
   mCommandQueue.push(command);
@@ -466,6 +493,7 @@ sf::FloatRect World::getBattlefieldBounds() const
     // and blocks spawn
 	  sf::FloatRect bounds = getViewBounds();
     const float extraArea = 100.f;
+    // const float extraArea = -100.f;
 	  bounds.top -= extraArea;
 	  bounds.height += extraArea * 2.f;
     bounds.left -= extraArea;

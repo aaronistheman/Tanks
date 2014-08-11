@@ -102,6 +102,11 @@ bool Tank::isMarkedForRemoval() const
 	return mIsMarkedForRemoval;
 }
 
+Tank::Type Tank::getType() const
+{
+  return mType;
+}
+
 bool Tank::isAllied() const
 {
   return mType == Type::DefaultTank;

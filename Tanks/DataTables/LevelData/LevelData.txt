@@ -3,11 +3,10 @@ TextureID	Metal
 WorldViewType	Following
 WorldBounds	-100 -100 1480 860
 PlayerSpawn     640 330
-Enemy		EnemyTank1 100 150 90 0
+Enemy		EnemyTank1 100 150 90 2
 Enemy           EnemyTank1 800 450 180 1
 Enemy           EnemyTank1 640 230 0 0
 Block           Indestructible 300 300 200 20
-Block           Destructible 800 450 200 200
 Block           Indestructible 640 10 1280 20
 Block           Destructible 1270 330 20 660
 Block		Indestructible 640 650 1280 20

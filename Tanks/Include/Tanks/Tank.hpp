@@ -33,6 +33,7 @@ class Tank : public Entity
     virtual unsigned int	  getCategory() const;
 		virtual sf::FloatRect	  getBoundingRect() const;
     virtual bool          isMarkedForRemoval() const;
+    Type                  getType() const;
     bool                  isAllied() const;
     bool                  isMovingTowardsPlayer() const;
     float                 getMaxMovementSpeed() const;
