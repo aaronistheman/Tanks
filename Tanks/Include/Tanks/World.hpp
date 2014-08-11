@@ -50,7 +50,7 @@ class World : private sf::NonCopyable
     void                addEnemy(Tank::Type type, 
                                  sf::Vector2f spawnPosition,
                                  float rotation, 
-                                 float numberOfKillsToAppear);
+                                 int numberOfKillsToAppear);
     void                spawnEnemies();
     void                addBlocks();
     void                addBlock(Block::Type type,

@@ -292,7 +292,7 @@ void World::addEnemies()
 void World::addEnemy(Tank::Type type, 
                      sf::Vector2f spawnPosition,
                      float rotation, 
-                     float numberOfKillsToAppear)
+                     int numberOfKillsToAppear)
 {
 	EnemySpawnPoint spawn(type, spawnPosition.x, spawnPosition.y, rotation, 
                    numberOfKillsToAppear);
