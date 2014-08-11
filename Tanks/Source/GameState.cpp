@@ -1,5 +1,5 @@
 #include <Tanks/GameState.hpp>
-#include <Tanks/Level.hpp>
+#include <Tanks/LevelIdentifiers.hpp>
 
 
 GameState::GameState(StateStack& stack, Context context)

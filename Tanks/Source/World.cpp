@@ -230,17 +230,17 @@ void World::handleCollisions()
   }
 }
 
-Level::ID World::getFirstLevel()
+Levels::ID World::getFirstLevel()
 {
   switch (mGameType)
   {
     case GameType::Default:
-      return Level::MainOne;
+      return Levels::MainOne;
     case GameType::Survival:
-      return Level::Survival;
+      return Levels::Survival;
 
     default:
-      return Level::MainOne;
+      return Levels::MainOne;
   }
 }
 

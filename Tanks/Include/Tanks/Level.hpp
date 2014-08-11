@@ -1,29 +1,30 @@
 #ifndef TANKS_LEVEL_HPP
 #define TANKS_LEVEL_HPP
 
-namespace Level
-{
-  enum ID
-  {
-    // For organizing World data;
-    // use "Main" to denote default game mode
-    MainOne,
-    MainTwo,
-    Survival,
-    TypeCount
-  };
-  
-} // namespace Level
+#include <Tanks/LevelIdentifiers.hpp>
 
-namespace GameType
-{
-  enum ID
-  {
-    Default,
-    Survival,
-    TypeCount
-  };
 
-} // namespace GameType
+class Level
+{
+  public:
+    explicit        Level(GameType::ID gameType);
+
+    Levels::ID      getLevel() const;
+    void            incrementLevel();
+    void            resetLevel();
+    GameType::ID    getGameType() const;
+    void            setGameType(GameType::ID gameType);
+
+    bool            isLastLevel() const;
+
+
+  private:
+    Levels::ID      getFirstLevel() const;
+
+
+  private:
+    Levels::ID      mLevel;
+    GameType::ID    mGameType;
+};
 
 #endif // TANKS_LEVEL_HPP

@@ -2,7 +2,7 @@
 #include <Tanks/Tank.hpp>
 #include <Tanks/Projectile.hpp>
 #include <Tanks/Block.hpp>
-#include <Tanks/Level.hpp>
+#include <Tanks/LevelIdentifiers.hpp>
 
 #include <cassert>
 #include <fstream>
@@ -56,14 +56,14 @@ Block::Type convertStringToBlockType(std::string& s)
   }
 }
 
-Level::ID convertStringToLevelID(std::string& s)
+Levels::ID convertStringToLevelID(std::string& s)
 {
   if (s == "MainOne")
-    return Level::MainOne;
+    return Levels::MainOne;
   else if (s == "MainTwo")
-    return Level::MainTwo;
+    return Levels::MainTwo;
   else if (s == "Survival")
-    return Level::Survival;
+    return Levels::Survival;
 
   else
   {
@@ -321,7 +321,7 @@ std::vector<BlockData> initializeBlockData()
 
 std::vector<LevelData> initializeLevelData()
 {
-  std::vector<LevelData> data(Level::TypeCount);
+  std::vector<LevelData> data(Levels::TypeCount);
 
   std::string filePath = "DataTables/LevelData/LevelData.txt";
   std::ifstream ist(filePath.c_str());
@@ -357,7 +357,7 @@ std::vector<LevelData> initializeLevelData()
 
     // Get the actual type of level
     ist >> levelString;
-    Level::ID levelID = convertStringToLevelID(levelString);
+    Levels::ID levelID = convertStringToLevelID(levelString);
     
     // Read all of the data for a specific level until told that the
     // data for a different level is next
