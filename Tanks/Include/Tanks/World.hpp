@@ -8,7 +8,7 @@
 #include <Tanks/CommandQueue.hpp>
 #include <Tanks/Command.hpp>
 #include <Tanks/SpawnPoint.hpp>
-#include <Tanks/Level.hpp>
+#include <Tanks/LevelIdentifiers.hpp>
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/View.hpp>

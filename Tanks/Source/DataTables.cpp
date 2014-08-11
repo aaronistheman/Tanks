@@ -2,7 +2,7 @@
 #include <Tanks/Tank.hpp>
 #include <Tanks/Projectile.hpp>
 #include <Tanks/Block.hpp>
-#include <Tanks/Level.hpp>
+#include <Tanks/LevelIdentifiers.hpp>
 
 #include <cassert>
 #include <fstream>

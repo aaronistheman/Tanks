@@ -1,5 +1,5 @@
 #include <Tanks/GameState.hpp>
-#include <Tanks/Level.hpp>
+#include <Tanks/LevelIdentifiers.hpp>
 
 
 GameState::GameState(StateStack& stack, Context context)
@@ -20,12 +20,12 @@ bool GameState::update(sf::Time dt)
 
 	if(!mWorld.hasAlivePlayer())
 	{
-		mPlayer.setLevelStatus(Player::LevelFailure);
+		mPlayer.setMissionStatus(Player::MissionFailure);
 		requestStackPush(States::GameOver);
 	}
 	else if(!mWorld.hasEnemies())
 	{
-	  mPlayer.setLevelStatus(Player::LevelSuccess);
+	  mPlayer.setMissionStatus(Player::MissionSuccess);
 	  requestStackPush(States::GameOver);
 	}
 
