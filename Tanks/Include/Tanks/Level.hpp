@@ -1,5 +1,5 @@
-#ifndef TANKS_LEVELIDENTIFIERS_HPP
-#define TANKS_LEVELIDENTIFIERS_HPP
+#ifndef TANKS_LEVEL_HPP
+#define TANKS_LEVEL_HPP
 
 namespace Level
 {
@@ -26,4 +26,4 @@ namespace GameType
 
 } // namespace GameType
 
-#endif // TANKS_LEVELIDENTIFIERS_HPP
+#endif // TANKS_LEVEL_HPP

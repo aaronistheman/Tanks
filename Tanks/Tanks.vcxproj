@@ -54,7 +54,7 @@
     <ClInclude Include="Include\Tanks\GameOverState.hpp" />
     <ClInclude Include="Include\Tanks\GameState.hpp" />
     <ClInclude Include="Include\Tanks\Label.hpp" />
-    <ClInclude Include="Include\Tanks\LevelIdentifiers.hpp" />
+    <ClInclude Include="Include\Tanks\Level.hpp" />
     <ClInclude Include="Include\Tanks\MenuState.hpp" />
     <ClInclude Include="Include\Tanks\PauseState.hpp" />
     <ClInclude Include="Include\Tanks\Player.hpp" />
