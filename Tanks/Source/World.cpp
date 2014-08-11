@@ -30,7 +30,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 , mPlayerTank(nullptr)
 , mEnemySpawnPoints()
 , mHuntingEnemies()
-, mNumberOfDestroyedEnemies(0)
+, mNumberOfEnemies(0)
 , mNumberOfAliveEnemies(0)
 , mNeedSortEnemies(false)
 {
@@ -283,9 +283,17 @@ void World::buildScene()
   spawnBlocks();
 }
 
+int World::getNumberOfDestroyedEnemies()
+{
+  return (mNumberOfEnemies - mEnemySpawnPoints.size() - mNumberOfAliveEnemies);
+}
+
 void World::addEnemies()
 {
+  // Set spawn points according to the data read from a file;
+  // set number of enemies to be used to determine if level is finished
   mEnemySpawnPoints = Table[mLevel].enemySpawnPoints;
+  mNumberOfEnemies = mEnemySpawnPoints.size();
 	mNeedSortEnemies = true;
 }
 
@@ -320,7 +328,7 @@ void World::spawnEnemies()
   // Only check the spawns that are satisfied by the number of destroyed
   // enemies
   for (auto spawn = mEnemySpawnPoints.begin(); 
-    (spawn != mEnemySpawnPoints.end() && spawn->n <= mNumberOfDestroyedEnemies); )
+    (spawn != mEnemySpawnPoints.end() && spawn->n <= getNumberOfDestroyedEnemies()); )
   {
     // Only spawn an enemy if it is within the battlefield bounds;
     // ignore the spawn point otherwise
@@ -402,9 +410,8 @@ void World::despawnEnemiesOutsideView()
     if (!t.isDestroyed() && !getBattlefieldBounds().contains(t.getPosition()))
     {
       addEnemy(t.getType(), t.getPosition(), t.getRotation(), 
-        mNumberOfDestroyedEnemies);
+        getNumberOfDestroyedEnemies());
       t.destroy();
-      --mNumberOfDestroyedEnemies; // negate the increase that would occur
     }
   });
 
@@ -419,7 +426,6 @@ void World::updateEnemyCounters()
   {
     if (enemy.isMarkedForRemoval())
     {
-      ++mNumberOfDestroyedEnemies;
       --mNumberOfAliveEnemies;
     }
   });

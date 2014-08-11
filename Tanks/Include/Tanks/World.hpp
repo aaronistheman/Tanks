@@ -46,6 +46,7 @@ class World : private sf::NonCopyable
 		
     Level::ID           getFirstLevel();
     void								buildScene();
+    int                 getNumberOfDestroyedEnemies();
     void                addEnemies();
     void                addEnemy(Tank::Type type, 
                                  sf::Vector2f spawnPosition,
@@ -95,7 +96,7 @@ class World : private sf::NonCopyable
     std::vector<EnemySpawnPoint>     mEnemySpawnPoints;
     std::vector<BlockSpawnPoint>     mBlockSpawnPoints;
     std::vector<Tank*>        mHuntingEnemies;
-    int                       mNumberOfDestroyedEnemies;
+    int                       mNumberOfEnemies;
     int                       mNumberOfAliveEnemies;
     bool                      mNeedSortEnemies;
 };
