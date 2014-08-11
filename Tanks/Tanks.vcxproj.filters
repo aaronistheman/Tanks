@@ -96,6 +96,9 @@
     <ClCompile Include="Source\Block.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Tanks\Utility.hpp">
@@ -194,7 +197,7 @@
     <ClInclude Include="Include\Tanks\SpawnPoint.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Tanks\LevelIdentifiers.hpp">
+    <ClInclude Include="Include\Tanks\Level.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

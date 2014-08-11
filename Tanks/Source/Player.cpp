@@ -41,7 +41,9 @@ struct TankRotator
 };
 
 Player::Player()
-: mCurrentMissionStatus(MissionRunning)
+: mCurrentLevelStatus(LevelRunning)
+, mLevel(Level::None)
+, mGameType(GameType::Default)
 {
 	// Set initial key bindings
 	mKeyBinding[sf::Keyboard::Left] = MoveLeft;
@@ -108,14 +110,34 @@ sf::Keyboard::Key Player::getAssignedKey(Action action) const
 	return sf::Keyboard::Unknown;
 }
 
-void Player::setMissionStatus(MissionStatus status)
+void Player::setLevelStatus(LevelStatus status)
 {
-	mCurrentMissionStatus = status;
+	mCurrentLevelStatus = status;
 }
 
-Player::MissionStatus Player::getMissionStatus() const
+Player::LevelStatus Player::getLevelStatus() const
 {
-	return mCurrentMissionStatus;
+	return mCurrentLevelStatus;
+}
+
+void Player::setLevel(Level::ID level)
+{
+  mLevel = level;
+}
+
+Level::ID Player::getLevel() const
+{
+  return mLevel;
+}
+
+void Player::setGameType(GameType::ID gameType)
+{
+  mGameType = gameType;
+}
+
+GameType::ID Player::getGameType()
+{
+  return mGameType;
 }
 
 void Player::initializeActions()

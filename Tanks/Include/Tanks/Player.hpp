@@ -2,6 +2,7 @@
 #define TANKS_PLAYER_HPP
 
 #include <Tanks/Command.hpp>
+#include <Tanks/Level.hpp>
 
 #include <SFML/Window/Event.hpp>
 
@@ -25,11 +26,11 @@ class Player
 			ActionCount
 		};
 
-    enum MissionStatus
+    enum LevelStatus
     {
-      MissionRunning,
-      MissionSuccess,
-      MissionFailure
+      LevelRunning,
+      LevelSuccess,
+      LevelFailure
     };
 
 
@@ -42,8 +43,12 @@ class Player
 		void					assignKey(Action action, sf::Keyboard::Key key);
 		sf::Keyboard::Key		getAssignedKey(Action action) const;
 
-    void 					setMissionStatus(MissionStatus status);
-		MissionStatus 			getMissionStatus() const;
+    void 					setLevelStatus(LevelStatus status);
+		LevelStatus 			getLevelStatus() const;
+    void          setLevel(Level::ID level);
+    Level::ID     getLevel() const;
+    void          setGameType(GameType::ID gameType);
+    GameType::ID    getGameType();
 
 
 	private:
@@ -54,7 +59,9 @@ class Player
 	private:
 		std::map<sf::Keyboard::Key, Action>		mKeyBinding;
 		std::map<Action, Command>				mActionBinding;
-		MissionStatus 							mCurrentMissionStatus;
+		LevelStatus 							mCurrentLevelStatus;
+    Level::ID                   mLevel;
+    GameType::ID                mGameType;
 };
 
 #endif // TANKS_PLAYER_HPP

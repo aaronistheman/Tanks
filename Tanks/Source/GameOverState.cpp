@@ -20,10 +20,14 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 	sf::Vector2f windowSize(context.window->getSize());
 
 	mGameOverText.setFont(font);
-	if (context.player->getMissionStatus() == Player::MissionFailure)
-		mGameOverText.setString("Mission failed!");	
+	if (context.player->getLevelStatus() == Player::LevelFailure)
+		mGameOverText.setString("Level failed!");	
 	else
-		mGameOverText.setString("Mission successful!");
+  {
+		mGameOverText.setString("Level successful!");
+    context.player->setLevel(getNextLevel(context.player->getLevel(), 
+                                          context.player->getGameType()));
+  }
 
 	mGameOverText.setCharacterSize(70);
 	centerOrigin(mGameOverText);
