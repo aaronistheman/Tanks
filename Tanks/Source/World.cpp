@@ -39,8 +39,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
   
 	// Prepare the view
   if (Table[mLevel].worldView == WorldView::Static)
-	  mWorldView.setCenter(mWorldView.getSize().x / 2.f, 
-                         mWorldBounds.height - mWorldView.getSize().y / 2.f);
+	  mWorldView.setCenter(sf::Vector2f(mWindow.getSize()) / 2.f);
 }
 
 void World::update(sf::Time dt)
