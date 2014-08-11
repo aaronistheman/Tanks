@@ -17,12 +17,11 @@ namespace
 }
 
 World::World(sf::RenderWindow& window, FontHolder& fonts,
-             GameType::ID gameType)
+             Level& level)
 : mWindow(window)
 , mWorldView(window.getDefaultView())
 , mFonts(fonts)
-, mGameType(gameType)
-, mLevel(getFirstLevel())
+, mLevel(level.getLevel())
 , mTextures() 
 , mSceneGraph()
 , mSceneLayers()
@@ -227,20 +226,6 @@ void World::handleCollisions()
       block.damage(projectile.getDamage());
       projectile.destroy();
     }
-  }
-}
-
-Levels::ID World::getFirstLevel()
-{
-  switch (mGameType)
-  {
-    case GameType::Default:
-      return Levels::MainOne;
-    case GameType::Survival:
-      return Levels::Survival;
-
-    default:
-      return Levels::MainOne;
   }
 }
 

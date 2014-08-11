@@ -2,6 +2,7 @@
 #define TANKS_PLAYER_HPP
 
 #include <Tanks/Command.hpp>
+#include <Tanks/Level.hpp>
 
 #include <SFML/Window/Event.hpp>
 
@@ -45,6 +46,8 @@ class Player
     void 					setMissionStatus(MissionStatus status);
 		MissionStatus 			getMissionStatus() const;
 
+    Level         getLevel() const;
+
 
 	private:
 		void					initializeActions();
@@ -55,6 +58,7 @@ class Player
 		std::map<sf::Keyboard::Key, Action>		mKeyBinding;
 		std::map<Action, Command>				mActionBinding;
 		MissionStatus 							mCurrentMissionStatus;
+    Level                       mLevel;
 };
 
 #endif // TANKS_PLAYER_HPP

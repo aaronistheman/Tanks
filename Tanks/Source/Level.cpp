@@ -6,8 +6,8 @@
 Level::Level(GameType::ID gameType)
   // initialize mGameType first so that getFirstLevel() can be used
   : mGameType(gameType)
-  , mLevel(getFirstLevel())
 {
+  mLevel = getFirstLevel();
 }
 
 Levels::ID Level::getLevel() const

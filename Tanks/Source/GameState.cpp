@@ -4,7 +4,7 @@
 
 GameState::GameState(StateStack& stack, Context context)
 : State(stack, context)
-, mWorld(*context.window, *context.fonts, GameType::Default)
+, mWorld(*context.window, *context.fonts, context.player->getLevel())
 , mPlayer(*context.player)
 {
 }

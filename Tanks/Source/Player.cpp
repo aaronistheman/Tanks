@@ -2,6 +2,7 @@
 #include <Tanks/CommandQueue.hpp>
 #include <Tanks/Tank.hpp>
 #include <Tanks/Foreach.hpp>
+#include <Tanks/LevelIdentifiers.hpp>
 
 #include <map>
 #include <string>
@@ -42,6 +43,7 @@ struct TankRotator
 
 Player::Player()
 : mCurrentMissionStatus(MissionRunning)
+, mLevel(GameType::Default)
 {
 	// Set initial key bindings
 	mKeyBinding[sf::Keyboard::Left] = MoveLeft;
@@ -116,6 +118,11 @@ void Player::setMissionStatus(MissionStatus status)
 Player::MissionStatus Player::getMissionStatus() const
 {
 	return mCurrentMissionStatus;
+}
+
+Level Player::getLevel() const
+{
+  return mLevel;
 }
 
 void Player::initializeActions()
