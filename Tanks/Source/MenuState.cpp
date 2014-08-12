@@ -17,18 +17,28 @@ MenuState::MenuState(StateStack& stack, Context context)
 	mBackgroundSprite.setTexture(texture);
   setSize(mBackgroundSprite, sf::Vector2f(context.window->getSize()));
 
-	auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	playButton->setPosition(100, 250);
-	playButton->setText("Play");
-	playButton->setCallback([this] ()
+	auto playDefaultButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+	playDefaultButton->setPosition(100, 250);
+	playDefaultButton->setText("Play");
+	playDefaultButton->setCallback([this] ()
 	{
 		requestStackPop();
 		requestStackPush(States::Game);
     mPlayer.setGameType(GameType::Default);
 	});
 
+  auto playSurvivalButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+  playSurvivalButton->setPosition(100, 300);
+  playSurvivalButton->setText("Survival");
+  playSurvivalButton->setCallback([this] ()
+  {
+    requestStackPop();
+    requestStackPush(States::Game);
+    mPlayer.setGameType(GameType::Survival);
+  });
+
 	auto settingsButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	settingsButton->setPosition(100, 300);
+	settingsButton->setPosition(100, 350);
 	settingsButton->setText("Settings");
 	settingsButton->setCallback([this] ()
 	{
@@ -36,14 +46,15 @@ MenuState::MenuState(StateStack& stack, Context context)
 	});
 
 	auto exitButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	exitButton->setPosition(100, 350);
+	exitButton->setPosition(100, 400);
 	exitButton->setText("Exit");
 	exitButton->setCallback([this] ()
 	{
 		requestStackPop();
 	});
 
-	mGUIContainer.pack(playButton);
+	mGUIContainer.pack(playDefaultButton);
+  mGUIContainer.pack(playSurvivalButton);
 	mGUIContainer.pack(settingsButton);
 	mGUIContainer.pack(exitButton);
 }

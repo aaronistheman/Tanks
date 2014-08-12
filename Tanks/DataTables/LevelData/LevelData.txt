@@ -10,8 +10,6 @@ Block           Destructible 1270 330 20 660
 Block		Indestructible 640 650 1280 20
 Block           Indestructible 10 330 20 660
 
-
-
 LevelID		MainTwo
 TextureID	Metal
 WorldViewType	Static
@@ -22,8 +20,6 @@ Block           Indestructible 640 10 1280 20
 Block           Indestructible 1270 330 20 660
 Block		Indestructible 640 650 1280 20
 Block           Indestructible 10 330 20 660
-
-
 
 LevelID 	MainLast
 TextureID	Metal
@@ -36,8 +32,13 @@ Block           Indestructible  640 420 1280  20
 Block           Indestructible   10 330   20 200
 Block           Indestructible 1270 330   20 200
 
-
-
 LevelID		Survival
 TextureID	Metal
 WorldViewType	Static
+WorldBounds	0 230 1280 200
+PlayerSpawn     640 330
+Enemy           EnemyTank1 540 330 0 0
+Block           Indestructible  640 240 1280  20
+Block           Indestructible  640 420 1280  20
+Block           Indestructible   10 330   20 200
+Block           Indestructible 1270 330   20 200
