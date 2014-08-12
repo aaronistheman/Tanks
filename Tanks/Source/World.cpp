@@ -317,7 +317,7 @@ void World::spawnEnemies()
       
       // Change the enemy's hitpoints if it did not have full hitpoints when
       // made into a spawn (i.e. it was despawned)
-      if (spawn->h != EnemySpawnPoint::fullHitpoints)
+      if (spawn->h != Tank::getMaxHitpoints(spawn->type))
         enemy->damage(enemy->getHitpoints() - spawn->h);
 
       mSceneLayers[MainGround]->attachChild(std::move(enemy));
@@ -400,10 +400,8 @@ void World::despawnEnemiesOutsideView()
   {
     if (!t.isDestroyed() && !getBattlefieldBounds().contains(t.getPosition()))
     {
-      int currentHitpoints = (t.getHitpoints() == t.getMaxHitpoints() ? 
-        EnemySpawnPoint::fullHitpoints : t.getHitpoints());
       addEnemy(t.getType(), t.getPosition(), t.getRotation(), 
-        getNumberOfDestroyedEnemies(), currentHitpoints);
+        getNumberOfDestroyedEnemies(), t.getHitpoints());
       t.destroy();
     }
   });

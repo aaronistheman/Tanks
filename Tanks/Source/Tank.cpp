@@ -132,6 +132,11 @@ int Tank::getMaxHitpoints() const
   return Table[mType].hitpoints;
 }
 
+int Tank::getMaxHitpoints(Type type)
+{
+  return Table[type].hitpoints;
+}
+
 void Tank::addCollisionWithTank(sf::FloatRect intersection)
 {
   mCollisionsWithTank.push_back(CollisionData(intersection));

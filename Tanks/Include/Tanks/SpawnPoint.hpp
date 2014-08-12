@@ -7,10 +7,6 @@
 
 struct EnemySpawnPoint
 {
-  // Use this constant to denote that the spawned enemy needs full
-  // hitpoints from its data table
-  const static int fullHitpoints = 0;
-
   EnemySpawnPoint(Tank::Type type, float x, float y, float rotation,
                   int numberOfKills, int hitpoints)
     : type(type)

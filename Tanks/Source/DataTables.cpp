@@ -344,7 +344,7 @@ std::vector<LevelData> initializeLevelData()
     float         worldBoundsHeight = 0.f;
     float         playerSpawnX = 0.f;
     float         playerSpawnY = 0.f;
-    std::string   enemyType = "";
+    std::string   enemyTypeString = "";
     float         enemyPosX = 0.f;
     float         enemyPosY = 0.f;
     float         rotation = 0.f;
@@ -389,12 +389,15 @@ std::vector<LevelData> initializeLevelData()
       }
       else if (levelLabel == "Enemy")
       {
-        ist >> enemyType >> enemyPosX >> enemyPosY >> 
+        ist >> enemyTypeString >> enemyPosX >> enemyPosY >> 
           rotation >> requiredKills;
+
+        Tank::Type enemyType = convertStringToTankType(enemyTypeString);
+
         data[levelID].enemySpawnPoints.push_back(
-          EnemySpawnPoint(convertStringToTankType(enemyType), 
+          EnemySpawnPoint(enemyType, 
             enemyPosX, enemyPosY, rotation, requiredKills,
-            EnemySpawnPoint::fullHitpoints));
+            Tank::getMaxHitpoints(enemyType)));
       }
       else if (levelLabel == "Block")
       {

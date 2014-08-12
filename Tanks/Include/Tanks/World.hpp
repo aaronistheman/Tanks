@@ -52,7 +52,7 @@ class World : private sf::NonCopyable
                                sf::Vector2f spawnPosition,
                                float rotation, 
                                int numberOfKillsToAppear,
-                               int hitpoints = EnemySpawnPoint::fullHitpoints);
+                               int hitpoints);
     void                spawnEnemies();
     void                addBlocks();
     void                addBlock(Block::Type type,
