@@ -6,8 +6,7 @@ namespace Levels
 {
   enum ID
   {
-    // For organizing World data;
-    // use "Main" to denote default game mode
+    None,
     MainOne,
     MainTwo,
     MainLast,
@@ -22,6 +21,7 @@ namespace GameType
 {
   enum ID
   {
+    None,
     Default,
     Survival,
     TypeCount

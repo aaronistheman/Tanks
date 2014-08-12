@@ -1,6 +1,6 @@
 #ifndef TANKS_LEVEL_HPP
 #define TANKS_LEVEL_HPP
-
+/*
 #include <Tanks/LevelIdentifiers.hpp>
 
 
@@ -26,5 +26,5 @@ class Level
     Levels::ID      mLevel;
     GameType::ID    mGameType;
 };
-
+*/
 #endif // TANKS_LEVEL_HPP

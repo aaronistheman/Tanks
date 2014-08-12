@@ -2,6 +2,7 @@
 #include <Tanks/Button.hpp>
 #include <Tanks/Utility.hpp>
 #include <Tanks/ResourceHolder.hpp>
+#include <Tanks/LevelIdentifiers.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -10,6 +11,7 @@
 MenuState::MenuState(StateStack& stack, Context context)
 : State(stack, context)
 , mGUIContainer()
+, mPlayer(*context.player)
 {
 	sf::Texture& texture = context.textures->get(Textures::TitleScreen);
 	mBackgroundSprite.setTexture(texture);
@@ -22,6 +24,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	{
 		requestStackPop();
 		requestStackPush(States::Game);
+    mPlayer.setGameType(GameType::Default);
 	});
 
 	auto settingsButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);

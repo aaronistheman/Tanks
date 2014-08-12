@@ -3,6 +3,7 @@
 
 #include <Tanks/State.hpp>
 #include <Tanks/Container.hpp>
+#include <Tanks/Player.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -24,6 +25,7 @@ class GameOverState : public State
 		sf::Time			mElapsedTime;
     sf::Time      mWaitTime;
     bool          mKeyReleased;
+    Player::MissionStatus   mMissionStatus;
 };
 
 #endif // TANKS_GAMEOVERSTATE_HPP

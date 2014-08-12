@@ -17,11 +17,11 @@ namespace
 }
 
 World::World(sf::RenderWindow& window, FontHolder& fonts,
-             Level& level)
+             Player& player)
 : mWindow(window)
 , mWorldView(window.getDefaultView())
 , mFonts(fonts)
-, mLevel(level.getLevel())
+, mLevel(player.getLevel())
 , mTextures() 
 , mSceneGraph()
 , mSceneLayers()
@@ -243,7 +243,7 @@ void World::buildScene()
 	}
 
 	// Prepare the tiled background
-	sf::Texture& texture = mTextures.get(Table[mLevel].backgroundTexture);
+  sf::Texture& texture = mTextures.get(Table[mLevel].backgroundTexture);
 	sf::IntRect textureRect(mWorldBounds);
 	texture.setRepeated(true);
 

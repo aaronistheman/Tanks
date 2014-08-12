@@ -1,6 +1,5 @@
 #include <Tanks/GameOverState.hpp>
 #include <Tanks/Utility.hpp>
-#include <Tanks/Player.hpp>
 #include <Tanks/ResourceHolder.hpp>
 
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -15,22 +14,33 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 , mElapsedTime(sf::Time::Zero)
 , mWaitTime(sf::Time::Zero)
 , mKeyReleased(false)
+, mMissionStatus(context.player->getMissionStatus())
 {
 	sf::Font& font = context.fonts->get(Fonts::Main);
 	sf::Vector2f windowSize(context.window->getSize());
 
 	mGameOverText.setFont(font);
-	if (context.player->getMissionStatus() == Player::MissionFailure)
+	if (mMissionStatus == Player::MissionFailure)
+  {
 		mGameOverText.setString("Mission failed!");	
-	else
+    context.player->setGameType(GameType::None);
+  }
+	else // assume mission successful
+  {
 		mGameOverText.setString("Mission successful!");
+    context.player->incrementLevel();
+  }
 
 	mGameOverText.setCharacterSize(70);
 	centerOrigin(mGameOverText);
 	mGameOverText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 
   mPromptText.setFont(font);
-  mPromptText.setString("Enter a key to exit");
+  if (mMissionStatus == Player::MissionFailure)
+    mPromptText.setString("Enter a key to exit");
+  else
+    // assume mission successful
+    mPromptText.setString("Enter a key to continue");
   centerOrigin(mPromptText);
   mPromptText.setPosition(mGameOverText.getPosition().x,
                           mGameOverText.getPosition().y + 150.f);
@@ -61,8 +71,16 @@ bool GameOverState::update(sf::Time dt)
 	mElapsedTime += dt;
 	if (mElapsedTime > mWaitTime && mKeyReleased)
 	{
-		requestStateClear();
-		requestStackPush(States::Menu);
+    if (mMissionStatus == Player::MissionFailure)
+    {
+		  requestStateClear();
+		  requestStackPush(States::Menu);
+    }
+    else // assume Player::MissionSuccess
+    {
+      requestStateClear();
+      requestStackPush(States::Game);
+    }
 	}
 	return false;
 }

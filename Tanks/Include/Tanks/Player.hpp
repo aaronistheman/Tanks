@@ -2,7 +2,7 @@
 #define TANKS_PLAYER_HPP
 
 #include <Tanks/Command.hpp>
-#include <Tanks/Level.hpp>
+#include <Tanks/LevelIdentifiers.hpp>
 
 #include <SFML/Window/Event.hpp>
 
@@ -46,19 +46,27 @@ class Player
     void 					setMissionStatus(MissionStatus status);
 		MissionStatus 			getMissionStatus() const;
 
-    Level         getLevel() const;
+    Levels::ID      getLevel() const;
+    void            incrementLevel();
+    void            resetLevel();
+    GameType::ID    getGameType() const;
+    void            setGameType(GameType::ID gameType);
+    bool            isLastLevel() const;
 
 
 	private:
 		void					initializeActions();
 		static bool				isRealtimeAction(Action action);
 
+    Levels::ID      getFirstLevel() const;
+
 
 	private:
 		std::map<sf::Keyboard::Key, Action>		mKeyBinding;
 		std::map<Action, Command>				mActionBinding;
 		MissionStatus 							mCurrentMissionStatus;
-    Level                       mLevel;
+    Levels::ID                  mLevel;
+    GameType::ID                mGameType;
 };
 
 #endif // TANKS_PLAYER_HPP

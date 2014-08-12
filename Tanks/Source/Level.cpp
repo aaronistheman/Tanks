@@ -1,4 +1,4 @@
-#include <Tanks/Level.hpp>
+/*#include <Tanks/Level.hpp>
 
 #include <cassert>
 
@@ -52,7 +52,7 @@ bool Level::isLastLevel() const
       return (mLevel == Levels::Survival); // Survival mode only has one level
 
     default:
-      // mGameType must have went bad; terminate
+      // bad function call; terminate
       assert(false);
   }
 }
@@ -67,7 +67,7 @@ Levels::ID Level::getFirstLevel() const
       return Levels::Survival;
 
     default:
-      // mGameType must have went bad; terminate
+      // bad function call; terminate
       assert(false);
   }
-}
+}*/

@@ -3,6 +3,7 @@
 
 #include <Tanks/ResourceHolder.hpp>
 #include <Tanks/ResourceIdentifiers.hpp>
+#include <Tanks/Player.hpp>
 #include <Tanks/SceneNode.hpp>
 #include <Tanks/SpriteNode.hpp>
 #include <Tanks/CommandQueue.hpp>
@@ -29,7 +30,7 @@ class World : private sf::NonCopyable
 {
   public:
 		explicit							World(sf::RenderWindow& window, FontHolder& fonts,
-                                Level& level);
+                                Player& player);
 		void								update(sf::Time dt);
 		void								draw();
 		

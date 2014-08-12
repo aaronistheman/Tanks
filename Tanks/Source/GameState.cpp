@@ -1,10 +1,9 @@
 #include <Tanks/GameState.hpp>
-#include <Tanks/LevelIdentifiers.hpp>
 
 
 GameState::GameState(StateStack& stack, Context context)
 : State(stack, context)
-, mWorld(*context.window, *context.fonts, context.player->getLevel())
+, mWorld(*context.window, *context.fonts, *context.player)
 , mPlayer(*context.player)
 {
 }

@@ -20,7 +20,7 @@ TextureID	Metal
 WorldViewType	Static
 WorldBounds	-100 -100 1480 860
 PlayerSpawn     640 330
-Enemy		EnemyTank1 100 150 90 0
+Enemy		EnemyTank2 100 150 90 0
 
 
 

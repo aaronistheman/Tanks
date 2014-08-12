@@ -2,7 +2,6 @@
 #include <Tanks/CommandQueue.hpp>
 #include <Tanks/Tank.hpp>
 #include <Tanks/Foreach.hpp>
-#include <Tanks/LevelIdentifiers.hpp>
 
 #include <map>
 #include <string>
@@ -43,7 +42,8 @@ struct TankRotator
 
 Player::Player()
 : mCurrentMissionStatus(MissionRunning)
-, mLevel(GameType::Default)
+, mLevel(Levels::None)
+, mGameType(GameType::None)
 {
 	// Set initial key bindings
 	mKeyBinding[sf::Keyboard::Left] = MoveLeft;
@@ -120,9 +120,51 @@ Player::MissionStatus Player::getMissionStatus() const
 	return mCurrentMissionStatus;
 }
 
-Level Player::getLevel() const
+Levels::ID Player::getLevel() const
 {
   return mLevel;
+}
+
+void Player::incrementLevel()
+{
+  // Do not increment the level if it is last
+  if (isLastLevel())
+    return;
+
+  // Assume enum Levels::ID is ordered in an increment-friendly way
+  mLevel = Levels::ID(mLevel + 1);
+}
+
+void Player::resetLevel()
+{
+  mLevel = getFirstLevel();
+}
+
+GameType::ID Player::getGameType() const
+{
+  return mGameType;
+}
+
+void Player::setGameType(GameType::ID gameType)
+{
+  mGameType = gameType;
+  resetLevel();
+}
+
+bool Player::isLastLevel() const
+{
+  // returns true if is last level in a particular game type
+  switch (mGameType)
+  {
+    case GameType::Default:
+      return (mLevel == Levels::MainLast);
+    case GameType::Survival:
+      return (mLevel == Levels::Survival); // Survival mode only has one level
+
+    default:
+      // bad function call; terminate
+      assert(false);
+  }
 }
 
 void Player::initializeActions()
@@ -152,4 +194,21 @@ bool Player::isRealtimeAction(Action action)
 		default:
 			return false;
 	}
+}
+
+Levels::ID Player::getFirstLevel() const
+{
+  switch (mGameType)
+  {
+    case GameType::None:
+      return Levels::None;
+    case GameType::Default:
+      return Levels::MainOne;
+    case GameType::Survival:
+      return Levels::Survival;
+
+    default:
+      // bad function call; terminate
+      assert(false);
+  }
 }

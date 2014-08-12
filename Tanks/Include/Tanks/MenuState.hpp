@@ -3,6 +3,7 @@
 
 #include <Tanks/State.hpp>
 #include <Tanks/Container.hpp>
+#include <Tanks/Player.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -21,6 +22,7 @@ class MenuState : public State
 	private:
 		sf::Sprite				mBackgroundSprite;
 		GUI::Container			mGUIContainer;
+		Player&				mPlayer;
 };
 
 #endif // TANKS_MENUSTATE_HPP
