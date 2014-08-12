@@ -31,6 +31,8 @@ class Block : public SceneNode
     void        destroy();
     int         getHitpoints() const;
     bool        isDestroyed() const;
+    
+    static int            getMaxHitpoints(Type type);
 
 
 	private:

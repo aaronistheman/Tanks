@@ -78,6 +78,11 @@ bool Block::isDestroyed() const
   return mHitpoints <= 0;
 }
 
+int Block::getMaxHitpoints(Type type)
+{
+  return Table[type].hitpoints;
+}
+
 void Block::drawCurrent(sf::RenderTarget& target, 
                         sf::RenderStates states) const
 {

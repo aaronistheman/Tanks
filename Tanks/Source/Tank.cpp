@@ -127,11 +127,6 @@ float Tank::getMaxRotationSpeed() const
   return Table[mType].rotationSpeed;
 }
 
-int Tank::getMaxHitpoints() const
-{
-  return Table[mType].hitpoints;
-}
-
 int Tank::getMaxHitpoints(Type type)
 {
   return Table[type].hitpoints;

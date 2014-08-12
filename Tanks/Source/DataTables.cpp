@@ -349,7 +349,7 @@ std::vector<LevelData> initializeLevelData()
     float         enemyPosY = 0.f;
     float         rotation = 0.f;
     float         requiredKills = 0.f;
-    std::string   blockType = "";
+    std::string   blockTypeString = "";
     float         blockPosX = 0.f;
     float         blockPosY = 0.f;
     float         blockSizeX = 0.f;
@@ -401,11 +401,15 @@ std::vector<LevelData> initializeLevelData()
       }
       else if (levelLabel == "Block")
       {
-        ist >> blockType >> blockPosX >> blockPosY >>
+        ist >> blockTypeString >> blockPosX >> blockPosY >>
           blockSizeX >> blockSizeY;
+
+        Block::Type blockType = convertStringToBlockType(blockTypeString);
+
         data[levelID].blockSpawnPoints.push_back(
-          BlockSpawnPoint(convertStringToBlockType(blockType),
-            blockPosX, blockPosY, blockSizeX, blockSizeY));
+          BlockSpawnPoint(convertStringToBlockType(blockTypeString),
+            blockPosX, blockPosY, blockSizeX, blockSizeY,
+            Block::getMaxHitpoints(blockType)));
       }
       else
       {

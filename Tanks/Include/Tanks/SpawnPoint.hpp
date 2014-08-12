@@ -29,7 +29,7 @@ struct EnemySpawnPoint
 struct BlockSpawnPoint
 {
   BlockSpawnPoint(Block::Type type, float posX, float posY,
-                  float sizeX, float sizeY, int hitpoints = 0)
+                  float sizeX, float sizeY, int hitpoints)
     : type(type)
     , posX(posX)
     , posY(posY)
