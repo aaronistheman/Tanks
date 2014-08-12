@@ -188,6 +188,12 @@ std::vector<TankData> initializeTankData()
         data[tankType].directions.push_back(
           Direction(directionAngle, directionDistance, directionRotation));
       }
+      else if (dataLabel == "/*")
+      {
+        // ignore file comment
+        while (ist.good() && dataLabel != "*/")
+          ist >> dataLabel;
+      }
       else
       {
         // bad data label; call assert() to prevent hidden bad data reading
@@ -248,6 +254,12 @@ std::vector<ProjectileData> initializeProjectileData()
         ist >> textureID;
         data[projectileType].texture = convertStringToTextureID(textureID);
       }
+      else if (dataLabel == "/*")
+      {
+        // ignore file comment
+        while (ist.good() && dataLabel != "*/")
+          ist >> dataLabel;
+      }
       else
       {
         // bad data label; call assert() to prevent hidden bad data reading
@@ -306,6 +318,12 @@ std::vector<BlockData> initializeBlockData()
       {
         ist >> hitpoints;
         data[blockType].hitpoints = hitpoints;
+      }
+      else if (dataLabel == "/*")
+      {
+        // ignore file comment
+        while (ist.good() && dataLabel != "*/")
+          ist >> dataLabel;
       }
       else
       {
@@ -412,6 +430,12 @@ std::vector<LevelData> initializeLevelData()
           BlockSpawnPoint(convertStringToBlockType(blockTypeString),
             blockPosX, blockPosY, blockSizeX, blockSizeY,
             Block::getMaxHitpoints(blockType)));
+      }
+      else if (levelLabel == "/*")
+      {
+        // ignore file comment
+        while (ist.good() && levelLabel != "*/")
+          ist >> levelLabel;
       }
       else
       {
