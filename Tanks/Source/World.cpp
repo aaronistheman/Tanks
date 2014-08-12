@@ -355,18 +355,27 @@ void World::spawnBlocks()
 {
   // Spawn all blocks that are able to appear based on if seen by
   // the view
-  while (!mBlockSpawnPoints.empty())
+  for (auto spawn = mBlockSpawnPoints.begin(); 
+    spawn != mBlockSpawnPoints.end(); )
   {
-    BlockSpawnPoint spawn = mBlockSpawnPoints.back();
+    sf::FloatRect blockRect = 
+      sf::FloatRect(spawn->posX - (spawn->sizeX / 2.f), 
+      spawn->posY - (spawn->sizeY / 2.f), spawn->sizeX, spawn->sizeY);
+    if (getBattlefieldBounds().intersects(blockRect))
+    {
+      std::unique_ptr<Block> block(new Block(
+        spawn->type, sf::Vector2f(spawn->sizeX, spawn->sizeY)));
+      block->setPosition(spawn->posX, spawn->posY);
 
-    std::unique_ptr<Block> block(new Block(
-      spawn.type, sf::Vector2f(spawn.sizeX, spawn.sizeY)));
-    block->setPosition(spawn.posX, spawn.posY);
+      mSceneLayers[UpperGround]->attachChild(std::move(block));
 
-    mSceneLayers[UpperGround]->attachChild(std::move(block));
-
-    // Block is spawned, remove from the list to spawn
-    mBlockSpawnPoints.pop_back();
+      // Block is spawned, remove from the list to spawn; update the iterator
+      spawn = mBlockSpawnPoints.erase(spawn);
+    }
+    else
+    {
+      ++spawn;
+    }
   }
 }
 
@@ -483,7 +492,6 @@ sf::FloatRect World::getBattlefieldBounds() const
     // and blocks spawn
 	  sf::FloatRect bounds = getViewBounds();
     const float extraArea = 100.f;
-    // const float extraArea = -100.f;
 	  bounds.top -= extraArea;
 	  bounds.height += extraArea * 2.f;
     bounds.left -= extraArea;
