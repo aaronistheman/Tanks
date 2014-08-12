@@ -57,7 +57,8 @@ class World : private sf::NonCopyable
     void                addBlocks();
     void                addBlock(Block::Type type,
                                  sf::Vector2f spawnPosition,
-                                 sf::Vector2f size);
+                                 sf::Vector2f size,
+                                 int hitpoints);
     void                spawnBlocks();
     void                destroyProjectilesOutsideView();
     void                despawnEnemiesOutsideView();

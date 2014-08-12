@@ -342,10 +342,10 @@ void World::addBlocks()
 }
 
 void World::addBlock(Block::Type type, sf::Vector2f spawnPosition,
-                     sf::Vector2f size)
+                     sf::Vector2f size, int hitpoints)
 {
   BlockSpawnPoint spawn(type, spawnPosition.x, spawnPosition.y,
-                        size.x, size.y);
+                        size.x, size.y, hitpoints);
   mBlockSpawnPoints.push_back(spawn);
 }
 
@@ -364,6 +364,11 @@ void World::spawnBlocks()
       std::unique_ptr<Block> block(new Block(
         spawn->type, sf::Vector2f(spawn->sizeX, spawn->sizeY)));
       block->setPosition(spawn->posX, spawn->posY);
+      
+      // Change the block's hitpoints if it did not have full hitpoints when
+      // made into a spawn (i.e. it was despawned)
+      if (spawn->h != Block::getMaxHitpoints(spawn->type))
+        block->damage(block->getHitpoints() - spawn->h);
 
       mSceneLayers[UpperGround]->attachChild(std::move(block));
 
@@ -418,7 +423,7 @@ void World::despawnBlocksOutsideView()
   {
     if (!b.isDestroyed() && !getBattlefieldBounds().intersects(b.getBoundingRect()))
     {
-      addBlock(b.getType(), b.getPosition(), b.getSize());
+      addBlock(b.getType(), b.getPosition(), b.getSize(), b.getHitpoints());
       b.destroy();
     }
   });
