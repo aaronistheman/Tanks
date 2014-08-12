@@ -38,6 +38,16 @@ sf::FloatRect Block::getBoundingRect() const
   return getWorldTransform().transformRect(mShape.getGlobalBounds());
 }
 
+Block::Type Block::getType() const
+{
+  return mType;
+}
+
+sf::Vector2f Block::getSize() const
+{
+  return mShape.getSize();
+}
+
 void Block::repair(int points)
 {
   assert(points > 0);
@@ -49,7 +59,8 @@ void Block::damage(int points)
 {
   assert(points > 0);
   
-  mHitpoints -= points;
+  if (mType == Block::Destructible)
+    mHitpoints -= points;
 }
 
 void Block::destroy()
@@ -64,7 +75,7 @@ int Block::getHitpoints() const
 
 bool Block::isDestroyed() const
 {
-  return (mType == Destructible && mHitpoints <= 0);
+  return mHitpoints <= 0;
 }
 
 void Block::drawCurrent(sf::RenderTarget& target, 

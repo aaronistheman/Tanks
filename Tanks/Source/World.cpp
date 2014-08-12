@@ -52,6 +52,7 @@ void World::update(sf::Time dt)
   // These further update mCommandQueue 
   destroyProjectilesOutsideView();
   despawnEnemiesOutsideView();
+  despawnBlocksOutsideView();
   updateEnemyCounters();
   updateHuntingEnemies();
 
@@ -411,6 +412,23 @@ void World::despawnEnemiesOutsideView()
   mCommandQueue.push(command);
 }
 
+void World::despawnBlocksOutsideView()
+{
+  Command command;
+  command.category = Category::Block;
+  command.action = derivedAction<Block>(
+    [this] (Block& b, sf::Time)
+  {
+    if (!b.isDestroyed() && !getBattlefieldBounds().intersects(b.getBoundingRect()))
+    {
+      addBlock(b.getType(), b.getPosition(), b.getSize());
+      b.destroy();
+    }
+  });
+
+  mCommandQueue.push(command);
+}
+
 void World::updateEnemyCounters()
 {
   Command enemyCollector;
@@ -491,7 +509,7 @@ sf::FloatRect World::getBattlefieldBounds() const
     // Return view bounds + some area around all sides, where enemies
     // and blocks spawn
 	  sf::FloatRect bounds = getViewBounds();
-    const float extraArea = 100.f;
+    const float extraArea = -100.f;
 	  bounds.top -= extraArea;
 	  bounds.height += extraArea * 2.f;
     bounds.left -= extraArea;
