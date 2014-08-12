@@ -41,7 +41,7 @@ struct TankRotator
 };
 
 Player::Player()
-: mCurrentMissionStatus(MissionRunning)
+: mCurrentLevelStatus(LevelRunning)
 , mLevel(Levels::None)
 , mGameType(GameType::None)
 {
@@ -110,14 +110,14 @@ sf::Keyboard::Key Player::getAssignedKey(Action action) const
 	return sf::Keyboard::Unknown;
 }
 
-void Player::setMissionStatus(MissionStatus status)
+void Player::setLevelStatus(LevelStatus status)
 {
-	mCurrentMissionStatus = status;
+	mCurrentLevelStatus = status;
 }
 
-Player::MissionStatus Player::getMissionStatus() const
+Player::LevelStatus Player::getLevelStatus() const
 {
-	return mCurrentMissionStatus;
+	return mCurrentLevelStatus;
 }
 
 Levels::ID Player::getLevel() const

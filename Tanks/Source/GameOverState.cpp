@@ -14,20 +14,20 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 , mElapsedTime(sf::Time::Zero)
 , mWaitTime(sf::Time::Zero)
 , mKeyReleased(false)
-, mMissionStatus(context.player->getMissionStatus())
+, mLevelStatus(context.player->getLevelStatus())
 {
 	sf::Font& font = context.fonts->get(Fonts::Main);
 	sf::Vector2f windowSize(context.window->getSize());
 
 	mGameOverText.setFont(font);
-	if (mMissionStatus == Player::MissionFailure)
+	if (mLevelStatus == Player::LevelFailure)
   {
-		mGameOverText.setString("Mission failed!");	
+		mGameOverText.setString("Level failed!");	
     context.player->setGameType(GameType::None);
   }
-	else // assume mission successful
+	else // assume level completed
   {
-		mGameOverText.setString("Mission successful!");
+		mGameOverText.setString("Level completed!");
     context.player->incrementLevel();
   }
 
@@ -36,10 +36,10 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 	mGameOverText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 
   mPromptText.setFont(font);
-  if (mMissionStatus == Player::MissionFailure)
+  if (mLevelStatus == Player::LevelFailure)
     mPromptText.setString("Enter a key to exit");
   else
-    // assume mission successful
+    // assume level completed
     mPromptText.setString("Enter a key to continue");
   centerOrigin(mPromptText);
   mPromptText.setPosition(mGameOverText.getPosition().x,
@@ -71,12 +71,12 @@ bool GameOverState::update(sf::Time dt)
 	mElapsedTime += dt;
 	if (mElapsedTime > mWaitTime && mKeyReleased)
 	{
-    if (mMissionStatus == Player::MissionFailure)
+    if (mLevelStatus == Player::LevelFailure)
     {
 		  requestStateClear();
 		  requestStackPush(States::Menu);
     }
-    else // assume Player::MissionSuccess
+    else // assume level completed
     {
       requestStateClear();
       requestStackPush(States::Game);

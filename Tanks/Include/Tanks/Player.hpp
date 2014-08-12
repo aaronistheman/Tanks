@@ -26,11 +26,11 @@ class Player
 			ActionCount
 		};
 
-    enum MissionStatus
+    enum LevelStatus
     {
-      MissionRunning,
-      MissionSuccess,
-      MissionFailure
+      LevelRunning,
+      LevelComplete,
+      LevelFailure
     };
 
 
@@ -43,8 +43,8 @@ class Player
 		void					assignKey(Action action, sf::Keyboard::Key key);
 		sf::Keyboard::Key		getAssignedKey(Action action) const;
 
-    void 					setMissionStatus(MissionStatus status);
-		MissionStatus 			getMissionStatus() const;
+    void 					setLevelStatus(LevelStatus status);
+		LevelStatus 			getLevelStatus() const;
 
     Levels::ID      getLevel() const;
     void            incrementLevel();
@@ -64,7 +64,7 @@ class Player
 	private:
 		std::map<sf::Keyboard::Key, Action>		mKeyBinding;
 		std::map<Action, Command>				mActionBinding;
-		MissionStatus 							mCurrentMissionStatus;
+		LevelStatus 							mCurrentLevelStatus;
     Levels::ID                  mLevel;
     GameType::ID                mGameType;
 };

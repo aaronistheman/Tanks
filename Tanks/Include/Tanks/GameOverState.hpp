@@ -25,7 +25,7 @@ class GameOverState : public State
 		sf::Time			mElapsedTime;
     sf::Time      mWaitTime;
     bool          mKeyReleased;
-    Player::MissionStatus   mMissionStatus;
+    Player::LevelStatus   mLevelStatus;
 };
 
 #endif // TANKS_GAMEOVERSTATE_HPP
