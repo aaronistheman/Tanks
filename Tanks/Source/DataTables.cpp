@@ -62,6 +62,8 @@ Levels::ID convertStringToLevelID(std::string& s)
     return Levels::MainOne;
   else if (s == "MainTwo")
     return Levels::MainTwo;
+  else if (s == "MainLast")
+    return Levels::MainLast;
   else if (s == "Survival")
     return Levels::Survival;
 

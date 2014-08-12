@@ -25,6 +25,11 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 		mGameOverText.setString("Level failed!");	
     context.player->setGameType(GameType::None);
   }
+  else if (mLevelStatus == Player::GameComplete)
+  {
+    mGameOverText.setString("Game completed!");
+    context.player->setGameType(GameType::None);
+  }
 	else // assume level completed
   {
 		mGameOverText.setString("Level completed!");
@@ -38,6 +43,8 @@ GameOverState::GameOverState(StateStack& stack, Context context)
   mPromptText.setFont(font);
   if (mLevelStatus == Player::LevelFailure)
     mPromptText.setString("Enter a key to exit");
+  else if (mLevelStatus == Player::GameComplete)
+    mPromptText.setString("Congratulations: You have finished");
   else
     // assume level completed
     mPromptText.setString("Enter a key to continue");
@@ -71,7 +78,8 @@ bool GameOverState::update(sf::Time dt)
 	mElapsedTime += dt;
 	if (mElapsedTime > mWaitTime && mKeyReleased)
 	{
-    if (mLevelStatus == Player::LevelFailure)
+    if (mLevelStatus == Player::LevelFailure
+      || mLevelStatus == Player::GameComplete)
     {
 		  requestStateClear();
 		  requestStackPush(States::Menu);

@@ -24,7 +24,10 @@ bool GameState::update(sf::Time dt)
 	}
 	else if(!mWorld.hasEnemies())
 	{
-	  mPlayer.setLevelStatus(Player::LevelComplete);
+    if (mPlayer.isLastLevel())
+      mPlayer.setLevelStatus(Player::GameComplete);
+    else
+	    mPlayer.setLevelStatus(Player::LevelComplete);
 	  requestStackPush(States::GameOver);
 	}
 

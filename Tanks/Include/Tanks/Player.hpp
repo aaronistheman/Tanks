@@ -30,7 +30,8 @@ class Player
     {
       LevelRunning,
       LevelComplete,
-      LevelFailure
+      LevelFailure,
+      GameComplete
     };
 
 
