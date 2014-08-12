@@ -38,6 +38,7 @@ class Tank : public Entity
     bool                  isMovingTowardsPlayer() const;
     float                 getMaxMovementSpeed() const;
     float                 getMaxRotationSpeed() const;
+    int                   getMaxHitpoints() const;
 
     void                  addCollisionWithTank(sf::FloatRect intersection);
     void                  addCollisionWithBlock(sf::FloatRect intersection);

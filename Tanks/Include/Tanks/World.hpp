@@ -49,9 +49,10 @@ class World : private sf::NonCopyable
     int                 getNumberOfDestroyedEnemies();
     void                addEnemies();
     void                addEnemy(Tank::Type type, 
-                                 sf::Vector2f spawnPosition,
-                                 float rotation, 
-                                 int numberOfKillsToAppear);
+                               sf::Vector2f spawnPosition,
+                               float rotation, 
+                               int numberOfKillsToAppear,
+                               int hitpoints = EnemySpawnPoint::fullHitpoints);
     void                spawnEnemies();
     void                addBlocks();
     void                addBlock(Block::Type type,

@@ -208,18 +208,9 @@ void World::handleCollisions()
                                         intersection);
       tank.addCollisionWithBlock(intersection);
     }
-    else if (matchesCategories(pair, 
-                               Category::Projectile, 
-                               Category::IndestructibleBlock))
-    {
-      auto& projectile = static_cast<Projectile&>(*pair.first);
-      auto& block = static_cast<Block&>(*pair.second);
-
-      projectile.destroy();
-    }
     else if (matchesCategories(pair,
                                Category::Projectile,
-                               Category::DestructibleBlock))
+                               Category::Block))
     {
       auto& projectile = static_cast<Projectile&>(*pair.first);
       auto& block = static_cast<Block&>(*pair.second);
@@ -285,10 +276,11 @@ void World::addEnemies()
 void World::addEnemy(Tank::Type type, 
                      sf::Vector2f spawnPosition,
                      float rotation, 
-                     int numberOfKillsToAppear)
+                     int numberOfKillsToAppear,
+                     int hitpoints)
 {
 	EnemySpawnPoint spawn(type, spawnPosition.x, spawnPosition.y, rotation, 
-                   numberOfKillsToAppear);
+                   numberOfKillsToAppear, hitpoints);
 	mEnemySpawnPoints.push_back(spawn);
 	mNeedSortEnemies = true;
 }
@@ -322,6 +314,11 @@ void World::spawnEnemies()
       std::unique_ptr<Tank> enemy(new Tank(spawn->type, mTextures, mFonts));
       enemy->setPosition(spawn->x, spawn->y);
       enemy->setRotation(spawn->r);
+      
+      // Change the enemy's hitpoints if it did not have full hitpoints when
+      // made into a spawn (i.e. it was despawned)
+      if (spawn->h != EnemySpawnPoint::fullHitpoints)
+        enemy->damage(enemy->getHitpoints() - spawn->h);
 
       mSceneLayers[MainGround]->attachChild(std::move(enemy));
     
@@ -403,8 +400,10 @@ void World::despawnEnemiesOutsideView()
   {
     if (!t.isDestroyed() && !getBattlefieldBounds().contains(t.getPosition()))
     {
+      int currentHitpoints = (t.getHitpoints() == t.getMaxHitpoints() ? 
+        EnemySpawnPoint::fullHitpoints : t.getHitpoints());
       addEnemy(t.getType(), t.getPosition(), t.getRotation(), 
-        getNumberOfDestroyedEnemies());
+        getNumberOfDestroyedEnemies(), currentHitpoints);
       t.destroy();
     }
   });

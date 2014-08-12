@@ -127,6 +127,11 @@ float Tank::getMaxRotationSpeed() const
   return Table[mType].rotationSpeed;
 }
 
+int Tank::getMaxHitpoints() const
+{
+  return Table[mType].hitpoints;
+}
+
 void Tank::addCollisionWithTank(sf::FloatRect intersection)
 {
   mCollisionsWithTank.push_back(CollisionData(intersection));

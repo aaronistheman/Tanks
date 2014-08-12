@@ -393,7 +393,8 @@ std::vector<LevelData> initializeLevelData()
           rotation >> requiredKills;
         data[levelID].enemySpawnPoints.push_back(
           EnemySpawnPoint(convertStringToTankType(enemyType), 
-            enemyPosX, enemyPosY, rotation, requiredKills));
+            enemyPosX, enemyPosY, rotation, requiredKills,
+            EnemySpawnPoint::fullHitpoints));
       }
       else if (levelLabel == "Block")
       {
