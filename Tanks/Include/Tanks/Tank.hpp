@@ -22,7 +22,7 @@ class Tank : public Entity
       Dummy,
       Hunting1,
       Hunting2,
-      Hugging1,
+      Guarding1,
       TypeCount
     };
 
@@ -50,6 +50,9 @@ class Tank : public Entity
     std::size_t           getDirectionIndex() const;
     void                  setDirectionIndex(std::size_t index);
 
+    void                  setGuardingPathLength(float length);
+    void                  setGuardingAngle(float angle);
+
     void                  addCollisionWithTank(sf::FloatRect intersection);
     void                  addCollisionWithBlock(sf::FloatRect intersection);
     void                  fire();
@@ -66,6 +69,9 @@ class Tank : public Entity
     void         handleIntersectionsWithBlock();
     void         adaptVelocityBasedOnCollisions();
     void         adaptRotationBasedOnCollisions();
+
+    bool         isGuarding() const;
+    void         adjustGuardingDirections();
 
     void         createBullets(SceneNode& node, const TextureHolder& textures) const;
     void         createProjectile(SceneNode& node,
@@ -110,6 +116,10 @@ class Tank : public Entity
     float           mAmountRotated;
     std::size_t     mDirectionIndex;
     std::vector<Direction>    mDirections;
+
+    // For tanks of guarding type
+    float           mGuardingPathLength;
+    float           mGuardingAngle;
 
     TextNode*       mHealthDisplay;
     SceneNode*      mBulletEmitter; // blank SceneNode used for positioning

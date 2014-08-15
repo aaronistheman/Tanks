@@ -102,7 +102,7 @@ void World::loadTextures()
   mTextures.load(Textures::DummyTank, "Media/Textures/DummyTank.png");
   mTextures.load(Textures::HuntingTank1, "Media/Textures/HuntingTank1.png");
   mTextures.load(Textures::HuntingTank2, "Media/Textures/HuntingTank2.png");
-  mTextures.load(Textures::HuggingTank1, "Media/Textures/HuggingTank1.png");
+  mTextures.load(Textures::GuardingTank1, "Media/Textures/GuardingTank1.png");
   mTextures.load(Textures::Metal, "Media/Textures/Metal.png");
 
   mTextures.load(Textures::Bullet, "Media/Textures/Bullet.png");
@@ -323,6 +323,8 @@ void World::spawnEnemies()
       enemy->setTravelledDistance(spawn->td);
       enemy->setAmountRotated(spawn->ar);
       enemy->setDirectionIndex(spawn->di);
+      enemy->setGuardingPathLength(200.f);
+      enemy->setGuardingAngle(270.f);
       
       // Change the enemy's hitpoints if it did not have full hitpoints when
       // made into a spawn (i.e. it was despawned)

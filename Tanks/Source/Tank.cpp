@@ -39,6 +39,8 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mAmountRotated(0.f)
 , mDirectionIndex(0)
 , mDirections(Table[type].directions)
+, mGuardingPathLength(0.f)
+, mGuardingAngle(0.f)
 , mHealthDisplay(nullptr)
 , mBulletEmitter(nullptr)
 {
@@ -84,7 +86,7 @@ unsigned int Tank::getCategory() const
 			return Category::PlayerTank;
 
     case Dummy:
-    case Hugging1:
+    case Guarding1:
       return Category::NonHuntingTank;
 
     case Hunting1:
@@ -164,6 +166,18 @@ std::size_t Tank::getDirectionIndex() const
 void Tank::setDirectionIndex(std::size_t index)
 {
   mDirectionIndex = index;
+}
+
+void Tank::setGuardingPathLength(float length)
+{
+  mGuardingPathLength = length;
+  adjustGuardingDirections();
+}
+
+void Tank::setGuardingAngle(float angle)
+{
+  mGuardingAngle = angle;
+  adjustGuardingDirections();
 }
 
 void Tank::addCollisionWithTank(sf::FloatRect intersection)
@@ -436,6 +450,22 @@ void Tank::adaptRotationBasedOnCollisions()
   if ((!mCanRotateCounterclockwise && mRotationOffset < 0.f) ||
       (!mCanRotateClockwise && mRotationOffset > 0.f))
     mRotationOffset = 0.f;
+}
+
+bool Tank::isGuarding() const
+{
+  return mType == Guarding1;
+}
+
+void Tank::adjustGuardingDirections()
+{
+  // Only change the directions of a guarding tank
+  if (isGuarding())
+  {
+    mDirections.clear();
+    mDirections.push_back(Direction(mGuardingAngle, mGuardingPathLength, 0.f));
+    mDirections.push_back(Direction(-mGuardingAngle, mGuardingPathLength, 0.f));
+  }
 }
 
 void Tank::createBullets(SceneNode& node, 

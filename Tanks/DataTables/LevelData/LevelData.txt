@@ -3,7 +3,7 @@ TextureID	Metal
 ViewType	Following
 WorldBounds	-100 -100 1480 860
 PlayerSpawn     640 330
-Enemy           Dummy 640 230 0 0
+Enemy           Guarding1 640 230 180 0
 Block           Indestructible 300 300 200 20
 Block           Indestructible 640 10 1280 20
 Block           Destructible 1270 330 20 660
