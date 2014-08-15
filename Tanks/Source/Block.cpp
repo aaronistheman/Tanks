@@ -17,10 +17,10 @@ Block::Block(Block::Type type,
              sf::Vector2f size)
  : mType(type)
  , mShape()
- , mHitpoints(Table[type].hitpoints)
+ , mHitpoints(Table[mType].hitpoints)
 {
   mShape.setSize(size);
-  mShape.setFillColor(Table[type].color);
+  mShape.setFillColor(Table[mType].color);
 
   centerOrigin(mShape);
 }
