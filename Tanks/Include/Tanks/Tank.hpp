@@ -6,7 +6,7 @@
 #include <Tanks/ResourceIdentifiers.hpp>
 #include <Tanks/TextNode.hpp>
 #include <Tanks/Projectile.hpp>
-#include <Tanks/DataTables.hpp>
+#include <Tanks/Direction.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 

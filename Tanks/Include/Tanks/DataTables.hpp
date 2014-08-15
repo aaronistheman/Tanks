@@ -4,6 +4,7 @@
 #include <Tanks/ResourceIdentifiers.hpp>
 #include <Tanks/SpawnPoint.hpp>
 #include <Tanks/World.hpp>
+#include <Tanks/Direction.hpp>
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/System/Time.hpp>
@@ -11,20 +12,6 @@
 
 #include <vector>
 
-
-struct Direction
-{
-  Direction(float movementAngle, float distance, float rotation)
-    : angle(movementAngle)
-    , distance(distance)
-    , rotation(rotation)
-  {
-  }
-
-  float angle; // gives the direction to move
-  float distance;
-  float rotation;
-};
 
 // Describes the bullet launches of tanks
 struct BulletLaunchData

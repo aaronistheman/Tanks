@@ -48,6 +48,7 @@
     <ClInclude Include="Include\Tanks\Component.hpp" />
     <ClInclude Include="Include\Tanks\Container.hpp" />
     <ClInclude Include="Include\Tanks\DataTables.hpp" />
+    <ClInclude Include="Include\Tanks\Direction.hpp" />
     <ClInclude Include="Include\Tanks\Entity.hpp" />
     <ClInclude Include="Include\Tanks\Foreach.hpp" />
     <ClInclude Include="Include\Tanks\Application.hpp" />
