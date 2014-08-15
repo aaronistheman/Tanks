@@ -11,14 +11,14 @@ namespace Category
 		SceneGroundLayer	 = 1 << 0,
 		PlayerTank		= 1 << 1,
 		AlliedTank		= 1 << 2,
-		EnemyTank1		= 1 << 3,
-    EnemyTank2    = 1 << 4,
+		NonHuntingTank		= 1 << 3,
+    HuntingTank    = 1 << 4,
     AlliedProjectile = 1 << 5,
     EnemyProjectile  = 1 << 6,
     IndestructibleBlock = 1 << 7,
     DestructibleBlock   = 1 << 8,
 
-    EnemyTank = EnemyTank1 | EnemyTank2,
+    EnemyTank = NonHuntingTank | HuntingTank,
 
     Tank = PlayerTank | AlliedTank | EnemyTank,
 		Projectile = AlliedProjectile | EnemyProjectile,

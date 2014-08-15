@@ -13,9 +13,9 @@ namespace Textures
 {
 	enum ID
 	{
-		DefaultTank,
-    EnemyTank1,
-    EnemyTank2,
+		HeroTank,
+    DummyTank,
+    HuntingTank,
     Bullet,
     Metal,
     TitleScreen,

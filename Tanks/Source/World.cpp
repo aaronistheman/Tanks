@@ -98,9 +98,9 @@ bool World::hasEnemies() const
 
 void World::loadTextures()
 {
-	mTextures.load(Textures::DefaultTank, "Media/Textures/DefaultTank.png");
-  mTextures.load(Textures::EnemyTank1, "Media/Textures/EnemyTank1.png");
-  mTextures.load(Textures::EnemyTank2, "Media/Textures/EnemyTank2.png");
+	mTextures.load(Textures::HeroTank, "Media/Textures/HeroTank.png");
+  mTextures.load(Textures::DummyTank, "Media/Textures/DummyTank.png");
+  mTextures.load(Textures::HuntingTank, "Media/Textures/HuntingTank.png");
   mTextures.load(Textures::Metal, "Media/Textures/Metal.png");
 
   mTextures.load(Textures::Bullet, "Media/Textures/Bullet.png");
@@ -245,7 +245,7 @@ void World::buildScene()
 	mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
 
 	// Add player's tank
-	std::unique_ptr<Tank> leader(new Tank(Tank::DefaultTank, mTextures, mFonts));
+	std::unique_ptr<Tank> leader(new Tank(Tank::Hero, mTextures, mFonts));
 	mPlayerTank = leader.get();
 	mPlayerTank->setPosition(Table[mLevel].playerSpawnPosition);
 	mSceneLayers[MainGround]->attachChild(std::move(leader));

@@ -17,9 +17,9 @@ class Tank : public Entity
   public:
     enum Type
     {
-      DefaultTank,
-      EnemyTank1,
-      EnemyTank2,
+      Hero,
+      Dummy,
+      Hunting,
       TypeCount
     };
 

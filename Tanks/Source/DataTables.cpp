@@ -11,12 +11,12 @@
 
 Tank::Type convertStringToTankType(std::string& s)
 {
-  if (s == "DefaultTank")
-    return Tank::DefaultTank;
-  else if (s == "EnemyTank1")
-    return Tank::EnemyTank1;
-  else if (s == "EnemyTank2")
-    return Tank::EnemyTank2;
+  if (s == "Hero")
+    return Tank::Hero;
+  else if (s == "Dummy")
+    return Tank::Dummy;
+  else if (s == "Hunting")
+    return Tank::Hunting;
 
   else
   {
@@ -94,12 +94,12 @@ WorldView::Type convertStringToWorldViewType(std::string& s)
 
 Textures::ID convertStringToTextureID(std::string& s)
 {
-  if (s == "DefaultTank")
-    return Textures::DefaultTank;
-  else if (s == "EnemyTank1")
-    return Textures::EnemyTank1;
-  else if (s == "EnemyTank2")
-    return Textures::EnemyTank2;
+  if (s == "HeroTank")
+    return Textures::HeroTank;
+  else if (s == "DummyTank")
+    return Textures::DummyTank;
+  else if (s == "HuntingTank")
+    return Textures::HuntingTank;
   else if (s == "Bullet")
     return Textures::Bullet;
   else if (s == "Metal")

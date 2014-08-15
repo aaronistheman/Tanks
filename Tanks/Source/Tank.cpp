@@ -78,14 +78,14 @@ unsigned int Tank::getCategory() const
 {
 	switch (mType)
 	{
-		case DefaultTank:
+		case Hero:
 			return Category::PlayerTank;
 
-    case EnemyTank1:
-      return Category::EnemyTank1;
+    case Dummy:
+      return Category::NonHuntingTank;
 
-    case EnemyTank2:
-      return Category::EnemyTank2;
+    case Hunting:
+      return Category::HuntingTank;
 
 		default:
 			return Category::EnemyTank;
@@ -109,12 +109,12 @@ Tank::Type Tank::getType() const
 
 bool Tank::isAllied() const
 {
-  return mType == Type::DefaultTank;
+  return mType == Type::Hero;
 }
 
 bool Tank::isMovingTowardsPlayer() const
 {
-  return mType == Type::EnemyTank2;
+  return mType == Type::Hunting;
 }
 
 float Tank::getMaxMovementSpeed() const
