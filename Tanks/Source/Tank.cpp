@@ -84,7 +84,8 @@ unsigned int Tank::getCategory() const
     case Dummy:
       return Category::NonHuntingTank;
 
-    case Hunting:
+    case Hunting1:
+    case Hunting2:
       return Category::HuntingTank;
 
 		default:
@@ -114,7 +115,7 @@ bool Tank::isAllied() const
 
 bool Tank::isMovingTowardsPlayer() const
 {
-  return mType == Type::Hunting;
+  return getCategory() & Category::HuntingTank;
 }
 
 float Tank::getMaxMovementSpeed() const

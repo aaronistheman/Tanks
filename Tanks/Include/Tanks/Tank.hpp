@@ -19,7 +19,8 @@ class Tank : public Entity
     {
       Hero,
       Dummy,
-      Hunting,
+      Hunting1,
+      Hunting2,
       TypeCount
     };
 

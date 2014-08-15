@@ -18,10 +18,18 @@ Direction 	0   50 -60
 Direction 	270 50  60
 Direction 	180 50 -30
 
-TankType 	Hunting
+TankType 	Hunting1
 Hitpoints 	60
 MovementSpeed 	80
 RotationSpeed 	65
-TextureID 	HuntingTank
+TextureID 	HuntingTank1
 FireInterval 	0.9
 BulletOffset 	0 29
+
+TankType	Hunting2
+Hitpoints	150
+MovementSpeed	110
+RotationSpeed	90
+TextureID	HuntingTank2
+FireInterval	1.5
+BulletOffset	0 29
