@@ -83,6 +83,7 @@ unsigned int Tank::getCategory() const
 			return Category::PlayerTank;
 
     case Dummy:
+    case Hugging1:
       return Category::NonHuntingTank;
 
     case Hunting1:

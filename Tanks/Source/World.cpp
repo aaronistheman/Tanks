@@ -102,6 +102,7 @@ void World::loadTextures()
   mTextures.load(Textures::DummyTank, "Media/Textures/DummyTank.png");
   mTextures.load(Textures::HuntingTank1, "Media/Textures/HuntingTank1.png");
   mTextures.load(Textures::HuntingTank2, "Media/Textures/HuntingTank2.png");
+  mTextures.load(Textures::HuggingTank1, "Media/Textures/HuggingTank1.png");
   mTextures.load(Textures::Metal, "Media/Textures/Metal.png");
 
   mTextures.load(Textures::Bullet, "Media/Textures/Bullet.png");
