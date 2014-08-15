@@ -38,6 +38,7 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mTravelledDistance(0.f)
 , mAmountRotated(0.f)
 , mDirectionIndex(0)
+, mDirections(Table[type].directions)
 , mHealthDisplay(nullptr)
 , mBulletEmitter(nullptr)
 {
@@ -214,22 +215,21 @@ void Tank::updateCurrent(sf::Time dt, CommandQueue& commands)
 
 void Tank::updateMovementPattern(sf::Time dt)
 {
-  const std::vector<Direction> directions = Table[mType].directions;
-  if (!directions.empty())
+  if (!mDirections.empty())
   {
 		// Moved and rotated enough in current direction:
     // Change direction
-		if (mTravelledDistance >= directions[mDirectionIndex].distance &&
-        mAmountRotated    >= std::abs(directions[mDirectionIndex].rotation))
+		if (mTravelledDistance >= mDirections[mDirectionIndex].distance &&
+        mAmountRotated    >= std::abs(mDirections[mDirectionIndex].rotation))
     {
-      mDirectionIndex = (mDirectionIndex + 1) % directions.size();
+      mDirectionIndex = (mDirectionIndex + 1) % mDirections.size();
       mTravelledDistance = 0.f;
       mAmountRotated    = 0.f;
     }
 
     // Moved enough but haven't rotated enough: no more movement;
     // Implicitly handles a direction for zero distance
-    if (mTravelledDistance >= directions[mDirectionIndex].distance)
+    if (mTravelledDistance >= mDirections[mDirectionIndex].distance)
     {
       setVelocity(0.f, 0.f);
     }
@@ -238,7 +238,7 @@ void Tank::updateMovementPattern(sf::Time dt)
     {
       // Compute velocity from direction; indirectly handles the speed
       // reduction necessary in diagonal movement
-      float radians = toRadian(directions[mDirectionIndex].angle + 90.f);
+      float radians = toRadian(mDirections[mDirectionIndex].angle + 90.f);
       float vx = getMaxMovementSpeed() * std::cos(radians);
       float vy = getMaxMovementSpeed() * std::sin(radians);
       setVelocity(vx, vy);
@@ -247,14 +247,14 @@ void Tank::updateMovementPattern(sf::Time dt)
 
     // Rotated enough but haven't moved enough: no more rotation;
     // Implicitly handles a direction for zero rotation
-    if (mAmountRotated >= std::abs(directions[mDirectionIndex].rotation))
+    if (mAmountRotated >= std::abs(mDirections[mDirectionIndex].rotation))
     {
       setRotationOffset(0.f);
     }
     // Have not rotated enough:
     else
     {
-      setRotationOffset(directions[mDirectionIndex].rotation);
+      setRotationOffset(mDirections[mDirectionIndex].rotation);
       mAmountRotated += getMaxRotationSpeed() * dt.asSeconds();
     }
   }
