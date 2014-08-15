@@ -6,6 +6,7 @@
 #include <Tanks/ResourceIdentifiers.hpp>
 #include <Tanks/TextNode.hpp>
 #include <Tanks/Projectile.hpp>
+#include <Tanks/DataTables.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -108,6 +109,7 @@ class Tank : public Entity
     float           mTravelledDistance;
     float           mAmountRotated;
     std::size_t     mDirectionIndex;
+    std::vector<Direction>    mDirections;
 
     TextNode*       mHealthDisplay;
     SceneNode*      mBulletEmitter; // blank SceneNode used for positioning
