@@ -10,17 +10,17 @@ namespace Category
 		None				= 0,
 		SceneGroundLayer	 = 1 << 0,
 		PlayerTank		= 1 << 1,
-		AlliedTank		= 1 << 2,
-		NonHuntingTank		= 1 << 3,
+		SimpleEnemyTank		= 1 << 2,
+    ToxicTank      = 1 << 3,
     HuntingTank    = 1 << 4,
     AlliedProjectile = 1 << 5,
     EnemyProjectile  = 1 << 6,
     IndestructibleBlock = 1 << 7,
     DestructibleBlock   = 1 << 8,
 
-    EnemyTank = NonHuntingTank | HuntingTank,
+    EnemyTank = SimpleEnemyTank | ToxicTank | HuntingTank,
 
-    Tank = PlayerTank | AlliedTank | EnemyTank,
+    Tank = PlayerTank | EnemyTank,
 		Projectile = AlliedProjectile | EnemyProjectile,
     Block = IndestructibleBlock | DestructibleBlock,
 	};

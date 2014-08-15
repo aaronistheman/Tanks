@@ -86,8 +86,10 @@ unsigned int Tank::getCategory() const
 			return Category::PlayerTank;
 
     case Dummy:
+      return Category::SimpleEnemyTank;
+
     case Guarding1:
-      return Category::NonHuntingTank;
+      return Category::ToxicTank;
 
     case Hunting1:
     case Hunting2:
