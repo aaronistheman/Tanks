@@ -3,6 +3,7 @@
 
 #include <Tanks/ResourceIdentifiers.hpp>
 #include <Tanks/SpawnPoint.hpp>
+#include <Tanks/World.hpp>
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/System/Time.hpp>
@@ -49,20 +50,10 @@ struct BlockData
   int           hitpoints;
 };
 
-namespace WorldView
-{
-  enum Type
-  {
-    Static,
-    Following,
-    Scrolling
-  };
-}
-
 struct LevelData
 {
   Textures::ID                    backgroundTexture;
-  WorldView::Type                 worldView;
+  World::ViewType                 viewType;
   sf::FloatRect                   worldBounds;
   sf::Vector2f                    playerSpawnPosition;
   std::vector<EnemySpawnPoint>    enemySpawnPoints;

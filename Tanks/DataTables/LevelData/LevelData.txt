@@ -1,6 +1,6 @@
 LevelID		MainOne
 TextureID	Metal
-WorldViewType	Following
+ViewType	Following
 WorldBounds	-100 -100 1480 860
 PlayerSpawn     640 330
 Enemy           Dummy 640 230 0 0
@@ -15,7 +15,7 @@ Block           Indestructible 10 330 20 660
 
 LevelID		MainTwo
 TextureID	Metal
-WorldViewType	Static
+ViewType	Static
 WorldBounds	0 0 1280 660
 PlayerSpawn     640 330
 Enemy		Hunting1 100 150 90 0
@@ -26,7 +26,7 @@ Block           Indestructible 10 330 20 660
 
 LevelID 	MainLast
 TextureID	Metal
-WorldViewType	Following
+ViewType	Following
 WorldBounds	0 230 1280 200
 PlayerSpawn     640 330
 Enemy           Hunting1 540 330 0 0
@@ -37,7 +37,7 @@ Block           Indestructible 1270 330   20 200
 
 LevelID		Survival
 TextureID	Metal
-WorldViewType	Static
+ViewType	Static
 WorldBounds	0 230 1280 200
 PlayerSpawn     640 330
 Enemy           Dummy 540 330 0 0

@@ -28,6 +28,15 @@ namespace sf
 class World : private sf::NonCopyable
 {
   public:
+    enum ViewType
+    {
+      Static,
+      Following,
+      Scrolling
+    };
+
+
+  public:
 		explicit							World(sf::RenderWindow& window, FontHolder& fonts,
                                 Player& player);
 		void								update(sf::Time dt);

@@ -77,14 +77,14 @@ Levels::ID convertStringToLevelID(std::string& s)
   }
 }
 
-WorldView::Type convertStringToWorldViewType(std::string& s)
+World::ViewType convertStringToViewType(std::string& s)
 {
   if (s == "Static")
-    return WorldView::Static;
+    return World::Static;
   else if (s == "Following")
-    return WorldView::Following;
+    return World::Following;
   else if (s == "Scrolling")
-    return WorldView::Scrolling;
+    return World::Scrolling;
 
   else
   {
@@ -361,7 +361,7 @@ std::vector<LevelData> initializeLevelData()
     // Reset the reading variables
     std::string   levelString = "";
     std::string   textureID = "";
-    std::string   worldView = "";
+    std::string   viewTypeString = "";
     float         worldBoundsLeft = 0.f;
     float         worldBoundsTop = 0.f;
     float         worldBoundsWidth = 0.f;
@@ -393,10 +393,10 @@ std::vector<LevelData> initializeLevelData()
         ist >> textureID;
         data[levelID].backgroundTexture = convertStringToTextureID(textureID);
       }
-      else if (levelLabel == "WorldViewType")
+      else if (levelLabel == "ViewType")
       {
-        ist >> worldView;
-        data[levelID].worldView = convertStringToWorldViewType(worldView);
+        ist >> viewTypeString;
+        data[levelID].viewType = convertStringToViewType(viewTypeString);
       }
       else if (levelLabel == "WorldBounds")
       {

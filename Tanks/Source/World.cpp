@@ -37,14 +37,14 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 	buildScene();
   
 	// Prepare the view
-  if (Table[mLevel].worldView == WorldView::Static)
+  if (Table[mLevel].viewType == World::Static)
 	  mWorldView.setCenter(sf::Vector2f(mWindow.getSize()) / 2.f);
 }
 
 void World::update(sf::Time dt)
 {
 	// Reset player velocity and rotation offset
-	if (Table[mLevel].worldView == WorldView::Following)
+	if (Table[mLevel].viewType == World::Following)
     mWorldView.setCenter(mPlayerTank->getPosition());
 	mPlayerTank->setVelocity(0.f, 0.f);
   mPlayerTank->setRotationOffset(0.f);
@@ -505,9 +505,9 @@ sf::FloatRect World::getViewBounds() const
 
 sf::FloatRect World::getBattlefieldBounds() const
 {
-  if (Table[mLevel].worldView == WorldView::Static)
+  if (Table[mLevel].viewType == World::Static)
     return getViewBounds();
-  else // Table[mLevel].worldView == WorldView::Following
+  else // Table[mLevel].viewType == World::Following
   {
     // Return view bounds + some area around all sides, where enemies
     // and blocks spawn
