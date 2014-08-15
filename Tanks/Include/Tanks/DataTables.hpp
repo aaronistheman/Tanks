@@ -26,6 +26,12 @@ struct Direction
   float rotation;
 };
 
+// Describes the bullet launches of tanks
+struct BulletLaunchData
+{
+  sf::Vector2f bulletOffset;
+};
+
 struct TankData
 {
   int             hitpoints;
@@ -33,7 +39,7 @@ struct TankData
   float           rotationSpeed;
   Textures::ID    texture;
 	sf::Time						fireInterval;
-  sf::Vector2f            bulletOffset;
+  std::vector<BulletLaunchData>   bullets;
   std::vector<Direction>  directions;
 };
 

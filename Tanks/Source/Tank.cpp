@@ -3,6 +3,7 @@
 #include <Tanks/ResourceHolder.hpp>
 #include <Tanks/Utility.hpp>
 #include <Tanks/CommandQueue.hpp>
+#include <Tanks/Foreach.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -411,7 +412,10 @@ void Tank::createBullets(SceneNode& node,
 {
   Projectile::Type type = isAllied() 
     ? Projectile::AlliedBullet : Projectile::EnemyBullet;
-  createProjectile(node, type, Table[mType].bulletOffset, textures);
+  FOREACH(BulletLaunchData bullet, Table[mType].bullets)
+  {
+    createProjectile(node, type, bullet.bulletOffset, textures);
+  }
 }
 
 void Tank::createProjectile(SceneNode& node,

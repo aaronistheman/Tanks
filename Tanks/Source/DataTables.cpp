@@ -179,11 +179,12 @@ std::vector<TankData> initializeTankData()
         ist >> fireInterval;
         data[tankType].fireInterval = sf::seconds(fireInterval);
       }
-      else if (dataLabel == "BulletOffset")
+      else if (dataLabel == "Bullet")
       {
         ist >> bulletOffsetX >> bulletOffsetY;
-        data[tankType].bulletOffset = 
-          sf::Vector2f(bulletOffsetX, bulletOffsetY);
+        BulletLaunchData bullet;
+        bullet.bulletOffset = sf::Vector2f(bulletOffsetX, bulletOffsetY);
+        data[tankType].bullets.push_back(bullet);
       }
       else if (dataLabel == "Direction")
       {
