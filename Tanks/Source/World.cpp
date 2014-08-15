@@ -187,7 +187,10 @@ void World::handleCollisions()
       tank.damage(projectile.getDamage());
       projectile.destroy();
     }
-    else if (matchesCategories(pair, Category::Tank, Category::Tank))
+    else if (matchesCategories(pair, Category::PlayerTank, 
+                                     Category::NonToxicTank)
+             || matchesCategories(pair, Category::EnemyTank,
+                                        Category::EnemyTank))
     {
       auto& tank1 = static_cast<Tank&>(*pair.first);
       auto& tank2 = static_cast<Tank&>(*pair.second);
@@ -198,6 +201,21 @@ void World::handleCollisions()
                                          intersection);
       tank1.addCollisionWithTank(intersection);
       tank2.addCollisionWithTank(intersection);
+    }
+    else if (matchesCategories(pair, Category::PlayerTank, 
+                                     Category::ToxicTank))
+    {
+      auto& player = static_cast<Tank&>(*pair.first);
+      auto& toxicTank = static_cast<Tank&>(*pair.second);
+
+      player.damage(1);
+
+      // Update the intersection rectangles of both tanks
+      sf::FloatRect intersection;
+      player.getBoundingRect().intersects(toxicTank.getBoundingRect(), 
+                                         intersection);
+      player.addCollisionWithTank(intersection);
+      toxicTank.addCollisionWithTank(intersection);
     }
     else if (matchesCategories(pair, Category::Tank, Category::Block))
     {
