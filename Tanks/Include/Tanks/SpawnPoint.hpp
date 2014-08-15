@@ -7,16 +7,24 @@
 
 struct EnemySpawnPoint
 {
-  EnemySpawnPoint(Tank::Type type, float x, float y, float rotation,
-                  int numberOfKills, int hitpoints,
-                  float travelledDistance, float amountRotation,
-                  std::size_t directionIndex)
+  EnemySpawnPoint(Tank::Type type, 
+                  float x, float y, 
+                  float rotation,
+                  int numberOfKills, 
+                  int hitpoints,
+                  float guardingPathLength = 0.f,
+                  float guardingAngle = 0.f,
+                  float travelledDistance = 0.f, 
+                  float amountRotation = 0.f,
+                  std::size_t directionIndex = 0)
     : type(type)
     , x(x)
     , y(y)
     , r(rotation)
     , n(numberOfKills)
     , h(hitpoints)
+    , gpl(guardingPathLength)
+    , ga(guardingAngle)
     , td(travelledDistance)
     , ar(amountRotation)
     , di(directionIndex)
@@ -29,6 +37,8 @@ struct EnemySpawnPoint
   float r;
   int n;
   int h;
+  float gpl;
+  float ga;
   float td;
   float ar;
   std::size_t di;

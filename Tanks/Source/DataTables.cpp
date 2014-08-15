@@ -378,6 +378,8 @@ std::vector<LevelData> initializeLevelData()
     float         enemyPosY = 0.f;
     float         rotation = 0.f;
     float         requiredKills = 0.f;
+    float         pathLength = 0.f;
+    float         pathAngle = 0.f;
     std::string   blockTypeString = "";
     float         blockPosX = 0.f;
     float         blockPosY = 0.f;
@@ -419,14 +421,14 @@ std::vector<LevelData> initializeLevelData()
       else if (levelLabel == "Enemy")
       {
         ist >> enemyTypeString >> enemyPosX >> enemyPosY >> 
-          rotation >> requiredKills;
+          rotation >> requiredKills >> pathLength >> pathAngle;
 
         Tank::Type enemyType = convertStringToTankType(enemyTypeString);
 
         data[levelID].enemySpawnPoints.push_back(
           EnemySpawnPoint(enemyType, 
             enemyPosX, enemyPosY, rotation, requiredKills,
-            Tank::getMaxHitpoints(enemyType), 0.f, 0.f, 0));
+            Tank::getMaxHitpoints(enemyType), pathLength, pathAngle));
       }
       else if (levelLabel == "Block")
       {

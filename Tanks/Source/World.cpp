@@ -341,8 +341,8 @@ void World::spawnEnemies()
       enemy->setTravelledDistance(spawn->td);
       enemy->setAmountRotated(spawn->ar);
       enemy->setDirectionIndex(spawn->di);
-      enemy->setGuardingPathLength(200.f);
-      enemy->setGuardingAngle(270.f);
+      enemy->setGuardingPathLength(spawn->gpl);
+      enemy->setGuardingAngle(spawn->ga);
       
       // Change the enemy's hitpoints if it did not have full hitpoints when
       // made into a spawn (i.e. it was despawned)
