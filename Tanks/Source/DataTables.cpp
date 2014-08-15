@@ -426,7 +426,7 @@ std::vector<LevelData> initializeLevelData()
         data[levelID].enemySpawnPoints.push_back(
           EnemySpawnPoint(enemyType, 
             enemyPosX, enemyPosY, rotation, requiredKills,
-            Tank::getMaxHitpoints(enemyType)));
+            Tank::getMaxHitpoints(enemyType), 0.f, 0.f, 0));
       }
       else if (levelLabel == "Block")
       {

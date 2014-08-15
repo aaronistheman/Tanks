@@ -42,6 +42,13 @@ class Tank : public Entity
     float                 getMaxRotationSpeed() const;
     static int            getMaxHitpoints(Type type);
 
+    float                 getTravelledDistance() const;
+    void                  setTravelledDistance(float distance);
+    float                 getAmountRotated() const;
+    void                  setAmountRotated(float rotation);
+    std::size_t           getDirectionIndex() const;
+    void                  setDirectionIndex(std::size_t index);
+
     void                  addCollisionWithTank(sf::FloatRect intersection);
     void                  addCollisionWithBlock(sf::FloatRect intersection);
     void                  fire();

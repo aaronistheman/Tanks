@@ -279,10 +279,14 @@ void World::addEnemy(Tank::Type type,
                      sf::Vector2f spawnPosition,
                      float rotation, 
                      int numberOfKillsToAppear,
-                     int hitpoints)
+                     int hitpoints,
+                     float travelledDistance,
+                     float amountRotated,
+                     std::size_t directionIndex)
 {
 	EnemySpawnPoint spawn(type, spawnPosition.x, spawnPosition.y, rotation, 
-                   numberOfKillsToAppear, hitpoints);
+                   numberOfKillsToAppear, hitpoints, travelledDistance,
+                   amountRotated, directionIndex);
 	mEnemySpawnPoints.push_back(spawn);
 	mNeedSortEnemies = true;
 }
@@ -316,6 +320,9 @@ void World::spawnEnemies()
       std::unique_ptr<Tank> enemy(new Tank(spawn->type, mTextures, mFonts));
       enemy->setPosition(spawn->x, spawn->y);
       enemy->setRotation(spawn->r);
+      enemy->setTravelledDistance(spawn->td);
+      enemy->setAmountRotated(spawn->ar);
+      enemy->setDirectionIndex(spawn->di);
       
       // Change the enemy's hitpoints if it did not have full hitpoints when
       // made into a spawn (i.e. it was despawned)
@@ -408,7 +415,9 @@ void World::despawnEnemiesOutsideView()
     if (!t.isDestroyed() && !getBattlefieldBounds().contains(t.getPosition()))
     {
       addEnemy(t.getType(), t.getPosition(), t.getRotation(), 
-        getNumberOfDestroyedEnemies(), t.getHitpoints());
+        getNumberOfDestroyedEnemies(), t.getHitpoints(),
+        t.getTravelledDistance(), t.getAmountRotated(),
+        t.getDirectionIndex());
       t.destroy();
     }
   });

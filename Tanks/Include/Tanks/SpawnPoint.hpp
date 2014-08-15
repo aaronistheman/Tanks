@@ -8,13 +8,18 @@
 struct EnemySpawnPoint
 {
   EnemySpawnPoint(Tank::Type type, float x, float y, float rotation,
-                  int numberOfKills, int hitpoints)
+                  int numberOfKills, int hitpoints,
+                  float travelledDistance, float amountRotation,
+                  std::size_t directionIndex)
     : type(type)
     , x(x)
     , y(y)
     , r(rotation)
     , n(numberOfKills)
     , h(hitpoints)
+    , td(travelledDistance)
+    , ar(amountRotation)
+    , di(directionIndex)
   {
   }
 
@@ -24,6 +29,9 @@ struct EnemySpawnPoint
   float r;
   int n;
   int h;
+  float td;
+  float ar;
+  std::size_t di;
 };
 
 struct BlockSpawnPoint

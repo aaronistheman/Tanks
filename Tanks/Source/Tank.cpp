@@ -135,6 +135,36 @@ int Tank::getMaxHitpoints(Type type)
   return Table[type].hitpoints;
 }
 
+float Tank::getTravelledDistance() const
+{
+  return mTravelledDistance;
+}
+
+void Tank::setTravelledDistance(float distance)
+{
+  mTravelledDistance = distance;
+}
+
+float Tank::getAmountRotated() const
+{
+  return mAmountRotation;
+}
+
+void Tank::setAmountRotated(float rotation)
+{
+  mAmountRotation = rotation;
+}
+
+std::size_t Tank::getDirectionIndex() const
+{
+  return mDirectionIndex;
+}
+
+void Tank::setDirectionIndex(std::size_t index)
+{
+  mDirectionIndex = index;
+}
+
 void Tank::addCollisionWithTank(sf::FloatRect intersection)
 {
   mCollisionsWithTank.push_back(CollisionData(intersection));

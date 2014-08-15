@@ -13,10 +13,14 @@ RotationSpeed 	60
 TextureID 	DummyTank
 FireInterval 	2
 Bullet		0 49
+Direction	90 120 0
+Direction	270 120 0
+/*
 Direction 	90  50  30
 Direction 	0   50 -60
 Direction 	270 50  60
 Direction 	180 50 -30
+*/
 
 TankType 	Hunting1
 Hitpoints 	60
