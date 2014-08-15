@@ -33,3 +33,11 @@ RotationSpeed	90
 TextureID	HuntingTank2
 FireInterval	1.5
 Bullet		0 29
+
+TankType	Hugging1
+Hitpoints	80
+MovementSpeed	150
+RotationSpeed	0
+TextureID	HuggingTank1
+FireInterval	1
+Bullet		0 0

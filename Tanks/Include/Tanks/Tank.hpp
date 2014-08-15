@@ -21,6 +21,7 @@ class Tank : public Entity
       Dummy,
       Hunting1,
       Hunting2,
+      Hugging1,
       TypeCount
     };
 

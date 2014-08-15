@@ -19,6 +19,8 @@ Tank::Type convertStringToTankType(std::string& s)
     return Tank::Hunting1;
   else if (s == "Hunting2")
     return Tank::Hunting2;
+  else if (s == "Hugging1")
+    return Tank::Hugging1;
 
   else
   {
@@ -104,6 +106,8 @@ Textures::ID convertStringToTextureID(std::string& s)
     return Textures::HuntingTank1;
   else if (s == "HuntingTank2")
     return Textures::HuntingTank2;
+  else if (s == "HuggingTank1")
+    return Textures::HuggingTank1;
   else if (s == "Bullet")
     return Textures::Bullet;
   else if (s == "Metal")

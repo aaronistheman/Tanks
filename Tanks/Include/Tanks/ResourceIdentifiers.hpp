@@ -17,6 +17,7 @@ namespace Textures
     DummyTank,
     HuntingTank1,
     HuntingTank2,
+    HuggingTank1,
     Bullet,
     Metal,
     TitleScreen,
