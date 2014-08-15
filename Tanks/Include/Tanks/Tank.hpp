@@ -106,7 +106,7 @@ class Tank : public Entity
     int             mFireRateLevel;
 
     float           mTravelledDistance;
-    float           mAmountRotation;
+    float           mAmountRotated;
     std::size_t     mDirectionIndex;
 
     TextNode*       mHealthDisplay;

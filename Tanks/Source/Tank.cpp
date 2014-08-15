@@ -36,7 +36,7 @@ Tank::Tank(Type type, const TextureHolder& textures, const FontHolder& fonts)
 , mCollisionsWithBlock()
 , mFireRateLevel(1)
 , mTravelledDistance(0.f)
-, mAmountRotation(0.f)
+, mAmountRotated(0.f)
 , mDirectionIndex(0)
 , mHealthDisplay(nullptr)
 , mBulletEmitter(nullptr)
@@ -147,12 +147,12 @@ void Tank::setTravelledDistance(float distance)
 
 float Tank::getAmountRotated() const
 {
-  return mAmountRotation;
+  return mAmountRotated;
 }
 
 void Tank::setAmountRotated(float rotation)
 {
-  mAmountRotation = rotation;
+  mAmountRotated = rotation;
 }
 
 std::size_t Tank::getDirectionIndex() const
@@ -220,11 +220,11 @@ void Tank::updateMovementPattern(sf::Time dt)
 		// Moved and rotated enough in current direction:
     // Change direction
 		if (mTravelledDistance >= directions[mDirectionIndex].distance &&
-        mAmountRotation    >= std::abs(directions[mDirectionIndex].rotation))
+        mAmountRotated    >= std::abs(directions[mDirectionIndex].rotation))
     {
       mDirectionIndex = (mDirectionIndex + 1) % directions.size();
       mTravelledDistance = 0.f;
-      mAmountRotation    = 0.f;
+      mAmountRotated    = 0.f;
     }
 
     // Moved enough but haven't rotated enough: no more movement;
@@ -247,7 +247,7 @@ void Tank::updateMovementPattern(sf::Time dt)
 
     // Rotated enough but haven't moved enough: no more rotation;
     // Implicitly handles a direction for zero rotation
-    if (mAmountRotation >= std::abs(directions[mDirectionIndex].rotation))
+    if (mAmountRotated >= std::abs(directions[mDirectionIndex].rotation))
     {
       setRotationOffset(0.f);
     }
@@ -255,7 +255,7 @@ void Tank::updateMovementPattern(sf::Time dt)
     else
     {
       setRotationOffset(directions[mDirectionIndex].rotation);
-      mAmountRotation += getMaxRotationSpeed() * dt.asSeconds();
+      mAmountRotated += getMaxRotationSpeed() * dt.asSeconds();
     }
   }
 }
