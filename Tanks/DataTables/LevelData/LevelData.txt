@@ -7,6 +7,7 @@ Enemy           Guarding1 60 57 180 0 1240 270
 Enemy		Guarding1 1220 57 270 0 600 0
 Enemy		Hunting1 100 150 90 0 0 0
 Enemy		Hunting1 100 200 90 0 0 0
+Enemy		Hunting2 100 250 90 0 0 0
 Block           Indestructible 300 300 200 20
 Block           Indestructible 640 10 1280 20
 Block           Destructible 1270 330 20 660
