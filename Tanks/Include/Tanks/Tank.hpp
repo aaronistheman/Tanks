@@ -50,7 +50,9 @@ class Tank : public Entity
     std::size_t           getDirectionIndex() const;
     void                  setDirectionIndex(std::size_t index);
 
+    float                 getGuardingPathLength() const;
     void                  setGuardingPathLength(float length);
+    float                 getGuardingAngle() const;
     void                  setGuardingAngle(float angle);
 
     void                  addCollisionWithTank(sf::FloatRect intersection);

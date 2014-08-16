@@ -170,10 +170,20 @@ void Tank::setDirectionIndex(std::size_t index)
   mDirectionIndex = index;
 }
 
+float Tank::getGuardingPathLength() const
+{
+  return mGuardingPathLength;
+}
+
 void Tank::setGuardingPathLength(float length)
 {
   mGuardingPathLength = length;
   adjustGuardingDirections();
+}
+
+float Tank::getGuardingAngle() const
+{
+  return mGuardingAngle;
 }
 
 void Tank::setGuardingAngle(float angle)
@@ -466,7 +476,7 @@ void Tank::adjustGuardingDirections()
   {
     mDirections.clear();
     mDirections.push_back(Direction(mGuardingAngle, mGuardingPathLength, 0.f));
-    mDirections.push_back(Direction(-mGuardingAngle, mGuardingPathLength, 0.f));
+    mDirections.push_back(Direction(mGuardingAngle + 180.f, mGuardingPathLength, 0.f));
   }
 }
 

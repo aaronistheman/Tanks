@@ -293,20 +293,21 @@ void World::addEnemies()
 	mNeedSortEnemies = true;
 }
 
-void World::addEnemy(Tank::Type type, 
-                     sf::Vector2f spawnPosition,
-                     float rotation, 
-                     int numberOfKillsToAppear,
-                     int hitpoints,
-                     float travelledDistance,
-                     float amountRotated,
-                     std::size_t directionIndex)
+void World::addEnemy(const Tank& tank)
 {
-	EnemySpawnPoint spawn(type, spawnPosition.x, spawnPosition.y, rotation, 
-                   numberOfKillsToAppear, hitpoints, travelledDistance,
-                   amountRotated, directionIndex);
-	mEnemySpawnPoints.push_back(spawn);
-	mNeedSortEnemies = true;
+  EnemySpawnPoint spawn(tank.getType(),
+                        tank.getPosition().x,
+                        tank.getPosition().y,
+                        tank.getRotation(),
+                        getNumberOfDestroyedEnemies(),
+                        tank.getHitpoints(),
+                        tank.getGuardingPathLength(),
+                        tank.getGuardingAngle(),
+                        tank.getTravelledDistance(),
+                        tank.getAmountRotated(),
+                        tank.getDirectionIndex());
+  mEnemySpawnPoints.push_back(spawn);
+  mNeedSortEnemies = true;
 }
 
 void World::spawnEnemies()
@@ -434,10 +435,7 @@ void World::despawnEnemiesOutsideView()
   {
     if (!t.isDestroyed() && !getBattlefieldBounds().contains(t.getPosition()))
     {
-      addEnemy(t.getType(), t.getPosition(), t.getRotation(), 
-        getNumberOfDestroyedEnemies(), t.getHitpoints(),
-        t.getTravelledDistance(), t.getAmountRotated(),
-        t.getDirectionIndex());
+      addEnemy(t);
       t.destroy();
     }
   });
