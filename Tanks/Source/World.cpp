@@ -60,7 +60,7 @@ void World::update(sf::Time dt)
   updateEnemyCounters();
   updateHuntingEnemies();
   // updateNumberSceneNodes();
-  updateNumberProjectiles();
+  // updateNumberProjectiles();
 
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
 	while (!mCommandQueue.isEmpty())
