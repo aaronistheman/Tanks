@@ -73,6 +73,9 @@ class World : private sf::NonCopyable
     sf::FloatRect       getViewBounds() const;
     sf::FloatRect       getBattlefieldBounds() const;
 
+    void                updateNumberSceneNodes();
+    void                updateNumberProjectiles();
+
 
 	private:
 		enum Layer
@@ -105,6 +108,9 @@ class World : private sf::NonCopyable
     int                       mNumberOfEnemies;
     int                       mNumberOfAliveEnemies;
     bool                      mNeedSortEnemies;
+
+    int                       mNumberOfSceneNodes;
+    int                       mNumberOfProjectiles;
 };
 
 #endif // TANKS_WORLD_HPP

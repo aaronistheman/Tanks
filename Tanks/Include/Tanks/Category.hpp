@@ -29,6 +29,8 @@ namespace Category
     Tank = PlayerTank | EnemyTank,
 		Projectile = AlliedProjectile | EnemyProjectile,
     Block = IndestructibleBlock | DestructibleBlock,
+
+    All = None | SceneGroundLayer | Tank | Projectile | Block,
 	};
 }
 
