@@ -10,8 +10,6 @@
 #include <cmath>
 #include <vector>
 
-#include <iostream>
-
 
 namespace
 {
@@ -34,8 +32,6 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 , mNumberOfEnemies(0)
 , mNumberOfAliveEnemies(0)
 , mNeedSortEnemies(false)
-, mNumberOfSceneNodes(0)
-, mNumberOfProjectiles(0)
 {
 	loadTextures();
 	buildScene();
@@ -59,8 +55,6 @@ void World::update(sf::Time dt)
   despawnBlocksOutsideView();
   updateEnemyCounters();
   updateHuntingEnemies();
-  // updateNumberSceneNodes();
-  updateNumberProjectiles();
 
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
 	while (!mCommandQueue.isEmpty())
@@ -79,9 +73,6 @@ void World::update(sf::Time dt)
 
 	// Regular update step
 	mSceneGraph.update(dt, mCommandQueue);
-
-  // std::cout << "Number of scene nodes: " << mNumberOfSceneNodes << '\n';
-  std::cout << "Number of projectiles: " << mNumberOfProjectiles << '\n';
 }
 
 void World::draw()
@@ -557,31 +548,4 @@ sf::FloatRect World::getBattlefieldBounds() const
 
 	  return bounds;
   }
-}
-
-void World::updateNumberSceneNodes()
-{
-  Command nodeCollector;
-  nodeCollector.category = Category::All;
-  nodeCollector.action = ([this] (SceneNode& node, sf::Time)
-  {
-    ++mNumberOfSceneNodes;
-  });
-
-  mNumberOfSceneNodes = 0;
-  mCommandQueue.push(nodeCollector);
-}
-
-void World::updateNumberProjectiles()
-{
-  Command projectileCollector;
-  projectileCollector.category = Category::Projectile;
-  projectileCollector.action = derivedAction<Projectile>(
-    [this] (Projectile& projectile, sf::Time)
-  {
-    ++mNumberOfProjectiles;
-  });
-
-  mNumberOfProjectiles = 0;
-  mCommandQueue.push(projectileCollector);
 }
