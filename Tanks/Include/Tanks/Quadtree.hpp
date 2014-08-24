@@ -1,8 +1,6 @@
 #ifndef TANKS_QUADTREE_HPP
 #define TANKS_QUADTREE_HPP
 
-#include <Tanks/SceneNode.hpp>
-
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -10,6 +8,8 @@
 #include <array>
 #include <memory>
 #include <vector>
+
+class SceneNode;  // prevent include loop
 
 
 // For use with objects of type SceneNode

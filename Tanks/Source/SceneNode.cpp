@@ -125,6 +125,21 @@ void SceneNode::checkSceneCollision(SceneNode& sceneGraph,
     checkSceneCollision(*child, collisionPairs);
 }
 
+void SceneNode::checkCollisionsInQuadtree(const Quadtree& quadtree,
+                                          std::set<Pair>& collisionPairs)
+{
+  std::vector<SceneNode*> testObjects; // test for collisions against these
+  testObjects = quadtree.retrieve(*this);
+
+  FOREACH(SceneNode* node, testObjects)
+    if (this != node && collision(*this, *node)
+      && !isDestroyed() && !node->isDestroyed())
+      collisionPairs.insert(std::minmax(this, node));
+
+  FOREACH(Ptr& child, mChildren)
+    child->checkCollisionsInQuadtree(quadtree, collisionPairs);
+}
+
 void SceneNode::removeWrecks()
 {
 	// Remove all children which request so
@@ -166,6 +181,15 @@ bool SceneNode::isDestroyed() const
 {
 	// By default, scene node needn't be removed
 	return false;
+}
+
+void SceneNode::insertIntoQuadtree(Quadtree& quadtree)
+{
+  quadtree.insert(*this);
+
+  // Insert children
+	FOREACH(Ptr& child, mChildren)
+		child->insertIntoQuadtree(quadtree);
 }
 
 bool collision(const SceneNode& lhs, const SceneNode& rhs)

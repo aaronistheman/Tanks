@@ -2,6 +2,7 @@
 #define TANKS_SCENENODE_HPP
 
 #include <Tanks/Category.hpp>
+#include <Tanks/Quadtree.hpp>
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/System/Time.hpp>
@@ -39,6 +40,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
                                      std::set<Pair>& collisionPairs);
     void          checkSceneCollision(SceneNode& sceneGraph,
                                       std::set<Pair>& collisionPairs);
+    void          checkCollisionsInQuadtree(const Quadtree& quadtree,
+                                            std::set<Pair>& collisionPairs);
     void          removeWrecks();
 
 		void					onCommand(const Command& command, sf::Time dt);
@@ -47,6 +50,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
     virtual sf::FloatRect getBoundingRect() const;
 		virtual bool      isMarkedForRemoval() const;
     virtual bool			isDestroyed() const;
+
+    void              insertIntoQuadtree(Quadtree& quadtree);
 
 
 	private:

@@ -65,8 +65,12 @@ void World::update(sf::Time dt)
 		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
 	adaptPlayerVelocity();
 
+  // Update the quadtree's objects
+  mQuadtree.clear();
+  mSceneGraph.insertIntoQuadtree(mQuadtree);
+
   // Collision detection and response (may destroy entities)
-	// handleCollisions();
+	handleCollisions();
 
   // Remove all entities that are marked for removal; create new ones
 	mSceneGraph.removeWrecks();
@@ -177,7 +181,7 @@ bool matchesCategories(SceneNode::Pair& colliders,
 void World::handleCollisions()
 {
   std::set<SceneNode::Pair> collisionPairs;
-  mSceneGraph.checkSceneCollision(mSceneGraph, collisionPairs);
+  mSceneGraph.checkCollisionsInQuadtree(mQuadtree, collisionPairs);
 
   FOREACH(SceneNode::Pair pair, collisionPairs)
   {

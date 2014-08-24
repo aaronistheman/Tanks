@@ -1,4 +1,5 @@
 #include <Tanks/Quadtree.hpp>
+#include <Tanks/SceneNode.hpp>
 
 #include <SFML/Graphics/RectangleShape.hpp>
 
