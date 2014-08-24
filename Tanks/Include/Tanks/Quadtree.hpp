@@ -36,8 +36,8 @@ class Quadtree : public sf::Drawable
 
 
   private:
-    int                         mMaxObjects;
-    int                         mMaxLevels;
+    static const int            mMaxObjects;
+    static const int            mMaxLevels;
 
     int                         mLevel;
     std::vector<SceneNode*>     mObjects;
