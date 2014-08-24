@@ -3,6 +3,16 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
 
+Quadtree::Quadtree()
+  : mMaxObjects(6)
+  , mMaxLevels(3)
+  , mLevel(0)
+  , mObjects()
+  , mBounds()
+  , mTreeNodes()
+{
+}
+
 Quadtree::Quadtree(int level, sf::FloatRect bounds)
   : mMaxObjects(6)
   , mMaxLevels(3)

@@ -22,6 +22,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 , mWorldView(window.getDefaultView())
 , mFonts(fonts)
 , mLevel(player.getLevel())
+, mQuadtree()
 , mTextures() 
 , mSceneGraph()
 , mSceneLayers()
@@ -43,9 +44,12 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 
 void World::update(sf::Time dt)
 {
-	// Reset player velocity and rotation offset
+  // Update world view and quadtree bounds
 	if (Table[mLevel].viewType == World::Following)
     mWorldView.setCenter(mPlayerTank->getPosition());
+  mQuadtree.setBounds(mWorldBounds);
+
+	// Reset player velocity and rotation offset
 	mPlayerTank->setVelocity(0.f, 0.f);
   mPlayerTank->setRotationOffset(0.f);
 
@@ -62,7 +66,7 @@ void World::update(sf::Time dt)
 	adaptPlayerVelocity();
 
   // Collision detection and response (may destroy entities)
-	handleCollisions();
+	// handleCollisions();
 
   // Remove all entities that are marked for removal; create new ones
 	mSceneGraph.removeWrecks();
@@ -79,6 +83,7 @@ void World::draw()
 {
 	mWindow.setView(mWorldView);
 	mWindow.draw(mSceneGraph);
+  mWindow.draw(mQuadtree);
 }
 
 CommandQueue& World::getCommandQueue()

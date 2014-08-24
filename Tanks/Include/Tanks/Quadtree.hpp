@@ -13,9 +13,10 @@
 
 
 // For use with objects of type SceneNode
-class Quadtree : sf::Drawable
+class Quadtree : public sf::Drawable
 {
   public:
+            Quadtree();
             Quadtree(int level, sf::FloatRect bounds);
 
     void                      clear();

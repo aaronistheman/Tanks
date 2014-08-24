@@ -10,6 +10,7 @@
 #include <Tanks/Command.hpp>
 #include <Tanks/SpawnPoint.hpp>
 #include <Tanks/LevelIdentifiers.hpp>
+#include <Tanks/Quadtree.hpp>
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -91,6 +92,7 @@ class World : private sf::NonCopyable
 		TextureHolder						mTextures;
     FontHolder&             mFonts;
     Levels::ID               mLevel;
+    Quadtree                  mQuadtree;
 
 		SceneNode							mSceneGraph;
 		std::array<SceneNode*, LayerCount>	mSceneLayers;
