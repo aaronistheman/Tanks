@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
+#include <iostream>
 
 
 namespace
@@ -47,7 +48,9 @@ void World::update(sf::Time dt)
   // Update world view and quadtree bounds
 	if (Table[mLevel].viewType == World::Following)
     mWorldView.setCenter(mPlayerTank->getPosition());
-  mQuadtree.setBounds(mWorldBounds);
+  sf::Vector2f newPosition(mWorldView.getCenter().x - mWorldView.getSize().x / 2.f,
+                           mWorldView.getCenter().y - mWorldView.getSize().y / 2.f);
+  mQuadtree.setBounds(sf::FloatRect(newPosition, mWorldView.getSize()));
 
 	// Reset player velocity and rotation offset
 	mPlayerTank->setVelocity(0.f, 0.f);
