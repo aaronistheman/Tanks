@@ -92,7 +92,7 @@ class World : private sf::NonCopyable
 		TextureHolder						mTextures;
     FontHolder&             mFonts;
     Levels::ID               mLevel;
-    Quadtree                  mQuadtree;
+    // Quadtree                  mQuadtree;
 
 		SceneNode							mSceneGraph;
 		std::array<SceneNode*, LayerCount>	mSceneLayers;

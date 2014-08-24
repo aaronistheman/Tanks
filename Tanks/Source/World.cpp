@@ -23,7 +23,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 , mWorldView(window.getDefaultView())
 , mFonts(fonts)
 , mLevel(player.getLevel())
-, mQuadtree()
+// , mQuadtree()
 , mTextures() 
 , mSceneGraph()
 , mSceneLayers()
@@ -48,9 +48,9 @@ void World::update(sf::Time dt)
   // Update world view and quadtree bounds
 	if (Table[mLevel].viewType == World::Following)
     mWorldView.setCenter(mPlayerTank->getPosition());
-  sf::Vector2f newPosition(mWorldView.getCenter().x - mWorldView.getSize().x / 2.f,
-                           mWorldView.getCenter().y - mWorldView.getSize().y / 2.f);
-  mQuadtree.setBounds(sf::FloatRect(newPosition, mWorldView.getSize()));
+  // sf::Vector2f newPosition(mWorldView.getCenter().x - mWorldView.getSize().x / 2.f,
+  //                          mWorldView.getCenter().y - mWorldView.getSize().y / 2.f);
+  // mQuadtree.setBounds(sf::FloatRect(newPosition, mWorldView.getSize()));
 
 	// Reset player velocity and rotation offset
 	mPlayerTank->setVelocity(0.f, 0.f);
@@ -69,8 +69,8 @@ void World::update(sf::Time dt)
 	adaptPlayerVelocity();
 
   // Update the quadtree's objects
-  mQuadtree.clear();
-  mSceneGraph.insertIntoQuadtree(mQuadtree);
+  // mQuadtree.clear();
+  // mSceneGraph.insertIntoQuadtree(mQuadtree);
 
   // Collision detection and response (may destroy entities)
 	handleCollisions();
@@ -90,7 +90,7 @@ void World::draw()
 {
 	mWindow.setView(mWorldView);
 	mWindow.draw(mSceneGraph);
-  mWindow.draw(mQuadtree);
+  // mWindow.draw(mQuadtree);
 }
 
 CommandQueue& World::getCommandQueue()
@@ -184,7 +184,8 @@ bool matchesCategories(SceneNode::Pair& colliders,
 void World::handleCollisions()
 {
   std::set<SceneNode::Pair> collisionPairs;
-  mSceneGraph.checkCollisionsInQuadtree(mQuadtree, collisionPairs);
+  mSceneGraph.checkSceneCollision(mSceneGraph, collisionPairs);
+  // mSceneGraph.checkCollisionsInQuadtree(mQuadtree, collisionPairs);
 
   FOREACH(SceneNode::Pair pair, collisionPairs)
   {
