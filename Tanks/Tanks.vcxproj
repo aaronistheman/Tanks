@@ -28,6 +28,7 @@
     <ClCompile Include="Source\PauseState.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Projectile.cpp" />
+    <ClCompile Include="Source\Quadtree.cpp" />
     <ClCompile Include="Source\SceneNode.cpp" />
     <ClCompile Include="Source\SettingsState.cpp" />
     <ClCompile Include="Source\SpriteNode.cpp" />
@@ -60,6 +61,7 @@
     <ClInclude Include="Include\Tanks\PauseState.hpp" />
     <ClInclude Include="Include\Tanks\Player.hpp" />
     <ClInclude Include="Include\Tanks\Projectile.hpp" />
+    <ClInclude Include="Include\Tanks\Quadtree.hpp" />
     <ClInclude Include="Include\Tanks\ResourceHolder.hpp" />
     <ClInclude Include="Include\Tanks\ResourceIdentifiers.hpp" />
     <ClInclude Include="Include\Tanks\SceneNode.hpp" />
