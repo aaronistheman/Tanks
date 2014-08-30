@@ -3,6 +3,7 @@
 #include <Tanks/Foreach.hpp>
 #include <Tanks/Category.hpp>
 #include <Tanks/Utility.hpp>
+#include <Tanks/Globals.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -183,12 +184,13 @@ bool matchesCategories(SceneNode::Pair& colliders,
 
 void World::handleCollisions()
 {
+  numberOfCollisionTests = 0;
+
   std::set<SceneNode::Pair> collisionPairs;
   mSceneGraph.checkSceneCollision(mSceneGraph, collisionPairs);
   // mSceneGraph.checkCollisionsInQuadtree(mQuadtree, collisionPairs);
 
-  // Output number of collisions to test:
-  std::cout << "CollisionPairs: " << collisionPairs.size() << '\n';
+  std::cout << "Tests: " << numberOfCollisionTests << '\n';
 
   FOREACH(SceneNode::Pair pair, collisionPairs)
   {

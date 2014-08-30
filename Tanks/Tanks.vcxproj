@@ -22,6 +22,7 @@
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\GameOverState.cpp" />
     <ClCompile Include="Source\GameState.cpp" />
+    <ClCompile Include="Source\Globals.cpp" />
     <ClCompile Include="Source\Label.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MenuState.cpp" />
@@ -55,6 +56,7 @@
     <ClInclude Include="Include\Tanks\Application.hpp" />
     <ClInclude Include="Include\Tanks\GameOverState.hpp" />
     <ClInclude Include="Include\Tanks\GameState.hpp" />
+    <ClInclude Include="Include\Tanks\Globals.hpp" />
     <ClInclude Include="Include\Tanks\Label.hpp" />
     <ClInclude Include="Include\Tanks\LevelIdentifiers.hpp" />
     <ClInclude Include="Include\Tanks\MenuState.hpp" />
