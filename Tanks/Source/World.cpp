@@ -187,6 +187,9 @@ void World::handleCollisions()
   mSceneGraph.checkSceneCollision(mSceneGraph, collisionPairs);
   // mSceneGraph.checkCollisionsInQuadtree(mQuadtree, collisionPairs);
 
+  // Output number of collisions to test:
+  std::cout << "CollisionPairs: " << collisionPairs.size() << '\n';
+
   FOREACH(SceneNode::Pair pair, collisionPairs)
   {
     if (matchesCategories(pair, Category::EnemyTank, 
