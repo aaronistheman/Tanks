@@ -2,6 +2,7 @@
 #include <Tanks/Command.hpp>
 #include <Tanks/Foreach.hpp>
 #include <Tanks/Utility.hpp>
+#include <Tanks/Globals.hpp>
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -130,6 +131,8 @@ void SceneNode::checkCollisionsInQuadtree(const Quadtree& quadtree,
 {
   std::vector<SceneNode*> testObjects; // test for collisions against these
   testObjects = quadtree.retrieve(*this);
+
+  numberOfCollisionTests += testObjects.size();
 
   FOREACH(SceneNode* node, testObjects)
     if (this != node && collision(*this, *node)
