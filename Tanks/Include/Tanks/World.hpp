@@ -18,6 +18,7 @@
 
 #include <array>
 #include <vector>
+#include <fstream>
 
 
 // Forward declaration
@@ -40,6 +41,7 @@ class World : private sf::NonCopyable
   public:
 		explicit							World(sf::RenderWindow& window, FontHolder& fonts,
                                 Player& player);
+                          ~World();
 		void								update(sf::Time dt);
 		void								draw();
 		
@@ -107,6 +109,8 @@ class World : private sf::NonCopyable
     int                       mNumberOfEnemies;
     int                       mNumberOfAliveEnemies;
     bool                      mNeedSortEnemies;
+
+    std::ofstream             mOfstream;
 };
 
 #endif // TANKS_WORLD_HPP
