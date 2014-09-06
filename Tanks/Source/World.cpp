@@ -35,6 +35,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 , mNumberOfEnemies(0)
 , mNumberOfAliveEnemies(0)
 , mNeedSortEnemies(false)
+, mOfstream("CollisionTestsData/CollisionTests.txt")
 {
 	loadTextures();
 	buildScene();
@@ -42,6 +43,11 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 	// Prepare the view
   if (Table[mLevel].viewType == World::Static)
 	  mWorldView.setCenter(sf::Vector2f(mWindow.getSize()) / 2.f);
+}
+
+World::~World()
+{
+  mOfstream.close();
 }
 
 void World::update(sf::Time dt)
@@ -191,6 +197,7 @@ void World::handleCollisions()
   // mSceneGraph.checkCollisionsInQuadtree(mQuadtree, collisionPairs);
 
   std::cout << "Tests: " << numberOfCollisionTests << '\n';
+  mOfstream << numberOfCollisionTests << '\n';
 
   FOREACH(SceneNode::Pair pair, collisionPairs)
   {
