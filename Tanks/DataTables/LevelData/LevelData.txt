@@ -4,17 +4,13 @@
 
 LevelID		MainOne
 TextureID	Metal
-ViewType	Following
-WorldBounds	-100 -100 1480 860
+ViewType	Static
+WorldBounds	0 0 1280 660
 PlayerSpawn     640 330
-Enemy           Guarding1 60 57 180 0 1240 270
-Enemy		Guarding1 1220 57 270 0 600 0
-Enemy		Hunting1 100 150 90 0 0 0
-Enemy		Hunting1 100 200 90 0 0 0
-Enemy		Hunting2 100 250 90 0 0 0
-Block           Indestructible 300 300 200 20
+Enemy           Dummy 400 200 150 0 0 0
+Enemy		Dummy 1000 500 330 0 0 0
 Block           Indestructible 640 10 1280 20
-Block           Destructible 1270 330 20 660
+Block           Indestructible 1270 330 20 660
 Block		Indestructible 640 650 1280 20
 Block           Indestructible 10 330 20 660
 
@@ -24,6 +20,18 @@ ViewType	Static
 WorldBounds	0 0 1280 660
 PlayerSpawn     640 330
 Enemy		Hunting1 100 150 90 0 0 0
+Block           Indestructible 640 10 1280 20
+Block           Indestructible 1270 330 20 660
+Block		Indestructible 640 650 1280 20
+Block           Indestructible 10 330 20 660
+
+LevelID		MainThree
+TextureID	Metal
+ViewType	Static
+WorldBounds	0 0 1280 660
+PlayerSpawn     640 330
+Enemy		Guarding1 60 57 180 0 1240 270
+Enemy		Hunting1 100 150 90 1 0 0
 Block           Indestructible 640 10 1280 20
 Block           Indestructible 1270 330 20 660
 Block		Indestructible 640 650 1280 20
