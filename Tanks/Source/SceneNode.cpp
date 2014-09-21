@@ -2,7 +2,7 @@
 #include <Tanks/Command.hpp>
 #include <Tanks/Foreach.hpp>
 #include <Tanks/Utility.hpp>
-#include <Tanks/Globals.hpp>
+// #include <Tanks/Globals.hpp>
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -109,7 +109,7 @@ sf::Transform SceneNode::getWorldTransform() const
 void SceneNode::checkNodeCollision(SceneNode& node, 
                                    std::set<Pair>& collisionPairs)
 {
-  ++numberOfCollisionTests;
+  // ++numberOfCollisionTests;
 
   if (this != &node && collision(*this, node)
    && !isDestroyed() && !node.isDestroyed())

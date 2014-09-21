@@ -41,7 +41,7 @@ class World : private sf::NonCopyable
   public:
 		explicit							World(sf::RenderWindow& window, FontHolder& fonts,
                                 Player& player);
-                          ~World();
+    //                       ~World();
 
 		void								update(sf::Time dt);
 		void								draw();
@@ -111,7 +111,7 @@ class World : private sf::NonCopyable
     int                       mNumberOfAliveEnemies;
     bool                      mNeedSortEnemies;
 
-    std::ofstream             mOfstream;
+    // std::ofstream             mOfstream;
 };
 
 #endif // TANKS_WORLD_HPP

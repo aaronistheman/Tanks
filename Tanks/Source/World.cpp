@@ -3,7 +3,7 @@
 #include <Tanks/Foreach.hpp>
 #include <Tanks/Category.hpp>
 #include <Tanks/Utility.hpp>
-#include <Tanks/Globals.hpp>
+// #include <Tanks/Globals.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -35,7 +35,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 , mNumberOfEnemies(0)
 , mNumberOfAliveEnemies(0)
 , mNeedSortEnemies(false)
-, mOfstream("CollisionTestsData/CollisionTests.txt")
+// , mOfstream("CollisionTestsData/CollisionTests.txt")
 {
 	loadTextures();
 	buildScene();
@@ -45,10 +45,10 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 	  mWorldView.setCenter(sf::Vector2f(mWindow.getSize()) / 2.f);
 }
 
-World::~World()
+/*World::~World()
 {
-  mOfstream.close();
-}
+  // mOfstream.close();
+}*/
 
 void World::update(sf::Time dt)
 {
@@ -190,14 +190,14 @@ bool matchesCategories(SceneNode::Pair& colliders,
 
 void World::handleCollisions()
 {
-  numberOfCollisionTests = 0;
+  // numberOfCollisionTests = 0;
 
   std::set<SceneNode::Pair> collisionPairs;
   mSceneGraph.checkSceneCollision(mSceneGraph, collisionPairs);
   // mSceneGraph.checkCollisionsInQuadtree(mQuadtree, collisionPairs);
 
-  std::cout << "Tests: " << numberOfCollisionTests << '\n';
-  mOfstream << numberOfCollisionTests << '\n';
+  // std::cout << "Tests: " << numberOfCollisionTests << '\n';
+  // mOfstream << numberOfCollisionTests << '\n';
 
   FOREACH(SceneNode::Pair pair, collisionPairs)
   {
