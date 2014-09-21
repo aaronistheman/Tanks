@@ -1,3 +1,7 @@
+/* 
+	\brief Data regarding what to set up in each level
+*/
+
 LevelID		MainOne
 TextureID	Metal
 ViewType	Following
