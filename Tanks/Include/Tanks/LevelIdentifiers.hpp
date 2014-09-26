@@ -10,6 +10,7 @@ namespace Levels
     MainOne,
     MainTwo,
     MainThree,
+    MainFour,
     MainLast,
     Survival = 100, // prevent accidental incrementation to a different
                     // game mode

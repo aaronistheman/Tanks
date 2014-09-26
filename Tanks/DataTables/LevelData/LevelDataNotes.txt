@@ -1,9 +1,5 @@
-
-\brief Data regarding what to set up in each level
-
-
 ///////////////////////////////////////////////////////////////////
-/// Notes on how to format an entry:
+/// Notes on how to format a level data entry:
 ///////////////////////////////////////////////////////////////////
 --see DataTables.cpp for reading of this file
 
@@ -46,6 +42,11 @@ Enemy		<type (see code for enumerators)>
 		 (for GuardingTanks--leave as 0 otherwise)>
 		<angle of travelled path
 		 (for GuardingTanks--leave as 0 otherwise)>
+Block		<type (see code for enumerators)>
+		<positional x-coordinate>
+		<positional y-coordinate>
+		<width>
+		<height>
 
 
 ///////////////////////////////////////////////////////////////////
