@@ -132,7 +132,7 @@ void SceneNode::checkCollisionsInQuadtree(const Quadtree& quadtree,
   std::vector<SceneNode*> testObjects; // test for collisions against these
   testObjects = quadtree.retrieve(*this);
 
-  // numberOfCollisionTests += testObjects.size();
+  numberOfCollisionTests += testObjects.size();
   sizeOfSceneGraph += 1;
 
   FOREACH(SceneNode* node, testObjects)

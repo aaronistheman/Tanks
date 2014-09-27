@@ -110,7 +110,8 @@ class World : private sf::NonCopyable
     int                       mNumberOfAliveEnemies;
     bool                      mNeedSortEnemies;
 
-    std::ofstream             mOfstream;
+    std::ofstream             mCollisionTestsFile;
+    std::ofstream             mSceneGraphSizeFile;
 };
 
 #endif // TANKS_WORLD_HPP

@@ -35,8 +35,8 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 , mNumberOfEnemies(0)
 , mNumberOfAliveEnemies(0)
 , mNeedSortEnemies(false)
-// , mOfstream("CollisionTestsData/CollisionTests.txt")
-, mOfstream("CollisionTestsData/SceneGraphSize.txt")
+, mCollisionTestsFile("CollisionTestsData/CollisionTests.txt")
+, mSceneGraphSizeFile("CollisionTestsData/SceneGraphSize.txt")
 {
 	loadTextures();
 	buildScene();
@@ -48,7 +48,8 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 
 World::~World()
 {
-  mOfstream.close();
+  mCollisionTestsFile.close();
+  mSceneGraphSizeFile.close();
 }
 
 void World::update(sf::Time dt)
@@ -198,10 +199,10 @@ void World::handleCollisions()
   mSceneGraph.checkCollisionsInQuadtree(mQuadtree, collisionPairs);
 
   // std::cout << "Tests: " << numberOfCollisionTests << '\n';
-  // mOfstream << numberOfCollisionTests << '\n';
+  mCollisionTestsFile << numberOfCollisionTests << '\n';
 
-  std::cout << "Size: " << sizeOfSceneGraph << '\n';
-  mOfstream << sizeOfSceneGraph << '\n';
+  // std::cout << "Size: " << sizeOfSceneGraph << '\n';
+  mSceneGraphSizeFile << sizeOfSceneGraph << '\n';
 
   /*
   FOREACH(SceneNode::Pair pair, collisionPairs)
