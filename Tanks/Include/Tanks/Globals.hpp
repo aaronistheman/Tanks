@@ -3,5 +3,6 @@
 
 extern int numberOfCollisionTests;
 extern int sizeOfSceneGraph;
+extern int numberOfFrames;
 
 #endif // TANKS_GLOBALS_HPP

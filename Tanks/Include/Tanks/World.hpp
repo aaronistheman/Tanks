@@ -112,6 +112,7 @@ class World : private sf::NonCopyable
 
     std::ofstream             mCollisionTestsFile;
     std::ofstream             mSceneGraphSizeFile;
+    std::ofstream             mNumFramesFile;
 };
 
 #endif // TANKS_WORLD_HPP

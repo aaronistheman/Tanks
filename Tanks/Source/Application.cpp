@@ -8,6 +8,7 @@
 #include <Tanks/PauseState.hpp>
 #include <Tanks/SettingsState.hpp>
 #include <Tanks/GameOverState.hpp>
+#include <Tanks/Globals.hpp>
 
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
@@ -104,6 +105,7 @@ void Application::updateStatistics(sf::Time dt)
 		mStatisticsText.setString("FPS: " + toString(mStatisticsNumFrames));
 
 		mStatisticsUpdateTime -= sf::seconds(1.0f);
+    numberOfFrames = mStatisticsNumFrames;
 		mStatisticsNumFrames = 0;
 	}
 }
