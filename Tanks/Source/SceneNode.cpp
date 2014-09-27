@@ -132,10 +132,11 @@ void SceneNode::checkCollisionsInQuadtree(const Quadtree& quadtree,
   std::vector<SceneNode*> testObjects; // test for collisions against these
   testObjects = quadtree.retrieve(*this);
 
-  numberOfCollisionTests += testObjects.size();
+  // numberOfCollisionTests += testObjects.size();
+  sizeOfSceneGraph += 1;
 
   FOREACH(SceneNode* node, testObjects)
-    if (this != node && collision(*this, *node)
+    if (this != node /*&& collision(*this, *node)*/
       && !isDestroyed() && !node->isDestroyed())
       collisionPairs.insert(std::minmax(this, node));
 

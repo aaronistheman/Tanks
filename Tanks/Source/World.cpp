@@ -35,7 +35,8 @@ World::World(sf::RenderWindow& window, FontHolder& fonts,
 , mNumberOfEnemies(0)
 , mNumberOfAliveEnemies(0)
 , mNeedSortEnemies(false)
-, mOfstream("CollisionTestsData/CollisionTests.txt")
+// , mOfstream("CollisionTestsData/CollisionTests.txt")
+, mOfstream("CollisionTestsData/SceneGraphSize.txt")
 {
 	loadTextures();
 	buildScene();
@@ -97,7 +98,7 @@ void World::draw()
 {
 	mWindow.setView(mWorldView);
 	mWindow.draw(mSceneGraph);
-  mWindow.draw(mQuadtree);
+  // mWindow.draw(mQuadtree);
 }
 
 CommandQueue& World::getCommandQueue()
@@ -191,13 +192,18 @@ bool matchesCategories(SceneNode::Pair& colliders,
 void World::handleCollisions()
 {
   numberOfCollisionTests = 0;
+  sizeOfSceneGraph = 0;
 
   std::set<SceneNode::Pair> collisionPairs;
   mSceneGraph.checkCollisionsInQuadtree(mQuadtree, collisionPairs);
 
-  std::cout << "Tests: " << numberOfCollisionTests << '\n';
-  mOfstream << numberOfCollisionTests << '\n';
+  // std::cout << "Tests: " << numberOfCollisionTests << '\n';
+  // mOfstream << numberOfCollisionTests << '\n';
 
+  std::cout << "Size: " << sizeOfSceneGraph << '\n';
+  mOfstream << sizeOfSceneGraph << '\n';
+
+  /*
   FOREACH(SceneNode::Pair pair, collisionPairs)
   {
     if (matchesCategories(pair, Category::EnemyTank, 
@@ -263,6 +269,7 @@ void World::handleCollisions()
       projectile.destroy();
     }
   }
+  */
 }
 
 void World::buildScene()
