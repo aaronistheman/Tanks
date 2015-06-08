@@ -1,0 +1,16 @@
+﻿table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+}
+
+table#Descriptions td:nth-child(1) {
+    font-weight: bold;
+}
+
+table#Descriptions td:nth-child(2) {
+    text-align: center;
+}
