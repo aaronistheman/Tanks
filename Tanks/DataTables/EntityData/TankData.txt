@@ -1,5 +1,5 @@
 TankType 	Hero
-Hitpoints 	100000
+Hitpoints 	100
 MovementSpeed 	200 
 RotationSpeed 	80 
 TextureID 	HeroTank
