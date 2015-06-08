@@ -1,0 +1,69 @@
+///////////////////////////////////////////////////////////////////
+/// Notes on how to format a level data entry:
+///////////////////////////////////////////////////////////////////
+--see DataTables.cpp for reading of this file
+
+--order of data elements (ex. PlayerSpawn) is insignificant so 
+  long as labels are correct
+
+	**you may want to keep to the order in the example to 
+	  increase readability
+
+	**order of more specific elements (ex. coordinates of
+          a PlayerSpawn element) does matter
+
+--use spaces to increase readability
+
+--use '/*' and '*/ to denote areas that file reading should skip
+
+	**do not attach other characters to '/*' or '*/' (i.e.
+          "/*Notes" is read as "/*Notes", NOT "/*" followed by
+	  "Notes"
+
+--as many data elements of type Enemy or Level can be entered as
+  desired per level
+
+
+///////////////////////////////////////////////////////////////////
+/// How to format an entry (see notes above):
+///////////////////////////////////////////////////////////////////
+LevelID		<LevelID (see code for enumerators)>
+TextureID	<TextureID (see code for enumerators)>
+ViewType	<ViewType (see code for enumerators)>
+Worldbounds	<left> <top> <width> <height>
+PlayerSpawn	<positional x-coordinate>
+		<positional y-coordinate>
+Enemy		<type (see code for enumerators)>
+		<positional x-coordinate>
+		<positional y-coordinate>
+		<rotation>
+		<required kills before it appears>
+		<length of travelled path 
+		 (for GuardingTanks--leave as 0 otherwise)>
+		<angle of travelled path
+		 (for GuardingTanks--leave as 0 otherwise)>
+Block		<type (see code for enumerators)>
+		<positional x-coordinate>
+		<positional y-coordinate>
+		<width>
+		<height>
+
+
+///////////////////////////////////////////////////////////////////
+/// Sample level entry
+///////////////////////////////////////////////////////////////////
+LevelID		MainOne
+TextureID	Metal
+ViewType	Following
+WorldBounds	-100 -100 1480 860
+PlayerSpawn     640 330
+Enemy           Guarding1 60 57 180 0 1240 270
+Enemy		Guarding1 1220 57 270 0 600 0
+Enemy		Hunting1 100 150 90 0 0 0
+Enemy		Hunting1 100 200 90 0 0 0
+Enemy		Hunting2 100 250 90 0 0 0
+Block           Indestructible 300 300 200 20
+Block           Indestructible 640 10 1280 20
+Block           Destructible 1270 330 20 660
+Block		Indestructible 640 650 1280 20
+Block           Indestructible 10 330 20 660

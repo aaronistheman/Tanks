@@ -1,0 +1,42 @@
+TankType 	Hero
+Hitpoints 	100
+MovementSpeed 	200 
+RotationSpeed 	80 
+TextureID 	HeroTank
+FireInterval 	1 
+Bullet		0 49
+
+TankType 	Dummy
+Hitpoints 	40
+MovementSpeed 	80 
+RotationSpeed 	60 
+TextureID 	DummyTank
+FireInterval 	2
+Bullet		0 49
+Direction	90 120 0
+Direction	-90 120 0
+
+TankType 	Hunting1
+Hitpoints 	60
+MovementSpeed 	80
+RotationSpeed 	65
+TextureID 	HuntingTank1
+FireInterval 	0.9
+Bullet		0 29
+
+TankType	Hunting2
+Hitpoints	150
+MovementSpeed	110
+RotationSpeed	90
+TextureID	HuntingTank2
+FireInterval	1.5
+Bullet		0 29
+
+TankType	Guarding1
+Hitpoints	80
+MovementSpeed	150
+RotationSpeed	0
+TextureID	GuardingTank1
+FireInterval	1
+Bullet		-17 45
+Bullet		 17 45

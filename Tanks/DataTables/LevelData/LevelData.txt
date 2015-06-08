@@ -1,0 +1,78 @@
+/* 
+	\brief Data regarding what to set up in each level
+*/
+
+LevelID		MainOne
+TextureID	Metal
+ViewType	Static
+WorldBounds	0 0 1280 660
+PlayerSpawn     640 330
+Enemy           Dummy 400 200 150 0 0 0
+Enemy		Dummy 1000 500 330 0 0 0
+Block           Indestructible 640 10 1280 20
+Block           Indestructible 1270 330 20 660
+Block		Indestructible 640 650 1280 20
+Block           Indestructible 10 330 20 660
+
+LevelID		MainTwo
+TextureID	Metal
+ViewType	Static
+WorldBounds	0 0 1280 660
+PlayerSpawn     640 330
+Enemy		Hunting1 100 150 90 0 0 0
+Block           Indestructible 640 10 1280 20
+Block           Indestructible 1270 330 20 660
+Block		Indestructible 640 650 1280 20
+Block           Indestructible 10 330 20 660
+
+LevelID		MainThree
+TextureID	Metal
+ViewType	Static
+WorldBounds	0 0 1280 660
+PlayerSpawn     640 330
+Enemy		Guarding1 60 57 180 0 1240 270
+Enemy		Hunting1 100 150 90 1 0 0
+Block           Indestructible 640 10 1280 20
+Block           Indestructible 1270 330 20 660
+Block		Indestructible 640 650 1280 20
+Block           Indestructible 10 330 20 660
+
+LevelID 	MainFour
+TextureID	Metal
+ViewType	Following
+WorldBounds	0 230 1280 200
+PlayerSpawn     640 330
+Enemy           Hunting1 540 330 0 0 0 0
+Block           Indestructible  640 240 1280  20
+Block           Indestructible  640 420 1280  20
+Block           Indestructible   10 330   20 200
+Block           Indestructible 1270 330   20 200
+
+LevelID		MainLast
+TextureID	Metal
+ViewType	Following
+WorldBounds	0 -500 1280 1660
+PlayerSpawn	640 330
+Enemy		Hunting1 100 150 90 0 0 0
+Enemy		Hunting1 640 730 0 0 0 0
+Enemy		Hunting1 640 -40 180 0 0 0
+Enemy		Hunting1 610 750 0 2 0 0
+Enemy		Hunting1 610 -60 180 2 0 0
+Enemy		Hunting2 640 330 0 3 0 0
+Block           Indestructible 640 -490 1280 20
+Block           Indestructible 1270 330 20 1660
+Block		Indestructible 640 1150 1280 20
+Block           Indestructible 10 330 20 1660
+Block		Destructible   640 10 1240 20
+Block		Destructible   640 650 1240 20
+
+LevelID		Survival
+TextureID	Metal
+ViewType	Static
+WorldBounds	0 230 1280 200
+PlayerSpawn     640 330
+Enemy           Dummy 540 330 0 0 0 0
+Block           Indestructible  640 240 1280  20
+Block           Indestructible  640 420 1280  20
+Block           Indestructible   10 330   20 200
+Block           Indestructible 1270 330   20 200

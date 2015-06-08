@@ -11,7 +11,77 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Block.cpp" />
+    <ClCompile Include="Source\Button.cpp" />
+    <ClCompile Include="Source\Command.cpp" />
+    <ClCompile Include="Source\CommandQueue.cpp" />
+    <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\Container.cpp" />
+    <ClCompile Include="Source\DataTables.cpp" />
+    <ClCompile Include="Source\Entity.cpp" />
+    <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\GameOverState.cpp" />
+    <ClCompile Include="Source\GameState.cpp" />
+    <ClCompile Include="Source\Globals.cpp" />
+    <ClCompile Include="Source\Label.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\MenuState.cpp" />
+    <ClCompile Include="Source\PauseState.cpp" />
+    <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Projectile.cpp" />
+    <ClCompile Include="Source\Quadtree.cpp" />
+    <ClCompile Include="Source\SceneNode.cpp" />
+    <ClCompile Include="Source\SettingsState.cpp" />
+    <ClCompile Include="Source\SpriteNode.cpp" />
+    <ClCompile Include="Source\State.cpp" />
+    <ClCompile Include="Source\StateStack.cpp" />
+    <ClCompile Include="Source\Tank.cpp" />
+    <ClCompile Include="Source\TextNode.cpp" />
+    <ClCompile Include="Source\TitleState.cpp" />
+    <ClCompile Include="Source\Utility.cpp" />
+    <ClCompile Include="Source\World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\Tanks\Block.hpp" />
+    <ClInclude Include="Include\Tanks\Button.hpp" />
+    <ClInclude Include="Include\Tanks\Category.hpp" />
+    <ClInclude Include="Include\Tanks\Command.hpp" />
+    <ClInclude Include="Include\Tanks\CommandQueue.hpp" />
+    <ClInclude Include="Include\Tanks\Component.hpp" />
+    <ClInclude Include="Include\Tanks\Container.hpp" />
+    <ClInclude Include="Include\Tanks\DataTables.hpp" />
+    <ClInclude Include="Include\Tanks\Direction.hpp" />
+    <ClInclude Include="Include\Tanks\Entity.hpp" />
+    <ClInclude Include="Include\Tanks\Foreach.hpp" />
+    <ClInclude Include="Include\Tanks\Application.hpp" />
+    <ClInclude Include="Include\Tanks\GameOverState.hpp" />
+    <ClInclude Include="Include\Tanks\GameState.hpp" />
+    <ClInclude Include="Include\Tanks\Globals.hpp" />
+    <ClInclude Include="Include\Tanks\Label.hpp" />
+    <ClInclude Include="Include\Tanks\LevelIdentifiers.hpp" />
+    <ClInclude Include="Include\Tanks\MenuState.hpp" />
+    <ClInclude Include="Include\Tanks\PauseState.hpp" />
+    <ClInclude Include="Include\Tanks\Player.hpp" />
+    <ClInclude Include="Include\Tanks\Projectile.hpp" />
+    <ClInclude Include="Include\Tanks\Quadtree.hpp" />
+    <ClInclude Include="Include\Tanks\ResourceHolder.hpp" />
+    <ClInclude Include="Include\Tanks\ResourceIdentifiers.hpp" />
+    <ClInclude Include="Include\Tanks\SceneNode.hpp" />
+    <ClInclude Include="Include\Tanks\SettingsState.hpp" />
+    <ClInclude Include="Include\Tanks\SpawnPoint.hpp" />
+    <ClInclude Include="Include\Tanks\SpriteNode.hpp" />
+    <ClInclude Include="Include\Tanks\State.hpp" />
+    <ClInclude Include="Include\Tanks\StateIdentifiers.hpp" />
+    <ClInclude Include="Include\Tanks\StateStack.hpp" />
+    <ClInclude Include="Include\Tanks\Tank.hpp" />
+    <ClInclude Include="Include\Tanks\TextNode.hpp" />
+    <ClInclude Include="Include\Tanks\TitleState.hpp" />
+    <ClInclude Include="Include\Tanks\Utility.hpp" />
+    <ClInclude Include="Include\Tanks\World.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Include\Tanks\ResourceHolder.inl" />
+    <None Include="Include\Tanks\Utility.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6EB828CF-85EC-47EC-88A7-3EA5834C3C57}</ProjectGuid>
@@ -46,7 +116,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>SFML-2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Include;SFML-2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);SFML_STATIC</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -61,7 +131,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>SFML-2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Include;SFML-2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);SFML_STATIC</PreprocessorDefinitions>
     </ClCompile>
     <Link>
