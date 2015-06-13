@@ -11,6 +11,6 @@ table#descriptions td:nth-child(1) {
     font-weight: bold;
 }
 
-table#descriptions td:nth-child(-n + 6) {
+table#descriptions td:nth-child(-n + 7) {
     text-align: center;
 }
