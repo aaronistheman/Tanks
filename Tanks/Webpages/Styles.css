@@ -14,7 +14,7 @@ nav {
     line-height: 25px;
     background-color: #dcdcdc;
     height: 300px;
-    width: 100px;
+    width: 130px;
     float: left;
     padding: 10px;
     opacity: 0.6;
@@ -26,8 +26,12 @@ nav a {
 }
 
 section.mainMenu {
-    background-color: #fffafa;
     float: left;
+    padding: 10px;
+}
+
+section.mainMenu p {
+    background-color: #fffafa;
     opacity: 0.8;
     padding: 10px;
 }
@@ -40,11 +44,8 @@ section.tankDescriptions {
     padding-left: 25px;
 }
 
-section table#descriptions {
-    /* In case the table exceeds the width
-       of its section. */
+section.tankDescriptions table {
     background-color: #fffafa;
-
     width: 1000px;
     opacity: 0.8;
 }
@@ -58,10 +59,10 @@ th, td {
     padding: 15px;
 }
 
-table#descriptions td:nth-child(1) {
+section.tankDescriptions td:nth-child(1) {
     font-weight: bold;
 }
 
-table#descriptions td:nth-child(-n + 7) {
+section.tankDescriptions td:nth-child(-n + 7) {
     text-align: center;
 }
