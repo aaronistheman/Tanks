@@ -14,7 +14,7 @@ nav {
     line-height: 25px;
     background-color: #dcdcdc;
     height: 300px;
-    width: 100px;
+    width: 7%;
     float: left;
     padding: 10px;
     opacity: 0.6;
@@ -27,8 +27,8 @@ nav a {
 
 section {
     background-color: #fffafa;
-    width: 800px;
-    float: left;
+    width: 80%;
+    float: right;
     padding: 10px;
     opacity: 0.8;
 }
