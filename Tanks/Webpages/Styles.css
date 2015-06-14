@@ -27,6 +27,7 @@ nav a {
 
 section {
     background-color: #fffafa;
+    width: 800px;
     float: left;
     padding: 10px;
     opacity: 0.8;
