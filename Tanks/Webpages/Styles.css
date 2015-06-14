@@ -32,13 +32,20 @@ section.mainMenu {
     padding: 10px;
 }
 
+section.tankDescriptions {
+    float: left;
+    padding-top: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    padding-left: 25px;
+}
+
 section table#descriptions {
     /* In case the table exceeds the width
        of its section. */
     background-color: #fffafa;
 
-    width: 1000px; /*87%;*/
-    float: left;
+    width: 1000px;
     opacity: 0.8;
 }
 
