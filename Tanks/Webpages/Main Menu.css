@@ -12,6 +12,10 @@ nav {
     float: left;
     padding: 10px;
 }
+nav a {
+    color: black;
+    text-decoration: none;
+}
 section {
     float: left;
     padding: 10px;
