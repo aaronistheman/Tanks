@@ -1,0 +1,18 @@
+﻿header {
+    background-color: #0000cd;
+    color: white;
+    text-align: center;
+    padding: 5px;
+}
+nav {
+    line-height: 25px;
+    background-color: #dcdcdc;
+    height: 300px;
+    width: 100px;
+    float: left;
+    padding: 10px;
+}
+section {
+    float: left;
+    padding: 10px;
+}
