@@ -26,8 +26,10 @@ nav a {
 }
 
 section {
+    background-color: #fffafa;
     float: left;
     padding: 10px;
+    opacity: 0.8;
 }
 
 table, th, td {
