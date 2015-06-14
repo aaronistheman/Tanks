@@ -14,7 +14,7 @@ nav {
     line-height: 25px;
     background-color: #dcdcdc;
     height: 300px;
-    width: 7%;
+    width: 100px;
     float: left;
     padding: 10px;
     opacity: 0.6;
@@ -25,21 +25,21 @@ nav a {
     text-decoration: none;
 }
 
-section {
-    width: 80%;
-    float: right;
-    padding: 10px;
-    opacity: 0.8;
-}
-
 section.mainMenu {
     background-color: #fffafa;
+    float: left;
+    opacity: 0.8;
+    padding: 10px;
 }
 
-section table {
+section table#descriptions {
     /* In case the table exceeds the width
        of its section. */
     background-color: #fffafa;
+
+    width: 1000px; /*87%;*/
+    float: left;
+    opacity: 0.8;
 }
 
 table, th, td {
