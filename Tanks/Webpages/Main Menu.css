@@ -17,6 +17,7 @@ nav {
     width: 100px;
     float: left;
     padding: 10px;
+    opacity: 0.6;
 }
 
 nav a {
