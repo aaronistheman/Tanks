@@ -2,8 +2,23 @@
 <html>
 
 <head>
-<link rel="stylesheet" type="text/css" href="Styles.css">
+
 <title>Main Menu</title>
+
+<link rel="stylesheet" type="text/css" href="Styles.css">
+<style>
+nav a.main-menu {
+  font-weight: bold;
+}
+</style>
+
+<script src="jquery-1.11.3.js"></script>
+<script>
+$(function() {
+    $("nav").load("Navigation-Panel.txt");
+});
+</script>
+
 </head>
 <body>
 
@@ -11,14 +26,9 @@
 <h1>Tanks</h1>
 </header>
 
-<nav>
-<b>Main Page</b><br>
-<a href="Tank-Descriptions.html">Descriptions</a><br>
-Level Guides<br>
-About the Author<br>
-</nav>
+<nav></nav>
 
-<section class="mainMenu">
+<section class="main-menu">
 <p>In the game Tanks, the player controls a tank and progresses through
  levels by destroying all enemy tanks in each level.</p>
 </section>

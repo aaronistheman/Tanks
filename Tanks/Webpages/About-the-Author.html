@@ -2,16 +2,23 @@
 <html>
 
 <head>
-<link rel="stylesheet" type="text/css" href="Styles.css">
+
 <title>About the Author</title>
 
-<script src="jquery-1.11.3.js"></script>
+<link rel="stylesheet" type="text/css" href="Styles.css">
+<style>
+nav a.about-the-author {
+  font-weight: bold;
+}
+</style>
 
+<script src="jquery-1.11.3.js"></script>
 <script>
 $(function() {
     $("nav").load("Navigation-Panel.txt");
 });
 </script>
+
 </head>
 <body>
 
@@ -19,7 +26,7 @@ $(function() {
 <h1>About the Author</h1>
 </header>
 
-<nav>Navigation Panel</nav>
+<nav></nav>
 
 </body>
 </html>
