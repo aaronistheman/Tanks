@@ -1,4 +1,4 @@
-﻿<a class="mainMenu" href="Main-Menu.html">Main Page</a><br>
-<a class="tankDescriptions" href="Tank-Descriptions.html">Descriptions</a><br>
+﻿<a class="main-menu" href="Main-Menu.html">Main Page</a><br>
+<a class="tank-descriptions" href="Tank-Descriptions.html">Descriptions</a><br>
 Level Guides<br>
-<a class="aboutTheAuthor" href="About-the-Author.html">About the Author</a><br>
+<a class="about-the-author" href="About-the-Author.html">About the Author</a><br>

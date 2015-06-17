@@ -25,18 +25,18 @@ nav a {
     text-decoration: none;
 }
 
-section.mainMenu {
+section.main-menu {
     float: left;
     padding: 10px;
 }
 
-section.mainMenu p {
+section.main-menu p {
     background-color: #fffafa;
     opacity: 0.8;
     padding: 10px;
 }
 
-section.tankDescriptions {
+section.tank-descriptions {
     float: left;
     padding-top: 25px;
     padding-right: 25px;
@@ -44,7 +44,7 @@ section.tankDescriptions {
     padding-left: 25px;
 }
 
-section.tankDescriptions table {
+section.tank-descriptions table {
     background-color: #fffafa;
     width: 1000px;
     opacity: 0.8;
@@ -59,10 +59,10 @@ th, td {
     padding: 15px;
 }
 
-section.tankDescriptions td:nth-child(1) {
+section.tank-descriptions td:nth-child(1) {
     font-weight: bold;
 }
 
-section.tankDescriptions td:nth-child(-n + 7) {
+section.tank-descriptions td:nth-child(-n + 7) {
     text-align: center;
 }
