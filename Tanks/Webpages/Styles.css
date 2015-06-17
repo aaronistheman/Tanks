@@ -25,15 +25,19 @@ nav a {
     text-decoration: none;
 }
 
-section.main-menu {
+section.about-the-author, section.main-menu {
     float: left;
     padding: 10px;
 }
 
-section.main-menu p {
+section.about-the-author p, section.main-menu p {
     background-color: #fffafa;
     opacity: 0.8;
     padding: 10px;
+}
+
+section.about-the-author p {
+    width: 1000px;
 }
 
 section.tank-descriptions {
