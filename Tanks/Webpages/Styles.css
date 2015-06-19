@@ -16,8 +16,22 @@ nav {
     height: 300px;
     width: 130px;
     float: left;
-    padding: 10px;
+    /* padding: 10px; */
     opacity: 0.6;
+
+    position: relative;
+    overflow: auto;
+}
+
+nav ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+nav li {
+    border-radius: 4px;
+    margin: 4px;
+    list-style-type: none;
 }
 
 nav a {
