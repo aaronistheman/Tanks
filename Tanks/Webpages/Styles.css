@@ -16,10 +16,8 @@ nav {
     height: 300px;
     width: 140px;
     float: left;
-    /* padding: 10px; */
     opacity: 0.6;
-
-    position: relative;
+    /* position: relative; */
     overflow: auto;
 }
 
@@ -29,7 +27,6 @@ nav ul {
 }
 
 nav li {
-    border-radius: 4px;
     margin: 4px;
     list-style-type: none;
 }
