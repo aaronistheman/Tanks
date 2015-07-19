@@ -1,4 +1,0 @@
-/*
-  Authors of original version: Artur Moreira, Henrik Vogelius Hansson, and
-    Jan Haller
-*/
