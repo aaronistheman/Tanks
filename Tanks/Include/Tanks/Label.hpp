@@ -1,3 +1,8 @@
+/*
+  Authors of original version: Artur Moreira, Henrik Vogelius Hansson, and
+    Jan Haller
+*/
+
 #ifndef TANKS_LABEL_HPP
 #define TANKS_LABEL_HPP
 

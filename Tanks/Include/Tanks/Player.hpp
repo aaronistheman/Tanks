@@ -1,3 +1,8 @@
+/*
+  Authors of original version: Artur Moreira, Henrik Vogelius Hansson, and
+    Jan Haller
+*/
+
 #ifndef TANKS_PLAYER_HPP
 #define TANKS_PLAYER_HPP
 
