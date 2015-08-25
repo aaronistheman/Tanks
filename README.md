@@ -66,6 +66,12 @@ decided to move on to different projects. However, the branches with
 which I experimented with this problem (e.g. through means such as
 recursive collision testing and quadtrees) still exist.
 
+I didn't implement survival mode, so clicking its corresponding menu option
+takes the user to some basic level that he can clear to "win" the game.
+
+I didn't implement level guides on the webpages, so the supposed link to
+the level guides doesn't work.
+
 Contact Information
 -------------------
 
