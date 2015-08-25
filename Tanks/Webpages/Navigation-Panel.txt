@@ -1,0 +1,6 @@
+﻿<ul>
+<li><a class="main-menu" href="Main-Menu.html">Main Page</a></li>
+<li><a class="tank-descriptions" href="Tank-Descriptions.html">Descriptions</a></li>
+<li>Level Guides</li>
+<li><a class="about-the-author" href="About-the-Author.html">About the Author</a></li>
+</ul>

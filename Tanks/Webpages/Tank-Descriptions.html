@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Tank Descriptions</title>
+
+<link rel="stylesheet" type="text/css" href="Styles.css">
+<style>
+nav a.tank-descriptions {
+  font-weight: bold;
+}
+</style>
+
+<script src="jquery-1.11.3.js"></script>
+<script>
+$(function() {
+    $("nav").load("Navigation-Panel.txt");
+});
+</script>
+
+</head>
+<body>
+
+<header>
+<h1>Tank Descriptions</h1>
+</header>
+
+<nav></nav>
+
+<section class="tank-descriptions">
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Image</th>
+    <th>Hitpoints</th>
+    <th>Movement Speed</th>
+    <th>Rotation Speed</th>
+    <th>Amount of Seconds Between Firings</th>
+    <th>Toxic? (Does Damage Upon Contact?)</th>
+    <th>Additional Comments</th>
+  </tr>
+  <tr>
+    <td>Protagonist</td>
+    <td><img id="Protagonist"
+         onmouseenter='changeTankImage("Protagonist", 1)'
+         onmouseleave='changeTankImage("Protagonist", 0)'
+         src="Textures/hero-tank.png"
+         style="width:39px;height:84px;"></td>
+    <td>100</td>
+    <td>200</td>
+    <td>80</td>
+    <td>1</td>
+    <td>N/A</td>
+    <td>The player uses this tank.</td>
+  </tr>
+  <tr>
+    <td>Dummy</td>
+    <td><img src="Textures/dummy-tank.png"
+      style="width:39px;height:84px;"></td>
+    <td>40</td>
+    <td>80</td>
+    <td>60</td>
+    <td>2</td>
+    <td>No</td>
+    <td>This tank constantly moves from side to side.</td>
+  </tr>
+  <tr>
+    <td>Hunting-1</td>
+    <td><img src="Textures/hunting-tank-1.png"
+      style="width:38px;height:45px;"></td>
+    <td>60</td>
+    <td>80</td>
+    <td>65</td>
+    <td>0.9</td>
+    <td>No</td>
+    <td>Like all hunting tanks, this tank follows the player.</td>
+  </tr>
+  <tr>
+    <td>Hunting-2</td>
+    <td><img src="Textures/hunting-tank-2.png"
+      style="width:38px;height:44px;"></td>
+    <td>150</td>
+    <td>110</td>
+    <td>90</td>
+    <td>1.5</td>
+    <td>No</td>
+    <td>Like all hunting tanks, this tank follows the player. Compared to
+      tank Hunting-1, this tank sacrifices offense for speed and health.
+    </td>
+  </tr>
+  <tr>
+    <td>Guarding-1</td>
+    <td><img src="Textures/guarding-tank-1.png"
+      style="width:60px;height:74px;"></td>
+    <td>80</td>
+    <td>150</td>
+    <td>N/A</td>
+    <td>1</td>
+    <td>Yes</td>
+    <td>This fast tank moves from side to side and fires two bullets 
+      at once.</td>
+  </tr>
+</table>
+</section>
+
+<script src="Tank-Descriptions.js"></script>
+
+</body>
+</html>
