@@ -7,7 +7,8 @@ This game, which I programmed during the summer (2014) after my junior year
 in high school, is a game in which the player controls a tank and battles
 enemy tanks to advance. It has totally illogical physics.
 
-I programmed it with C++ and SFML 2.1.
+I programmed the with C++ and SFML 2.1. I programmed the supporting
+webpages with HTML, CSS, and JavaScript; I also used jQuery AJAX.
 
 I borrowed some of the original versions of the files from the source code
 of the book "SFML Game Development" by Artur Moreira, Henrik Vogelius
@@ -33,13 +34,22 @@ VS Express for Desktop), and run it (i.e. click "start debugging"). Note
 that the SFML files, data text files, and media files are in the
 repository.
 
+There are webpages with supporting material under the directory
+Tanks/Webpages. Note that I haven't implemented level guides, so the
+link to the level guides doesn't work. Because the webpages import
+a text file (with jQuery AJAX) that the user technically holds, Opera
+and Chrome, neither of which supports allowing webpages to easily
+get files from a client, can work with these webpages (unless something
+like Web Server for Chrome is used). However, Safari, Internet Explorer,
+and Firefox all work fine with the webpages.
+
 Releases
 --------
 
-The most recent release is: v0.2
+The most recent release is: v0.3
 
-Check the releases tab of this repository on GitHub for the most recent
-version.
+Check the releases tab of this repository on GitHub to download
+the most recent version.
 
 Authors
 -------
@@ -51,7 +61,10 @@ Known Problems
 
 Should you happen to make your own edits, understand that having too
 many enemies (and thus, too many bullets) causes the framerate to suffer
-noticeably.
+noticeably. I tried to experiment with fixing this problem, but I
+decided to move on to different projects. However, the branches with
+which I experimented with this problem (e.g. through means such as
+recursive collision testing and quadtrees) still exist.
 
 Contact Information
 -------------------
