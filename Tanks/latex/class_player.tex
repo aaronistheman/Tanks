@@ -1,0 +1,69 @@
+\hypertarget{class_player}{}\section{Player Class Reference}
+\label{class_player}\index{Player@{Player}}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_player_a2da5df212d083bbb1460237f34ab0d88}{}enum {\bfseries Action} \{ \\*
+{\bfseries Move\+Left}, 
+{\bfseries Move\+Right}, 
+{\bfseries Move\+Up}, 
+{\bfseries Move\+Down}, 
+\\*
+{\bfseries Rotate\+Left}, 
+{\bfseries Rotate\+Right}, 
+{\bfseries Fire}, 
+{\bfseries Action\+Count}
+ \}\label{class_player_a2da5df212d083bbb1460237f34ab0d88}
+
+\item 
+\hypertarget{class_player_ad687adf4c664b3cef00554129e9efb44}{}enum {\bfseries Level\+Status} \{ {\bfseries Level\+Running}, 
+{\bfseries Level\+Complete}, 
+{\bfseries Level\+Failure}, 
+{\bfseries Game\+Complete}
+ \}\label{class_player_ad687adf4c664b3cef00554129e9efb44}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_player_ac84a4e0b787f92bf773ccd0d0483f5b1}{}void {\bfseries handle\+Event} (const sf\+::\+Event \&event, \hyperlink{class_command_queue}{Command\+Queue} \&commands)\label{class_player_ac84a4e0b787f92bf773ccd0d0483f5b1}
+
+\item 
+\hypertarget{class_player_ac520744c103fb38763c8856b4f158627}{}void {\bfseries handle\+Realtime\+Input} (\hyperlink{class_command_queue}{Command\+Queue} \&commands)\label{class_player_ac520744c103fb38763c8856b4f158627}
+
+\item 
+\hypertarget{class_player_ae7a6e190b35182eef75bb2aff219f90c}{}void {\bfseries assign\+Key} (Action action, sf\+::\+Keyboard\+::\+Key key)\label{class_player_ae7a6e190b35182eef75bb2aff219f90c}
+
+\item 
+\hypertarget{class_player_a210ce6683e3b945cf8d169a699ed527a}{}sf\+::\+Keyboard\+::\+Key {\bfseries get\+Assigned\+Key} (Action action) const \label{class_player_a210ce6683e3b945cf8d169a699ed527a}
+
+\item 
+\hypertarget{class_player_aac243333e2c74336db65d8758610ed28}{}void {\bfseries set\+Level\+Status} (Level\+Status status)\label{class_player_aac243333e2c74336db65d8758610ed28}
+
+\item 
+\hypertarget{class_player_a383770414300e65e805f88701aab0bdd}{}Level\+Status {\bfseries get\+Level\+Status} () const \label{class_player_a383770414300e65e805f88701aab0bdd}
+
+\item 
+\hypertarget{class_player_ae2824e8c862edb5308ed2ef984b0931e}{}Levels\+::\+I\+D {\bfseries get\+Level} () const \label{class_player_ae2824e8c862edb5308ed2ef984b0931e}
+
+\item 
+\hypertarget{class_player_a1f145598fdd3db45b9858fc00b97a61e}{}void {\bfseries increment\+Level} ()\label{class_player_a1f145598fdd3db45b9858fc00b97a61e}
+
+\item 
+\hypertarget{class_player_a37083ffc96dd066498f822bb79aa5c66}{}void {\bfseries reset\+Level} ()\label{class_player_a37083ffc96dd066498f822bb79aa5c66}
+
+\item 
+\hypertarget{class_player_a3f7d04c87a0cb13bb3e2f7f089e4eb17}{}Game\+Type\+::\+I\+D {\bfseries get\+Game\+Type} () const \label{class_player_a3f7d04c87a0cb13bb3e2f7f089e4eb17}
+
+\item 
+\hypertarget{class_player_a81223a9d4b98e62b90ef8bc02eec0869}{}void {\bfseries set\+Game\+Type} (Game\+Type\+::\+I\+D game\+Type)\label{class_player_a81223a9d4b98e62b90ef8bc02eec0869}
+
+\item 
+\hypertarget{class_player_ac7df9fbb5d7fb969ed1b56fec334a376}{}bool {\bfseries is\+Last\+Level} () const \label{class_player_ac7df9fbb5d7fb969ed1b56fec334a376}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Include/\+Tanks/Player.\+hpp\end{DoxyCompactItemize}
