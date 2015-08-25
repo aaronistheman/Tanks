@@ -46,7 +46,7 @@ and Firefox all work fine with the webpages.
 Releases
 --------
 
-The most recent release is: v0.3
+The most recent release is: v0.4
 
 Check the releases tab of this repository on GitHub to download
 the most recent version.
